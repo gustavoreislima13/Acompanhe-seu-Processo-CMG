@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acompanhamento de Processo - CMG Consultoria</title>
+    <style>
+        /* Estilos Gerais */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Container Principal */
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        /* Logo */
+        .company-logo {
+            max-width: 150px;
+            height: auto;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px; /* Espaço reduzido */
+            font-size: 32px;
+        }
+
+        /* NOVO: Estilo para a mensagem de boas-vindas */
+        .greeting {
+            display: none; /* Começa escondido */
+            font-size: 20px;
+            font-weight: 500;
+            color: #0056b3;
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+
+        /* Área de Busca */
+        .search-area {
+            margin-bottom: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .input-wrapper {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            gap: 10px;
+        }
+
+        #docInput {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            width: 70%;
+            max-width: 350px; /* Aumentado um pouco */
+            font-size: 16px;
+        }
+
+        #searchButton {
+            padding: 12px 25px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        #error-message {
+            color: #d93025;
+            font-size: 14px;
+            height: 20px;
+            margin-top: 5px;
+        }
+
+        /* Linha do Tempo Desktop */
+        .timeline-container { display: none; margin-top: 40px; }
+        .timeline { display: flex; justify-content: space-between; position: relative; margin-bottom: 20px; }
+        .timeline::before { content: ''; position: absolute; top: 25px; left: 0; right: 0; height: 4px; background-color: #e0e0e0; z-index: 1; }
+        #progress-bar { position: absolute; top: 25px; left: 0; height: 4px; background-color: #007bff; width: 0%; z-index: 2; transition: width 0.5s ease-in-out; }
+        .step { display: flex; flex-direction: column; align-items: center; position: relative; z-index: 3; text-align: center; width: 100px; }
+        .step-icon { width: 50px; height: 50px; border-radius: 50%; background-color: #ccc; color: white; display: flex; justify-content: center; align-items: center; font-size: 24px; font-weight: bold; margin-bottom: 10px; border: 4px solid #ffffff; transition: background-color 0.3s; }
+        .step-icon.active { background-color: #007bff; }
+        .step-icon.completed { background-color: #28a745; }
+        .step-text { font-size: 14px; color: #666; font-weight: 500; }
+        .step.active .step-text { color: #007bff; font-weight: bold; }
+        .step.completed .step-text { color: #28a745; }
+        #status-message { margin-top: 30px; padding: 15px; background-color: #e9f5ff; border: 1px solid #b3d7ff; border-radius: 8px; color: #0056b3; font-size: 16px; font-weight: bold; }
+
+        /***********************************/
+        /* DESIGN RESPONSIVO (MOBILE) */
+        /***********************************/
+        @media (max-width: 680px) {
+            .container { padding: 20px; }
+            h1 { font-size: 24px; }
+            .greeting { font-size: 18px; }
+            .input-wrapper { flex-direction: column; gap: 15px; width: 100%; }
+            #docInput, #searchButton { width: 100%; max-width: none; box-sizing: border-box; }
+            .timeline { flex-direction: column; gap: 15px; align-items: flex-start; }
+            .timeline::before, #progress-bar { display: none; }
+            .step { flex-direction: row; width: 100%; align-items: center; gap: 15px; }
+            .step-icon { margin-bottom: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img src="img/Logo.png" alt="Logo CMG Consultoria" class="company-logo">
+
+        <h1>Acompanhe seu Processo</h1>
+        <h2 id="greetingMessage" class="greeting"></h2>
+
+        <p>Digite seu CPF ou CNPJ para consultar.</p>
+
+        <div class="search-area">
+            <div class="input-wrapper">
+                <input type="text" id="docInput" placeholder="Digite apenas os números" inputmode="numeric">
+                <button id="searchButton">Acompanhar</button>
+            </div>
+            <p id="error-message"></p>
+        </div>
+
+        <div id="timeline-result" class="timeline-container">
+            <div class="timeline">
+                <div id="progress-bar"></div>
+                <div class="step" id="step-1"><div class="step-icon">✔</div><div class="step-text">Envio</div></div>
+                <div class="step" id="step-2"><div class="step-icon">✔</div><div class="step-text">Liminar</div></div>
+                <div class="step" id="step-3"><div class="step-icon">✔</div><div class="step-text">Atualização</div></div>
+                <div class="step" id="step-4"><div class="step-icon">✔</div><div class="step-text">Finalizado</div></div>
+            </div>
+            <div id="status-message"></div>
+        </div>
+    </div>
+
+    <script>
+        // NOVO: Sua base de dados de clientes
+        // Os números de documento foram limpos (sem pontos ou traços) para a busca funcionar.
+        const clientDatabase = {
+            "16693444873": "EDILAINE LANDIN DE PAULA",
+            "18047284894": "EMERSON SATURNINO DE PAULA",
+            "16700745000101": "B.L. DE PAULA MOVEIS DECORACOES LTDA",
+            "38844107848": "HEBERTON LUIS DE ALMEIDA BOER RIBEIRO",
+            "39704118821": "ANGELICA MOREIRA PASSOS",
+            "26407995841": "DANIELE SCHERCH",
+            "30157805816": "FABIO LOPES ANDUJA",
+            "59650559515": "GENIVALDO DA SILVA PEIXINHO",
+            "17737782850": "PATRICIA DE PAIVA COELHO SANTOS",
+            "38664397848": "LINDENBERGY FERREIRA DA COSTA",
+            "01417183667": "BRUNO GONÇALVES MOISES",
+            "33885815842": "DIEGO ALENCAR SOUSA",
+            "43282420838": "INGRYD ROSA MESSIAS DOS SANTOS",
+            "96670134053": "SANDRA HELENA MENDES NEUENFELD",
+            "59713372034": "MARCIO GEOVANI REINHARDT NEUENFELD",
+            "01886554331": "ANTONIA MARIA DA SILVA SANTOS CARVALHO",
+            "37818677810": "RODRIGO DOS SANTOS SOUSA",
+            "01138415588": "RENILDO BISPO SOUZA"
+        };
+        
+        const docInput = document.getElementById('docInput');
+        const searchButton = document.getElementById('searchButton');
+        const errorMessage = document.getElementById('error-message');
+        const timelineResult = document.getElementById('timeline-result');
+        const greetingMessage = document.getElementById('greetingMessage'); // Pega o elemento do nome
+
+        // Filtro para aceitar apenas números
+        docInput.addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        // Limpa a tela ao começar a digitar
+        docInput.addEventListener('focus', function() {
+            errorMessage.textContent = '';
+            timelineResult.style.display = 'none';
+            greetingMessage.style.display = 'none';
+        });
+
+        searchButton.addEventListener('click', function() {
+            const docNumber = docInput.value;
+            
+            // NOVO: Lógica de busca na base de dados
+            if (docNumber in clientDatabase) {
+                // SUCESSO: Cliente encontrado
+                const clientName = clientDatabase[docNumber];
+                
+                // Mostra a saudação personalizada
+                greetingMessage.textContent = `Olá, ${clientName}!`;
+                greetingMessage.style.display = 'block';
+
+                // Mostra a timeline com o status correto
+                errorMessage.textContent = '';
+                const statusInfo = getStatusInfo("AGUARDANDO DECISÃO-ATUALIZAÇÃO");
+                updateTimeline(statusInfo.step);
+                document.getElementById('status-message').innerText = statusInfo.message;
+                timelineResult.style.display = 'block';
+
+            } else {
+                // FALHA: Cliente não encontrado
+                errorMessage.textContent = 'Documento não encontrado. Por favor, verifique os dados.';
+                timelineResult.style.display = 'none';
+                greetingMessage.style.display = 'none';
+            }
+        });
+
+        // Funções de status e timeline (sem alterações)
+        function getStatusInfo(statusName) {
+            const statuses = {
+                "EM TRANSIÇÃO DE ENVIO": { step: 1, message: "Sua documentação está em análise para envio aos órgãos." },
+                "LIMINAR CONCEDIDA": { step: 2, message: "Decisão favorável! Estamos notificando os órgãos de crédito." },
+                "AGUARDANDO DECISÃO-ATUALIZAÇÃO": { step: 3, message: "Documentação e Ficha foi re-emitida e protocolada novamente, devido agravo junto aos Órgãos e Bureaus de Crédito. Aguardando concessão da Liminar para baixa das informações!" },
+                "PROCESSO FINALIZADO": { step: 4, message: "Parabéns! Seu processo foi concluído com sucesso." }
+            };
+            return statuses[statusName] || { step: 0, message: "Status não encontrado." };
+        }
+
+        function updateTimeline(currentStep) {
+            const steps = document.querySelectorAll('.step');
+            const progressBar = document.getElementById('progress-bar');
+            const progressPercentage = ((currentStep - 1) / (steps.length - 1)) * 100;
+            progressBar.style.width = progressPercentage + '%';
+            steps.forEach(step => {
+                const stepNumber = parseInt(step.id.split('-')[1]);
+                const icon = step.querySelector('.step-icon');
+                step.classList.remove('active', 'completed');
+                icon.classList.remove('active', 'completed');
+                if (stepNumber < currentStep) {
+                    step.classList.add('completed');
+                    icon.classList.add('completed');
+                } else if (stepNumber === currentStep) {
+                    step.classList.add('active');
+                    icon.classList.add('active');
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
