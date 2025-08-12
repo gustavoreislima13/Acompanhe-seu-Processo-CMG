@@ -5,98 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CMG Consultoria</title>
     <style>
-        /* Estilos Gerais */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        /* Container Principal */
-        .container {
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 800px;
-            text-align: center;
-            box-sizing: border-box;
-        }
-
-        /* Logo */
-        .company-logo {
-            max-width: 150px;
-            height: auto;
-            margin-bottom: 25px;
-        }
-
-        h1 {
-            color: #333;
-            margin-bottom: 10px; /* Espaço reduzido */
-            font-size: 32px;
-        }
-
-        /* NOVO: Estilo para a mensagem de boas-vindas */
-        .greeting {
-            display: none; /* Começa escondido */
-            font-size: 20px;
-            font-weight: 500;
-            color: #0056b3;
-            margin-top: 0;
-            margin-bottom: 25px;
-        }
-
-        /* Área de Busca */
-        .search-area {
-            margin-bottom: 5px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .input-wrapper {
-            display: flex;
-            justify-content: center;
-            width: 100%;
-            gap: 10px;
-        }
-
-        #docInput {
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            width: 70%;
-            max-width: 350px; /* Aumentado um pouco */
-            font-size: 16px;
-        }
-
-        #searchButton {
-            padding: 12px 25px;
-            border: none;
-            background-color: #007bff;
-            color: white;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-        
-        #error-message {
-            color: #d93025;
-            font-size: 14px;
-            height: 20px;
-            margin-top: 5px;
-        }
-
-        /* Linha do Tempo Desktop */
+        /* O CSS permanece o mesmo, totalmente responsivo */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
+        .container { background-color: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); width: 100%; max-width: 800px; text-align: center; box-sizing: border-box; }
+        .company-logo { max-width: 150px; height: auto; margin-bottom: 25px; }
+        h1 { color: #333; margin-bottom: 10px; font-size: 32px; }
+        .greeting { display: none; font-size: 20px; font-weight: 500; color: #0056b3; margin-top: 0; margin-bottom: 25px; }
+        .search-area { margin-bottom: 5px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .input-wrapper { display: flex; justify-content: center; width: 100%; gap: 10px; }
+        #docInput { padding: 12px; border: 1px solid #ccc; border-radius: 8px; width: 70%; max-width: 350px; font-size: 16px; }
+        #searchButton { padding: 12px 25px; border: none; background-color: #007bff; color: white; border-radius: 8px; cursor: pointer; font-size: 16px; transition: background-color 0.3s; }
+        #error-message { color: #d93025; font-size: 14px; height: 20px; margin-top: 5px; }
         .timeline-container { display: none; margin-top: 40px; }
         .timeline { display: flex; justify-content: space-between; position: relative; margin-bottom: 20px; }
         .timeline::before { content: ''; position: absolute; top: 25px; left: 0; right: 0; height: 4px; background-color: #e0e0e0; z-index: 1; }
@@ -109,10 +28,6 @@
         .step.active .step-text { color: #007bff; font-weight: bold; }
         .step.completed .step-text { color: #28a745; }
         #status-message { margin-top: 30px; padding: 15px; background-color: #e9f5ff; border: 1px solid #b3d7ff; border-radius: 8px; color: #0056b3; font-size: 16px; font-weight: bold; }
-
-        /***********************************/
-        /* DESIGN RESPONSIVO (MOBILE) */
-        /***********************************/
         @media (max-width: 680px) {
             .container { padding: 20px; }
             h1 { font-size: 24px; }
@@ -130,12 +45,9 @@
 
     <div class="container">
         <img src="img/Logo.png" alt="Logo CMG Consultoria" class="company-logo">
-
         <h1>Acompanhe seu Processo</h1>
         <h2 id="greetingMessage" class="greeting"></h2>
-
         <p>Digite seu CPF ou CNPJ para consultar.</p>
-
         <div class="search-area">
             <div class="input-wrapper">
                 <input type="text" id="docInput" placeholder="Digite apenas os números" inputmode="numeric">
@@ -143,7 +55,6 @@
             </div>
             <p id="error-message"></p>
         </div>
-
         <div id="timeline-result" class="timeline-container">
             <div class="timeline">
                 <div id="progress-bar"></div>
@@ -157,99 +68,105 @@
     </div>
 
     <script>
-        // NOVO: Sua base de dados de clientes
-        // Os números de documento foram limpos (sem pontos ou traços) para a busca funcionar.
+        // =========================================================================================
+        // BANCO DE DADOS DE CLIENTES - Adicione, mova ou remova clientes aqui
+        // =========================================================================================
         const clientDatabase = {
-            "16693444873": "EDILAINE LANDIN DE PAULA",
-            "18047284894": "EMERSON SATURNINO DE PAULA",
-            "16700745000101": "B.L. DE PAULA MOVEIS DECORACOES LTDA",
-            "38844107848": "HEBERTON LUIS DE ALMEIDA BOER RIBEIRO",
-            "39704118821": "ANGELICA MOREIRA PASSOS",
-            "26407995841": "DANIELE SCHERCH",
-            "30157805816": "FABIO LOPES ANDUJA",
-            "59650559515": "GENIVALDO DA SILVA PEIXINHO",
-            "17737782850": "PATRICIA DE PAIVA COELHO SANTOS",
-            "38664397848": "LINDENBERGY FERREIRA DA COSTA",
-            "01417183667": "BRUNO GONÇALVES MOISES",
-            "33885815842": "DIEGO ALENCAR SOUSA",
-            "43282420838": "INGRYD ROSA MESSIAS DOS SANTOS",
-            "96670134053": "SANDRA HELENA MENDES NEUENFELD",
-            "59713372034": "MARCIO GEOVANI REINHARDT NEUENFELD",
-            "01886554331": "ANTONIA MARIA DA SILVA SANTOS CARVALHO",
-            "62025876360": "STEFANE PEREIRA DE SOUSA",
-            "37818677810": "RODRIGO DOS SANTOS SOUSA",
-            "01138415588": "RENILDO BISPO SOUZA",
-            "09880705882":	"MARCELO ASSALVE", 
-            "40956701850":	"BRUNO DE SÁ SILVA", 
-            "32239171871":	"AMANDA MARIA DO PARTO CAETANO LOPES", 
-            "83131442468":	"MARIA JOSE PEREIRA DE SOUZA", 
-            "19850704802":	"ANDERSON FERREIRA DE SOUZA", 
-            "31248623843":	"KETURA FREITAS DE SOUZA", 
-            "66792827568":	"LEDA CONCEICAO DA SILVA XAVIER DE SOUSA", 
-            "30737367865":	"ANDERSON SILVA MAGALHÃES", 
-            "31723159832":	"PRISCILA LIMA PEREIRA", 
-            "38393320879":	"FABIO GORDIANO SILVA", 
-            "36009817811":	"ELIZIETE PINTO SOARES DE SOUZA", 
-            "44242627823":	"DOUGLAS APARECIDO DE AZEVEDO GOES", 
-            "44326724803":	"GUILHERME MENDES BRAGA DE JESUS", 
-            "35976721000116":	"AUTO POSTO SAO JOSE LTDA", 
-            "21925812898":	"WILLIAM DA SILVA", 
-            "11183234759":	"VICTOR DE SOUSA PAIVA", 
-            "27409267828":	"CRISTINA PAVANI COUTO", 
-            "09491444000141":	"CONFECÇÕES VARRIALLE EIRELI", 
-            "24706929890":	"CARLOS ROBERTO TERROSSI", 
-            "03072158304":	"TIAGO DE SOUSA ALVES", 
-            "37853828802":	"BRUNO OLIVEIRA DOS SANTOS", 
-            "11694022838":	"AGNELO DA COSTA MENDES", 
-            "37848962865":	"SAMUEL DOS SANTOS", 
-            "31565027000155":	"PDS EXPRESS LTDA", 
-            "11183234759":	"VICTOR DE SOUSA PAIVA", 
-            "35219482858":	"ROSELI COBELLAS DE CAMPOS", 
-            "33722458811":	"LUANA DOS SANTOS SOUZA DE MATOS", 
-            "60163291420":	"FRANCISCO ALVES DE LIMA", 
-            "25052118000275":	"VAREJAO DA CARNE PRIME LTDA", 
-            "25052118000194":	"VAREJAO DA CARNE PRIME LTDA", 
-            "14800225000137":	"LIMA - VAREJAO DA CARNE LTDA", 
-            "51359127000132":	"VAREJAO DA CARNE ACOUGUE E ROTISSERIA LTDA", 
-            "42563733000184":	"BOITECO - RESTAURANTE E CHOPPERIA LTDA", 
-            "34905915856":	"ALINE NUNES GONÇALVES", 
-            "32878627822":	"TALITA PEREIRA DA COSTA", 
-            "15742925000185":	"BORRACHARIA E AUTO ELETRICA TREVO LTDA", 
-            "37853828802":	"BRUNO OLIVEIRA DOS SANTOS", 
-            "39417483862":	"KAROLLINE NOGUEIRA DE SOUSA", 
-            "39022303802":	"DENIS RICARDO PEREIRA DA SILVA", 
-            "62025876360":	"STEFANE PEREIRA DE SOUSA", 
-            "34207977880":	"MAYARA CAROLINA TEODORO", 
-            "39417483862":	"KAROLLINE NOGUEIRA DE SOUSA", 
-            "10440204828":	"ANTONIO DA SILVA PASSOS", 
-            "01138415588":	"RENILDO BISPO SOUZA", 
-            "22060886813":	"SERGIO DOS SANTOS BISPO JUNIOR", 
-            "22871781000122":	"SSBJ SERVIÇOS DE INFORMATICA SLU LTDA", 
-            "49564842832":	"ENZO MACIEL ROCHA", 
-            "27064177811":	"JAQUELINE DOS SANTOS", 
-            "01768995451":	"AGENOR PEREIRA PRADO NETO", 
-            "00486927946":	"ANDRESSA BAGATIM", 
-            "00887735908":	"EDILEU DA SILVA COSTA", 
-            "28171458874":	"ELEN KELLER MARQUES PEREIRA SOARES", 
-            "52361898000127":	"SC DISTRIBUIDORA DE ALIMENTOS LTDA",
-            "46793810000143": "M.S TEIXEIRA MATERIAIS ELETRICOS ME",
+            // == ETAPA 1: EM TRANSIÇÃO DE ENVIO ==
+            "11122233344": { name: "CLIENTE NA ETAPA DE ENVIO (EXEMPLO)", status: "EM TRANSIÇÃO DE ENVIO" },
+            
+            // == ETAPA 2: LIMINAR CONCEDIDA ==
+            "22233344455": { name: "CLIENTE COM LIMINAR (EXEMPLO)", status: "LIMINAR CONCEDIDA" },
 
-            
-            
+            // == ETAPA 3: AGUARDANDO DECISÃO-ATUALIZAÇÃO ==
+            "16693444873": { name: "EDILAINE LANDIN DE PAULA", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO" },
+            "18047284894": { name: "EMERSON SATURNINO DE PAULA", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO" },
+            // ... (restante da lista de clientes na etapa 3)
+
+            // == ETAPA ESPECIAL: RE-PROTOCOLO EMITIDO (agora na Etapa 3) ==
+            "09880705882": { name: "MARCELO ASSALVE", status: "RE-PROTOCOLO EMITIDO" },
+"40956701850": { name: "BRUNO DE SÁ SILVA", status: "RE-PROTOCOLO EMITIDO" },
+"32239171871": { name: "AMANDA MARIA DO PARTO CAETANO LOPES", status: "RE-PROTOCOLO EMITIDO" },
+"83131442468": { name: "MARIA JOSE PEREIRA DE SOUZA", status: "RE-PROTOCOLO EMITIDO" },
+"19850704802": { name: "ANDERSON FERREIRA DE SOUZA", status: "RE-PROTOCOLO EMITIDO" },
+"31248623843": { name: "KETURA FREITAS DE SOUZA", status: "RE-PROTOCOLO EMITIDO" },
+"66792827568": { name: "LEDA CONCEICAO DA SILVA XAVIER DE SOUSA", status: "RE-PROTOCOLO EMITIDO" },
+"30737367865": { name: "ANDERSON SILVA MAGALHÃES", status: "RE-PROTOCOLO EMITIDO" },
+"31723159832": { name: "PRISCILA LIMA PEREIRA", status: "RE-PROTOCOLO EMITIDO" },
+"38393320879": { name: "FABIO GORDIANO SILVA", status: "RE-PROTOCOLO EMITIDO" },
+"36009817811": { name: "ELIZIETE PINTO SOARES DE SOUZA", status: "RE-PROTOCOLO EMITIDO" },
+"44242627823": { name: "DOUGLAS APARECIDO DE AZEVEDO GOES", status: "RE-PROTOCOLO EMITIDO" },
+"44326724803": { name: "GUILHERME MENDES BRAGA DE JESUS", status: "RE-PROTOCOLO EMITIDO" },
+"35976721000116": { name: "AUTO POSTO SAO JOSE LTDA", status: "RE-PROTOCOLO EMITIDO" },
+"21925812898": { name: "WILLIAM DA SILVA", status: "RE-PROTOCOLO EMITIDO" },
+"11183234759": { name: "VICTOR DE SOUSA PAIVA", status: "RE-PROTOCOLO EMITIDO" },
+"27409267828": { name: "CRISTINA PAVANI COUTO", status: "RE-PROTOCOLO EMITIDO" },
+"09491444000141": { name: "CONFECÇÕES VARRIALLE EIRELI", status: "RE-PROTOCOLO EMITIDO" },
+"24706929890": { name: "CARLOS ROBERTO TERROSSI", status: "RE-PROTOCOLO EMITIDO" },
+"03072158304": { name: "TIAGO DE SOUSA ALVES", status: "RE-PROTOCOLO EMITIDO" },
+"37853828802": { name: "BRUNO OLIVEIRA DOS SANTOS", status: "RE-PROTOCOLO EMITIDO" },
+"11694022838": { name: "AGNELO DA COSTA MENDES", status: "RE-PROTOCOLO EMITIDO" },
+"37848962865": { name: "SAMUEL DOS SANTOS", status: "RE-PROTOCOLO EMITIDO" },
+"31565027000155": { name: "PDS EXPRESS LTDA", status: "RE-PROTOCOLO EMITIDO" },
+"35219482858": { name: "ROSELI COBELLAS DE CAMPOS", status: "RE-PROTOCOLO EMITIDO" },
+"33722458811": { name: "LUANA DOS SANTOS SOUZA DE MATOS", status: "RE-PROTOCOLO EMITIDO" },
+"60163291420": { name: "FRANCISCO ALVES DE LIMA", status: "RE-PROTOCOLO EMITIDO" },
+"25052118000275": { name: "VAREJAO DA CARNE PRIME LTDA", status: "RE-PROTOCOLO EMITIDO" },
+"25052118000194": { name: "VAREJAO DA CARNE PRIME LTDA", status: "RE-PROTOCOLO EMITIDO" },
+"14800225000137": { name: "LIMA - VAREJAO DA CARNE LTDA", status: "RE-PROTOCOLO EMITIDO" },
+"51359127000132": { name: "VAREJAO DA CARNE ACOUGUE E ROTISSERIA LTDA", status: "RE-PROTOCOLO EMITIDO" },
+"42563733000184": { name: "BOITECO - RESTAURANTE E CHOPPERIA LTDA", status: "RE-PROTOCOLO EMITIDO" },
+"34905915856": { name: "ALINE NUNES GONÇALVES", status: "RE-PROTOCOLO EMITIDO" },
+"32878627822": { name: "TALITA PEREIRA DA COSTA", status: "RE-PROTOCOLO EMITIDO" },
+"15742925000185": { name: "BORRACHARIA E AUTO ELETRICA TREVO LTDA", status: "RE-PROTOCOLO EMITIDO" },
+"39417483862": { name: "KAROLLINE NOGUEIRA DE SOUSA", status: "RE-PROTOCOLO EMITIDO" },
+"39022303802": { name: "DENIS RICARDO PEREIRA DA SILVA", status: "RE-PROTOCOLO EMITIDO" },
+"62025876360": { name: "STEFANE PEREIRA DE SOUSA", status: "RE-PROTOCOLO EMITIDO" },
+"34207977880": { name: "MAYARA CAROLINA TEODORO", status: "RE-PROTOCOLO EMITIDO" },
+"10440204828": { name: "ANTONIO DA SILVA PASSOS", status: "RE-PROTOCOLO EMITIDO" },
+"01138415588": { name: "RENILDO BISPO SOUZA", status: "RE-PROTOCOLO EMITIDO" },
+"22060886813": { name: "SERGIO DOS SANTOS BISPO JUNIOR", status: "RE-PROTOCOLO EMITIDO" },
+"22871781000122": { name: "SSBJ SERVIÇOS DE INFORMATICA SLU LTDA", status: "RE-PROTOCOLO EMITIDO" },
+"49564842832": { name: "ENZO MACIEL ROCHA", status: "RE-PROTOCOLO EMITIDO" },
+"27064177811": { name: "JAQUELINE DOS SANTOS", status: "RE-PROTOCOLO EMITIDO" },
+"01768995451": { name: "AGENOR PEREIRA PRADO NETO", status: "RE-PROTOCOLO EMITIDO" },
+"00486927946": { name: "ANDRESSA BAGATIM", status: "RE-PROTOCOLO EMITIDO" },
+"00887735908": { name: "EDILEU DA SILVA COSTA", status: "RE-PROTOCOLO EMITIDO" },
+"28171458874": { name: "ELEN KELLER MARQUES PEREIRA SOARES", status: "RE-PROTOCOLO EMITIDO" },
+"52361898000127": { name: "SC DISTRIBUIDORA DE ALIMENTOS LTDA", status: "RE-PROTOCOLO EMITIDO" },
+"16693444873": { name: "EDILAINE LANDIN DE PAULA", status: "RE-PROTOCOLO EMITIDO" },
+"18047284894": { name: "EMERSON SATURNINO DE PAULA", status: "RE-PROTOCOLO EMITIDO" },
+"16700745000101": { name: "B.L. DE PAULA MOVEIS DECORACOES LTDA", status: "RE-PROTOCOLO EMITIDO" },
+"38844107848": { name: "HEBERTON LUIS DE ALMEIDA BOER RIBEIRO", status: "RE-PROTOCOLO EMITIDO" },
+"39704118821": { name: "ANGELICA MOREIRA PASSOS", status: "RE-PROTOCOLO EMITIDO" },
+"26407995841": { name: "DANIELE SCHERCH", status: "RE-PROTOCOLO EMITIDO" },
+"30157805816": { name: "FABIO LOPES ANDUJA", status: "RE-PROTOCOLO EMITIDO" },
+"59650559515": { name: "GENIVALDO DA SILVA PEIXINHO", status: "RE-PROTOCOLO EMITIDO" },
+"17737782850": { name: "PATRICIA DE PAIVA COELHO SANTOS", status: "RE-PROTOCOLO EMITIDO" },
+"38664397848": { name: "LINDENBERGY FERREIRA DA COSTA", status: "RE-PROTOCOLO EMITIDO" },
+"01417183667": { name: "BRUNO GONÇALVES MOISES", status: "RE-PROTOCOLO EMITIDO" },
+"33885815842": { name: "DIEGO ALENCAR SOUSA", status: "RE-PROTOCOLO EMITIDO" },
+"43282420838": { name: "INGRYD ROSA MESSIAS DOS SANTOS", status: "RE-PROTOCOLO EMITIDO" },
+"96670134053": { name: "SANDRA HELENA MENDES NEUENFELD", status: "RE-PROTOCOLO EMITIDO" },
+"59713372034": { name: "MARCIO GEOVANI REINHARDT NEUENFELD", status: "RE-PROTOCOLO EMITIDO" },
+"01886554331": { name: "ANTONIA MARIA DA SILVA SANTOS CARVALHO", status: "RE-PROTOCOLO EMITIDO" },
+"37818677810": { name: "RODRIGO DOS SANTOS SOUSA", status: "RE-PROTOCOLO EMITIDO" },
+"46793810000143": { name: "M.S TEIXEIRA MATERIAIS ELETRICOS ME", status: "RE-PROTOCOLO EMITIDO" },
+
+            // == ETAPA 4: PROCESSO FINALIZADO ==
+            "44455566677": { name: "CLIENTE FINALIZADO (EXEMPLO)", status: "PROCESSO FINALIZADO" },
         };
         
+        // =========================================================================================
+        // LÓGICA DO SITE - Nenhuma alteração necessária abaixo desta linha
+        // =========================================================================================
         const docInput = document.getElementById('docInput');
         const searchButton = document.getElementById('searchButton');
         const errorMessage = document.getElementById('error-message');
         const timelineResult = document.getElementById('timeline-result');
-        const greetingMessage = document.getElementById('greetingMessage'); // Pega o elemento do nome
+        const greetingMessage = document.getElementById('greetingMessage');
 
-        // Filtro para aceitar apenas números
-        docInput.addEventListener('input', function() {
-            this.value = this.value.replace(/[^0-9]/g, '');
-        });
-
-        // Limpa a tela ao começar a digitar
+        docInput.addEventListener('input', function() { this.value = this.value.replace(/[^0-9]/g, ''); });
         docInput.addEventListener('focus', function() {
             errorMessage.textContent = '';
             timelineResult.style.display = 'none';
@@ -258,37 +175,31 @@
 
         searchButton.addEventListener('click', function() {
             const docNumber = docInput.value;
-            
-            // NOVO: Lógica de busca na base de dados
             if (docNumber in clientDatabase) {
-                // SUCESSO: Cliente encontrado
-                const clientName = clientDatabase[docNumber];
-                
-                // Mostra a saudação personalizada
+                const clientData = clientDatabase[docNumber];
+                const clientName = clientData.name;
+                const clientStatus = clientData.status;
                 greetingMessage.textContent = `Olá, ${clientName}!`;
                 greetingMessage.style.display = 'block';
-
-                // Mostra a timeline com o status correto
                 errorMessage.textContent = '';
-                const statusInfo = getStatusInfo("AGUARDANDO DECISÃO-ATUALIZAÇÃO");
+                const statusInfo = getStatusInfo(clientStatus);
                 updateTimeline(statusInfo.step);
                 document.getElementById('status-message').innerText = statusInfo.message;
                 timelineResult.style.display = 'block';
-
             } else {
-                // FALHA: Cliente não encontrado
                 errorMessage.textContent = 'Documento não encontrado. Por favor, verifique os dados.';
                 timelineResult.style.display = 'none';
                 greetingMessage.style.display = 'none';
             }
         });
 
-        // Funções de status e timeline (sem alterações)
         function getStatusInfo(statusName) {
             const statuses = {
-                "EM TRANSIÇÃO DE ENVIO": { step: 1, message: "Sua documentação está em análise para envio aos órgãos." },
-                "LIMINAR CONCEDIDA": { step: 2, message: "Decisão favorável! Estamos notificando os órgãos de crédito." },
-                "AGUARDANDO DECISÃO-ATUALIZAÇÃO": { step: 3, message: "Documentação e Ficha foi re-emitida e protocolada novamente, devido agravo junto aos Órgãos e Bureaus de Crédito. Aguardando concessão da Liminar para baixa das informações!" },
+                "EM TRANSIÇÃO DE ENVIO": { step: 1, message: "Sua documentação foi recebida e está na fila para análise juducial." },
+                "LIMINAR CONCEDIDA": { step: 2, message: "Decisão judicial favorável! Agora entra na fase de notificar os órgãos de crédito para as devidas baixas." },
+                "AGUARDANDO DECISÃO-ATUALIZAÇÃO": { step: 3, message: "Aguardando os órgãos de crédito cumprirem a decisão judicial e atualizarem seus sistemas." },
+                // ATUALIZADO: Agora aponta para a etapa 3 e tem a nova mensagem
+                "RE-PROTOCOLO EMITIDO": { step: 3, message: "Documentação e Ficha foi re-emitida e protocolada novamente, devido agravo junto aos Órgãos e Bureaus de Crédito. Aguardando concessão da Liminar para baixa das informações!" },
                 "PROCESSO FINALIZADO": { step: 4, message: "Parabéns! Seu processo foi concluído com sucesso." }
             };
             return statuses[statusName] || { step: 0, message: "Status não encontrado." };
@@ -297,7 +208,7 @@
         function updateTimeline(currentStep) {
             const steps = document.querySelectorAll('.step');
             const progressBar = document.getElementById('progress-bar');
-            const progressPercentage = ((currentStep - 1) / (steps.length - 1)) * 100;
+            const progressPercentage = currentStep > 0 ? ((currentStep - 1) / (steps.length - 1)) * 100 : 0;
             progressBar.style.width = progressPercentage + '%';
             steps.forEach(step => {
                 const stepNumber = parseInt(step.id.split('-')[1]);
