@@ -3,30 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CMG Consultoria</title>
+    <title>CMG Consultoria - Acompanhamento de Processo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* O CSS permanece o mesmo, totalmente responsivo */
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
-        .container { background-color: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); width: 100%; max-width: 800px; text-align: center; box-sizing: border-box; }
-        .company-logo { max-width: 150px; height: auto; margin-bottom: 25px; }
-        h1 { color: #333; margin-bottom: 10px; font-size: 32px; }
-        .greeting { display: none; font-size: 20px; font-weight: 500; color: #0056b3; margin-top: 0; margin-bottom: 25px; }
-        .search-area { margin-bottom: 5px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        :root {
+            --primary-color: #005c97;
+            --secondary-color: #363795;
+            --success-color: #28a745;
+            --light-gray-color: #f0f2f5;
+            --dark-text-color: #333;
+            --light-text-color: #666;
+            --white-color: #ffffff;
+            --border-color: #dcdcdc;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+        }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--light-gray-color); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
+        .container { background: linear-gradient(135deg, var(--white-color) 0%, #f9f9ff 100%); padding: 40px; border-radius: 16px; box-shadow: 0 8px 30px var(--shadow-color); width: 100%; max-width: 800px; text-align: center; box-sizing: border-box; border: 1px solid #e0e0e0; }
+        .company-logo { max-width: 140px; margin-bottom: 20px; }
+        h1 { color: var(--dark-text-color); margin-bottom: 8px; font-size: 28px; font-weight: 600; }
+        p { color: var(--light-text-color); margin-top: 0; margin-bottom: 25px; }
+        .greeting { display: none; font-size: 20px; font-weight: 500; color: var(--primary-color); margin-top: 0; margin-bottom: 25px; }
+        .search-area { margin-bottom: 5px; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .doc-type-selector { display: flex; gap: 10px; margin-bottom: 10px; border: 1px solid var(--border-color); border-radius: 25px; padding: 5px; background-color: #f8f9fa; }
+        .doc-type-selector label { padding: 8px 20px; cursor: pointer; border-radius: 20px; transition: all 0.3s ease; font-weight: 500; color: var(--light-text-color); }
+        .doc-type-selector input[type="radio"] { display: none; }
+        .doc-type-selector input[type="radio"]:checked + label { background-color: var(--primary-color); color: var(--white-color); box-shadow: 0 4px 10px rgba(0, 92, 151, 0.3); }
         .input-wrapper { display: flex; justify-content: center; width: 100%; gap: 10px; }
-        #docInput { padding: 12px; border: 1px solid #ccc; border-radius: 8px; width: 70%; max-width: 350px; font-size: 16px; }
-        #searchButton { padding: 12px 25px; border: none; background-color: #007bff; color: white; border-radius: 8px; cursor: pointer; font-size: 16px; transition: background-color 0.3s; }
+        #docInput { padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; width: 100%; max-width: 350px; font-size: 16px; transition: border-color 0.3s, box-shadow 0.3s; }
+        #docInput:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(0, 92, 151, 0.15); }
+        #searchButton { padding: 12px 25px; border: none; background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); color: white; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 500; transition: transform 0.2s, box-shadow 0.3s; }
+        #searchButton:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(54, 55, 149, 0.3); }
         #error-message { color: #d93025; font-size: 14px; height: 20px; margin-top: 5px; }
         .timeline-container { display: none; margin-top: 40px; }
         .timeline { display: flex; justify-content: space-between; position: relative; margin-bottom: 20px; }
         .timeline::before { content: ''; position: absolute; top: 25px; left: 0; right: 0; height: 4px; background-color: #e0e0e0; z-index: 1; }
-        #progress-bar { position: absolute; top: 25px; left: 0; height: 4px; background-color: #007bff; width: 0%; z-index: 2; transition: width 0.5s ease-in-out; }
+        #progress-bar { position: absolute; top: 25px; left: 0; height: 4px; background-color: var(--primary-color); width: 0%; z-index: 2; transition: width 0.5s ease-in-out; }
         .step { display: flex; flex-direction: column; align-items: center; position: relative; z-index: 3; text-align: center; width: 100px; }
-        .step-icon { width: 50px; height: 50px; border-radius: 50%; background-color: #ccc; color: white; display: flex; justify-content: center; align-items: center; font-size: 24px; font-weight: bold; margin-bottom: 10px; border: 4px solid #ffffff; transition: background-color 0.3s; }
-        .step-icon.active { background-color: #007bff; }
-        .step-icon.completed { background-color: #28a745; }
+        .step-icon { width: 50px; height: 50px; border-radius: 50%; background-color: #ccc; color: white; display: flex; justify-content: center; align-items: center; font-size: 24px; font-weight: bold; margin-bottom: 10px; border: 4px solid var(--white-color); transition: background-color 0.3s; }
+        .step-icon.active { background-color: var(--primary-color); }
+        .step-icon.completed { background-color: var(--success-color); }
         .step-text { font-size: 14px; color: #666; font-weight: 500; }
-        .step.active .step-text { color: #007bff; font-weight: bold; }
-        .step.completed .step-text { color: #28a745; }
+        .step.active .step-text { color: var(--primary-color); font-weight: bold; }
+        .step.completed .step-text { color: var(--success-color); }
         #status-message { margin-top: 30px; padding: 15px; background-color: #e9f5ff; border: 1px solid #b3d7ff; border-radius: 8px; color: #0056b3; font-size: 16px; font-weight: bold; }
         @media (max-width: 680px) {
             .container { padding: 20px; }
@@ -42,15 +62,20 @@
     </style>
 </head>
 <body>
-
     <div class="container">
         <img src="img/Logo.png" alt="Logo CMG Consultoria" class="company-logo">
         <h1>Acompanhe seu Processo</h1>
         <h2 id="greetingMessage" class="greeting"></h2>
-        <p>Digite seu CPF ou CNPJ para consultar.</p>
+        <p>Para começar, escolha o tipo de documento e digite os números.</p>
         <div class="search-area">
+            <div class="doc-type-selector">
+                <input type="radio" id="cpf" name="docType" value="cpf" checked>
+                <label for="cpf">CPF</label>
+                <input type="radio" id="cnpj" name="docType" value="cnpj">
+                <label for="cnpj">CNPJ</label>
+            </div>
             <div class="input-wrapper">
-                <input type="text" id="docInput" placeholder="Digite apenas os números" inputmode="numeric">
+                <input type="text" id="docInput" placeholder="Digite apenas os números" maxlength="18">
                 <button id="searchButton">Acompanhar</button>
             </div>
             <p id="error-message"></p>
@@ -66,10 +91,9 @@
             <div id="status-message"></div>
         </div>
     </div>
-
     <script>
         // =========================================================================================
-        // BANCO DE DADOS DE CLIENTES - Adicione, mova ou remova clientes aqui
+        // BANCO DE DADOS DE CLIENTES - SUA LISTA COMPLETA FOI INSERIDA AQUI
         // =========================================================================================
         const clientDatabase = {
             // == ETAPA 1: EM TRANSIÇÃO DE ENVIO ==
@@ -79,9 +103,6 @@
             "40166398000155": { name: "MARQUES ALIMENTOS LTDA", status: "EM TRANSIÇÃO DE ENVIO" },
             "29242033847": { name: "Rogério Alvez dos santos", status: "EM TRANSIÇÃO DE ENVIO" },
             "58526108000100": { name: "MERCADAO DO ALHO LTDA", status: "EM TRANSIÇÃO DE ENVIO" },
-
-
-
             
             // == ETAPA 2: LIMINAR CONCEDIDA ==
             "22233344455": { name: "CLIENTE COM LIMINAR (EXEMPLO)", status: "LIMINAR CONCEDIDA" },
@@ -111,18 +132,17 @@
             "39166169860": { name: "TIAGO RODRIGO DOS SANTOS", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO" },
             "49478560000145": { name: "M. J. S. AUTO CENTER LTDA", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO" },
             "15155777836": { name: "JECICA ALESSANDRA DO CARMO", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO" },
-            // ... (restante da lista de clientes na etapa 3)
 
             // == ETAPA ESPECIAL: RE-PROTOCOLO EMITIDO (agora na Etapa 3) ==
             "09880705882": { name: "MARCELO ASSALVE", status: "RE-PROTOCOLO EMITIDO" },
             "40956701850": { name: "BRUNO DE SÁ SILVA", status: "RE-PROTOCOLO EMITIDO" },
             "32239171871": { name: "AMANDA MARIA DO PARTO CAETANO LOPES", status: "RE-PROTOCOLO EMITIDO" },
-            "83131442468": { name: "MARIA JOSE PEREIRA DE SOUZA", status: "RE-PROTOCOLO EMITIDO" },
-            "19850704802": { name: "ANDERSON FERREIRA DE SOUZA", status: "RE-PROTOCOLO EMITIDO" },
+            "83131442468": { name: "MARIA JOSE PEREira DE SOUZA", status: "RE-PROTOCOLO EMITIDO" },
+            "19850704802": { name: "ANDERSON FERREira DE SOUZA", status: "RE-PROTOCOLO EMITIDO" },
             "31248623843": { name: "KETURA FREITAS DE SOUZA", status: "RE-PROTOCOLO EMITIDO" },
             "66792827568": { name: "LEDA CONCEICAO DA SILVA XAVIER DE SOUSA", status: "RE-PROTOCOLO EMITIDO" },
             "30737367865": { name: "ANDERSON SILVA MAGALHÃES", status: "RE-PROTOCOLO EMITIDO" },
-            "31723159832": { name: "PRISCILA LIMA PEREIRA", status: "RE-PROTOCOLO EMITIDO" },
+            "31723159832": { name: "PRISCILA LIMA PEREira", status: "RE-PROTOCOLO EMITIDO" },
             "38393320879": { name: "FABIO GORDIANO SILVA", status: "RE-PROTOCOLO EMITIDO" },
             "36009817811": { name: "ELIZIETE PINTO SOARES DE SOUZA", status: "RE-PROTOCOLO EMITIDO" },
             "44242627823": { name: "DOUGLAS APARECIDO DE AZEVEDO GOES", status: "RE-PROTOCOLO EMITIDO" },
@@ -134,7 +154,7 @@
             "09491444000141": { name: "CONFECÇÕES VARRIALLE EIRELI", status: "RE-PROTOCOLO EMITIDO" },
             "24706929890": { name: "CARLOS ROBERTO TERROSSI", status: "RE-PROTOCOLO EMITIDO" },
             "03072158304": { name: "TIAGO DE SOUSA ALVES", status: "RE-PROTOCOLO EMITIDO" },
-            "37853828802": { name: "BRUNO OLIVEIRA DOS SANTOS", status: "RE-PROTOCOLO EMITIDO" },
+            "37853828802": { name: "BRUNO OLIVEira DOS SANTOS", status: "RE-PROTOCOLO EMITIDO" },
             "11694022838": { name: "AGNELO DA COSTA MENDES", status: "RE-PROTOCOLO EMITIDO" },
             "37848962865": { name: "SAMUEL DOS SANTOS", status: "RE-PROTOCOLO EMITIDO" },
             "31565027000155": { name: "PDS EXPRESS LTDA", status: "RE-PROTOCOLO EMITIDO" },
@@ -147,11 +167,11 @@
             "51359127000132": { name: "VAREJAO DA CARNE ACOUGUE E ROTISSERIA LTDA", status: "RE-PROTOCOLO EMITIDO" },
             "42563733000184": { name: "BOITECO - RESTAURANTE E CHOPPERIA LTDA", status: "RE-PROTOCOLO EMITIDO" },
             "34905915856": { name: "ALINE NUNES GONÇALVES", status: "RE-PROTOCOLO EMITIDO" },
-            "32878627822": { name: "TALITA PEREIRA DA COSTA", status: "RE-PROTOCOLO EMITIDO" },
+            "32878627822": { name: "TALITA PEREira DA COSTA", status: "RE-PROTOCOLO EMITIDO" },
             "15742925000185": { name: "BORRACHARIA E AUTO ELETRICA TREVO LTDA", status: "RE-PROTOCOLO EMITIDO" },
-            "39417483862": { name: "KAROLLINE NOGUEIRA DE SOUSA", status: "RE-PROTOCOLO EMITIDO" },
-            "39022303802": { name: "DENIS RICARDO PEREIRA DA SILVA", status: "RE-PROTOCOLO EMITIDO" },
-            "62025876360": { name: "STEFANE PEREIRA DE SOUSA", status: "RE-PROTOCOLO EMITIDO" },
+            "39417483862": { name: "KAROLLINE NOGUEira DE SOUSA", status: "RE-PROTOCOLO EMITIDO" },
+            "39022303802": { name: "DENIS RICARDO PEREira DA SILVA", status: "RE-PROTOCOLO EMITIDO" },
+            "62025876360": { name: "STEFANE PEREira DE SOUSA", status: "RE-PROTOCOLO EMITIDO" },
             "34207977880": { name: "MAYARA CAROLINA TEODORO", status: "RE-PROTOCOLO EMITIDO" },
             "10440204828": { name: "ANTONIO DA SILVA PASSOS", status: "RE-PROTOCOLO EMITIDO" },
             "01138415588": { name: "RENILDO BISPO SOUZA", status: "RE-PROTOCOLO EMITIDO" },
@@ -159,21 +179,21 @@
             "22871781000122": { name: "SSBJ SERVIÇOS DE INFORMATICA SLU LTDA", status: "RE-PROTOCOLO EMITIDO" },
             "49564842832": { name: "ENZO MACIEL ROCHA", status: "RE-PROTOCOLO EMITIDO" },
             "27064177811": { name: "JAQUELINE DOS SANTOS", status: "RE-PROTOCOLO EMITIDO" },
-            "01768995451": { name: "AGENOR PEREIRA PRADO NETO", status: "RE-PROTOCOLO EMITIDO" },
+            "01768995451": { name: "AGENOR PEREira PRADO NETO", status: "RE-PROTOCOLO EMITIDO" },
             "00486927946": { name: "ANDRESSA BAGATIM", status: "RE-PROTOCOLO EMITIDO" },
             "00887735908": { name: "EDILEU DA SILVA COSTA", status: "RE-PROTOCOLO EMITIDO" },
-            "28171458874": { name: "ELEN KELLER MARQUES PEREIRA SOARES", status: "RE-PROTOCOLO EMITIDO" },
+            "28171458874": { name: "ELEN KELLER MARQUES PEREira SOARES", status: "RE-PROTOCOLO EMITIDO" },
             "52361898000127": { name: "SC DISTRIBUIDORA DE ALIMENTOS LTDA", status: "RE-PROTOCOLO EMITIDO" },
             "16693444873": { name: "EDILAINE LANDIN DE PAULA", status: "RE-PROTOCOLO EMITIDO" },
             "18047284894": { name: "EMERSON SATURNINO DE PAULA", status: "RE-PROTOCOLO EMITIDO" },
             "16700745000101": { name: "B.L. DE PAULA MOVEIS DECORACOES LTDA", status: "RE-PROTOCOLO EMITIDO" },
             "38844107848": { name: "HEBERTON LUIS DE ALMEIDA BOER RIBEIRO", status: "RE-PROTOCOLO EMITIDO" },
-            "39704118821": { name: "ANGELICA MOREIRA PASSOS", status: "RE-PROTOCOLO EMITIDO" },
+            "39704118821": { name: "ANGELICA MOREira PASSOS", status: "RE-PROTOCOLO EMITIDO" },
             "26407995841": { name: "DANIELE SCHERCH", status: "RE-PROTOCOLO EMITIDO" },
             "30157805816": { name: "FABIO LOPES ANDUJA", status: "RE-PROTOCOLO EMITIDO" },
             "59650559515": { name: "GENIVALDO DA SILVA PEIXINHO", status: "RE-PROTOCOLO EMITIDO" },
             "17737782850": { name: "PATRICIA DE PAIVA COELHO SANTOS", status: "RE-PROTOCOLO EMITIDO" },
-            "38664397848": { name: "LINDENBERGY FERREIRA DA COSTA", status: "RE-PROTOCOLO EMITIDO" },
+            "38664397848": { name: "LINDENBERGY FERREira DA COSTA", status: "RE-PROTOCOLO EMITIDO" },
             "01417183667": { name: "BRUNO GONÇALVES MOISES", status: "RE-PROTOCOLO EMITIDO" },
             "33885815842": { name: "DIEGO ALENCAR SOUSA", status: "RE-PROTOCOLO EMITIDO" },
             "43282420838": { name: "INGRYD ROSA MESSIAS DOS SANTOS", status: "RE-PROTOCOLO EMITIDO" },
@@ -181,26 +201,45 @@
             "59713372034": { name: "MARCIO GEOVANI REINHARDT NEUENFELD", status: "RE-PROTOCOLO EMITIDO" },
             "01886554331": { name: "ANTONIA MARIA DA SILVA SANTOS CARVALHO", status: "RE-PROTOCOLO EMITIDO" },
             "37818677810": { name: "RODRIGO DOS SANTOS SOUSA", status: "RE-PROTOCOLO EMITIDO" },
-            "46793810000143": { name: "M.S TEIXEIRA MATERIAIS ELETRICOS ME", status: "RE-PROTOCOLO EMITIDO" },
+            "46793810000143": { name: "M.S TEIXEira MATERIAIS ELETRICOS ME", status: "RE-PROTOCOLO EMITIDO" },
             "66792827568": { name: "LEDA CONCEIÇÃO DA SILVA XAVIER DE SOUSA", status: "RE-PROTOCOLO EMITIDO" },
             "70612462196": { name: "GENAINY FERNANDES BARBOSA", status: "RE-PROTOCOLO EMITIDO" },
-            "40801966876": { name: "JESSICA RENATA PEREIRA DOS SANTOS", status: "RE-PROTOCOLO EMITIDO" },
-            "35749425835": { name: "ELIEZER GONCALVES PEREIRA", status: "RE-PROTOCOLO EMITIDO" },
+            "40801966876": { name: "JESSICA RENATA PEREira DOS SANTOS", status: "RE-PROTOCOLO EMITIDO" },
+            "35749425835": { name: "ELIEZER GONCALVES PEREira", status: "RE-PROTOCOLO EMITIDO" },
 
             // == ETAPA 4: PROCESSO FINALIZADO ==
             "44455566677": { name: "CLIENTE FINALIZADO (EXEMPLO)", status: "PROCESSO FINALIZADO" },
         };
         
         // =========================================================================================
-        // LÓGICA DO SITE - Nenhuma alteração necessária abaixo desta linha
+        // LÓGICA DO SITE - Nenhuma alteração necessária abaixo
         // =========================================================================================
         const docInput = document.getElementById('docInput');
         const searchButton = document.getElementById('searchButton');
         const errorMessage = document.getElementById('error-message');
         const timelineResult = document.getElementById('timeline-result');
         const greetingMessage = document.getElementById('greetingMessage');
+        const docTypeRadios = document.querySelectorAll('input[name="docType"]');
 
-        docInput.addEventListener('input', function() { this.value = this.value.replace(/[^0-9]/g, ''); });
+        const formatDocument = (value) => {
+            const docType = document.querySelector('input[name="docType"]:checked').value;
+            const numericValue = value.replace(/\D/g, '');
+            if (docType === 'cpf') {
+                return numericValue.replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+            } else {
+                return numericValue.replace(/(\d{2})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1/$2').replace(/(\d{4})(\d{1,2})$/, '$1-$2');
+            }
+        };
+
+        docInput.addEventListener('input', () => { docInput.value = formatDocument(docInput.value); });
+        docTypeRadios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                docInput.value = '';
+                docInput.placeholder = radio.id === 'cpf' ? '000.000.000-00' : '00.000.000/0000-00';
+                docInput.focus();
+            });
+        });
+        
         docInput.addEventListener('focus', function() {
             errorMessage.textContent = '';
             timelineResult.style.display = 'none';
@@ -208,33 +247,34 @@
         });
 
         searchButton.addEventListener('click', function() {
-            const docNumber = docInput.value;
-            if (docNumber in clientDatabase) {
+            const docNumber = docInput.value.replace(/\D/g, '');
+            if (docNumber.length < 11) {
+                errorMessage.textContent = 'Documento inválido. Por favor, digite todos os números.';
+                return;
+            }
+            if (clientDatabase.hasOwnProperty(docNumber)) {
                 const clientData = clientDatabase[docNumber];
-                const clientName = clientData.name;
-                const clientStatus = clientData.status;
-                greetingMessage.textContent = `Olá, ${clientName}!`;
+                greetingMessage.textContent = `Olá, ${clientData.name}!`;
                 greetingMessage.style.display = 'block';
                 errorMessage.textContent = '';
-                const statusInfo = getStatusInfo(clientStatus);
+                const statusInfo = getStatusInfo(clientData.status);
                 updateTimeline(statusInfo.step);
                 document.getElementById('status-message').innerText = statusInfo.message;
                 timelineResult.style.display = 'block';
             } else {
-                errorMessage.textContent = 'Documento não encontrado. Por favor, verifique os dados.';
-                timelineResult.style.display = 'none';
-                greetingMessage.style.display = 'none';
+                errorMessage.textContent = 'Cliente não encontrado. Estamos te redirecionando...';
+                const salesLink = "https://seu-link-de-vendas.com"; // !! IMPORTANTE: Troque este link !!
+                setTimeout(() => { window.location.href = salesLink; }, 1500);
             }
         });
 
         function getStatusInfo(statusName) {
             const statuses = {
-                "EM TRANSIÇÃO DE ENVIO": { step: 1, message: "Sua documentação foi recebida e está na fila para análise juducial." },
-                "LIMINAR CONCEDIDA": { step: 2, message: "Decisão judicial favorável! Agora entra na fase de notificar os órgãos de crédito para as devidas baixas." },
-                "AGUARDANDO DECISÃO-ATUALIZAÇÃO": { step: 3, message: "Aguardando os órgãos de crédito cumprirem a decisão judicial e atualizarem seus sistemas." },
-                // ATUALIZADO: Agora aponta para a etapa 3 e tem a nova mensagem
-                "RE-PROTOCOLO EMITIDO": { step: 3, message: "Documentação e Ficha foi re-emitida e protocolada novamente, devido agravo junto aos Órgãos e Bureaus de Crédito. Aguardando concessão da Liminar para baixa das informações!" },
-                "PROCESSO FINALIZADO": { step: 4, message: "Parabéns! Seu processo foi concluído com sucesso." }
+                 "EM TRANSIÇÃO DE ENVIO": { step: 1, message: "Sua documentação foi recebida e está na fila para análise juducial." },
+                 "LIMINAR CONCEDIDA": { step: 2, message: "Decisão judicial favorável! Agora entra na fase de notificar os órgãos de crédito para as devidas baixas." },
+                 "AGUARDANDO DECISÃO-ATUALIZAÇÃO": { step: 3, message: "Aguardando os órgãos de crédito cumprirem a decisão judicial e atualizarem seus sistemas." },
+                 "RE-PROTOCOLO EMITIDO": { step: 3, message: "Documentação e Ficha foi re-emitida e protocolada novamente, devido agravo junto aos Órgãos e Bureaus de Crédito. Aguardando concessão da Liminar para baixa das informações!" },
+                 "PROCESSO FINALIZADO": { step: 4, message: "Parabéns! Seu processo foi concluído com sucesso." }
             };
             return statuses[statusName] || { step: 0, message: "Status não encontrado." };
         }
@@ -259,6 +299,5 @@
             });
         }
     </script>
-
 </body>
 </html>
