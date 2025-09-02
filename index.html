@@ -88,7 +88,6 @@
         .plan-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--primary-color); color: white; padding: 4px 12px; border-radius: 16px; font-size: 12px; font-weight: 600; }
         .plan-card h3 { font-size: 22px; margin-bottom: 8px; }
         .plan-card .description { color: var(--text-light); margin-bottom: 24px; min-height: 40px; }
-        .plan-price { margin-bottom: 24px; }
         .plan-price .amount { font-size: 48px; font-weight: 700; }
         .plan-price .period { font-size: 16px; color: var(--text-light); }
         .plan-features { list-style: none; text-align: left; margin-bottom: 32px; flex-grow: 1; }
@@ -100,6 +99,7 @@
         .plan-button:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
         
         #admin-view .dashboard-grid { grid-template-columns: 1fr 2fr; align-items: flex-start; }
+        /* Estilos da tabela em telas grandes */
         #admin-client-table { width: 100%; border-collapse: collapse; background-color: var(--card-bg); box-shadow: 0 4px 12px var(--shadow-color); border-radius: 12px; overflow: hidden; }
         #admin-client-table th, #admin-client-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--border-color); }
         #admin-client-table th { background-color: var(--primary-light); color: var(--primary-color); font-weight: 600; font-size: 14px; }
@@ -127,7 +127,7 @@
             #app-layout { grid-template-columns: 1fr; }
             .sidebar { position: fixed; left: 0; top: 0; height: 100%; transform: translateX(-100%); transition: transform 0.3s ease-in-out; z-index: 1002; }
             #mobile-menu-button, #close-menu-button { display: block; }
-
+            
             /* --- AJUSTES DE RESPONSIVIDADE GERAL --- */
             #login-container { padding: 25px; }
             .main-content { padding: 16px; }
@@ -138,33 +138,62 @@
             .plan-card { padding: 24px; }
             
             /* --- TIMELINE VERTICAL (TELAS PEQUENAS) --- */
-            #timeline-container { padding-left: 20px; } /* Espaço para a linha vertical */
+            #timeline-container { padding-left: 20px; }
             .timeline {
-                flex-direction: column; /* Altera para layout vertical */
-                align-items: flex-start; /* Alinha itens à esquerda */
+                flex-direction: column;
+                align-items: flex-start;
                 justify-content: flex-start;
                 margin: 0;
                 padding: 0;
             }
-            .timeline::before { /* A linha de fundo */
+            .timeline::before {
                 left: 25px; top: 25px; right: auto;
-                width: 4px; height: calc(100% - 25px); /* Altura total */
+                width: 4px; height: calc(100% - 25px);
             }
-            #progress-bar { /* A barra de progresso */
+            #progress-bar {
                 left: 25px; top: 25px;
-                width: 4px; height: 0%; /* Inicia com altura 0 */
-                transition: height 0.5s ease-in-out; /* Anima a altura */
+                width: 4px; height: 0%;
+                transition: height 0.5s ease-in-out;
             }
             .step {
-                flex-direction: row; /* Ícone e texto na mesma linha */
+                flex-direction: row;
                 align-items: center;
                 text-align: left;
                 width: 100%;
-                margin-bottom: 30px; /* Espaço entre as etapas */
+                margin-bottom: 30px;
             }
             .step-icon {
-                margin-right: 15px; /* Espaço entre o ícone e o texto */
+                margin-right: 15px;
                 margin-bottom: 0;
+            }
+
+            /* --- TABELA DO ADMIN RESPONSIVA (NOVO) --- */
+            #admin-client-table {
+                box-shadow: none; /* Remove a sombra para o novo layout */
+                border-radius: 0; /* Remove o border-radius */
+            }
+            #admin-client-table thead, #admin-client-table th {
+                display: none; /* Esconde o cabeçalho da tabela */
+            }
+            #admin-client-table tr {
+                display: block; /* Cada linha se torna um bloco */
+                margin-bottom: 16px;
+                background-color: var(--card-bg);
+                border-radius: 12px;
+                box-shadow: 0 4px 12px var(--shadow-color);
+            }
+            #admin-client-table td {
+                display: block; /* Cada célula se torna um bloco */
+                text-align: right;
+                position: relative;
+                padding-left: 100px; /* Espaço para o rótulo */
+            }
+            #admin-client-table td::before {
+                content: attr(data-label); /* Usa o atributo data-label como rótulo */
+                position: absolute;
+                left: 15px;
+                font-weight: 600;
+                color: var(--text-light);
             }
         }
     </style>
@@ -336,7 +365,6 @@
             "14524999850": { name: "ANDRÉIA CRISTINA DE MORAES", status: "RE-PROTOCOLO EMITIDO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
             "16826215888": { name: "JOEL ALVES PEREIRA", status: "RE-PROTOCOLO EMITIDO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
         
-       
         };
 
         const announcements = [
@@ -410,6 +438,7 @@
             addNavListeners();
         }
 
+        // --- FUNÇÃO PARA MONTAR O PAINEL DO ADMINISTRADOR (ATUALIZADA) ---
         function populateAdminDashboard() {
             const adminContainer = document.getElementById('admin-view');
             adminContainer.style.display = 'block';
@@ -420,6 +449,7 @@
             }
             const chartLabels = Object.keys(statusCounts).map(s => s.replace(/-/g, ' '));
             const chartData = Object.values(statusCounts);
+            
             adminContainer.innerHTML = `
                 <div class="dashboard-grid">
                     <div class="dashboard-card">
@@ -428,7 +458,7 @@
                     </div>
                     <div class="dashboard-card">
                         <h2>Lista de Clientes (${Object.keys(clientDatabase).length})</h2>
-                        <div style="overflow-x: auto;">
+                        <div>
                         <table id="admin-client-table">
                             <thead>
                                 <tr><th>CPF / CNPJ</th><th>Nome</th><th>Status</th></tr>
@@ -436,9 +466,9 @@
                             <tbody>
                                 ${Object.entries(clientDatabase).map(([doc, client]) => `
                                     <tr>
-                                        <td>${doc}</td>
-                                        <td>${client.name}</td>
-                                        <td>${client.status.replace(/-/g, ' ')}</td>
+                                        <td data-label="CPF / CNPJ">${doc}</td>
+                                        <td data-label="Nome">${client.name}</td>
+                                        <td data-label="Status">${client.status.replace(/-/g, ' ')}</td>
                                     </tr>
                                 `).join('')}
                             </tbody>
@@ -575,8 +605,6 @@
             const steps = document.querySelectorAll('.step');
             const progressBar = document.getElementById('progress-bar');
             if (!progressBar) return;
-
-            // Lógica para preenchimento da barra de progresso (horizontal e vertical)
             if (window.innerWidth <= 768) {
                 const progressPercentage = currentStep > 1 ? ((currentStep - 1) / (steps.length - 1)) * 100 : 5;
                 progressBar.style.height = progressPercentage + '%';
@@ -584,7 +612,6 @@
                 const progressPercentage = currentStep > 1 ? ((currentStep - 1.5) / (steps.length - 2)) * 70 : 0;
                 progressBar.style.width = progressPercentage + '%';
             }
-            
             steps.forEach((step, index) => {
                 const stepNumber = index + 1;
                 const icon = step.querySelector('.step-icon');
