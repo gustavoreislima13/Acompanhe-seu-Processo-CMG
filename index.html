@@ -7,9 +7,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --primary-color: #6A5ACD;
+            --primary-color: #000000;
             --primary-light: #F0EFFF;
             --background-color: #f9fafb;
             --sidebar-bg: #ffffff;
@@ -61,13 +62,9 @@
         .summary-card .icon { width: 48px; height: 48px; border-radius: 8px; display: flex; justify-content: center; align-items: center; flex-shrink: 0; }
         .summary-card .icon svg { width: 24px; height: 24px; }
         .summary-card .text { overflow: hidden; }
-        .summary-card:nth-child(1) .icon { background-color: #dbeafe; color: #3b82f6; }
-        .summary-card:nth-child(2) .icon { background-color: #fef3c7; color: #f59e0b; }
-        .summary-card:nth-child(3) .icon { background-color: #fee2e2; color: #ef4444; }
-        .summary-card:nth-child(4) .icon { background-color: #d1fae5; color: #10b981; }
         .summary-card .text h3 { font-size: 14px; color: var(--text-light); margin-bottom: 4px; font-weight: 500; white-space: nowrap; }
         .summary-card .text p { font-size: 20px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
-        .dashboard-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; }
+        .dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 24px; margin-top: 24px;}
         .dashboard-card { background-color: var(--card-bg); padding: 24px; border-radius: 12px; box-shadow: 0 4px 12px var(--shadow-color); }
         .dashboard-card h2 { font-size: 18px; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); }
         .timeline { display: flex; justify-content: space-between; position: relative; margin-bottom: 20px; padding-top: 10px; }
@@ -79,9 +76,6 @@
         .step-icon.completed { background-color: var(--success-color); }
         .step-text { font-size: 13px; color: #6b7280; font-weight: 500; }
         #status-message { margin-top: 20px; padding: 15px; background-color: #F0EFFF; border: 1px solid #dcd5f8; border-radius: 8px; color: #6A5ACD; font-size: 15px; font-weight: 500; }
-        .payments-table { width: 100%; border-collapse: collapse; }
-        .payments-table th, .payments-table td { padding: 10px; text-align: left; border-bottom: 1px solid var(--border-color); }
-        .regularizar-btn { background-color: var(--warning-color); color: var(--text-dark); border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px; }
         #materiais-list { list-style: none; padding: 0; }
         #materiais-list li { margin-bottom: 10px; }
         #materiais-list a { text-decoration: none; color: var(--primary-color); font-weight: 500; }
@@ -93,30 +87,49 @@
         .plan-card .description { color: var(--text-light); margin-bottom: 24px; min-height: 40px; }
         .plan-price { margin-bottom: 24px; }
         .plan-price .amount { font-size: 48px; font-weight: 700; }
+        .plan-price .period { font-size: 16px; color: var(--text-light); }
         .plan-features { list-style: none; text-align: left; margin-bottom: 32px; flex-grow: 1; }
         .plan-features li { margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
         .plan-features li svg { width: 20px; height: 20px; color: var(--success-color); flex-shrink: 0; }
-        .plan-button { padding: 12px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+        .plan-button { padding: 12px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s; text-decoration: none; display: block; }
         .plan-button.primary { background: var(--primary-color); color: white; border: 2px solid var(--primary-color); }
         .plan-button.secondary { background: white; color: var(--primary-color); border: 2px solid var(--primary-color); }
         .plan-button:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .modal { display: none; position: fixed; z-index: 1001; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center; }
-        .modal-content { background-color: #fefefe; padding: 20px 30px; border: 1px solid #888; width: 90%; max-width: 400px; border-radius: 12px; text-align: center; position: relative; }
-        .close-btn { color: #aaa; position: absolute; top: 10px; right: 20px; font-size: 28px; font-weight: bold; cursor: pointer; }
-        #qr-code-img { max-width: 250px; margin: 20px auto; display: block; }
-        #pix-copy-paste { width: 100%; padding: 8px; margin-top: 10px; box-sizing: border-box; border: 1px solid var(--border-color); border-radius: 6px; background-color: #f0f2f5; font-size: 12px; text-align: center; }
         
-        @media (max-width: 1024px) { .dashboard-grid { grid-template-columns: 1fr; } }
-        
-        .announcements-section { margin-bottom: 32px; margin-top: 32px; }
-        .announcements-section h2 { font-size: 18px; margin-bottom: 16px; color: var(--text-dark); }
-        .announcement-slider { position: relative; overflow: hidden; border-radius: 12px; }
-        .announcement-card { background-color: var(--primary-color); color: white; padding: 24px; border-radius: 12px; display: none; animation: fadeIn 0.8s; }
-        .announcement-card.active { display: block; }
-        .announcement-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
-        .announcement-card p { font-size: 14px; opacity: 0.9; line-height: 1.6; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* --- ESTILOS DO PAINEL ADMIN --- */
+        #admin-view .dashboard-grid { grid-template-columns: 1fr 2fr; align-items: flex-start; }
+        #admin-client-table { width: 100%; border-collapse: collapse; background-color: var(--card-bg); box-shadow: 0 4px 12px var(--shadow-color); border-radius: 12px; overflow: hidden; }
+        #admin-client-table th, #admin-client-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        #admin-client-table th { background-color: var(--primary-light); color: var(--primary-color); font-weight: 600; font-size: 14px; }
+        #admin-client-table td { font-size: 14px; }
+        #admin-client-table tr:last-child td { border-bottom: none; }
+        #admin-client-table tr:hover { background-color: #f9fafb; }
 
+        /* --- ESTILOS DA ÁREA DE ANÚNCIO --- */
+        .announcement-card {
+            background-color: var(--primary-light);
+            border-left: 5px solid var(--primary-color);
+            margin-top: 24px;
+        }
+        .announcement-card h2, .announcement-card p {
+            transition: opacity 0.4s ease-in-out; /* Efeito de transição */
+        }
+        .announcement-card.fading h2, .announcement-card.fading p {
+            opacity: 0; /* Some ao trocar */
+        }
+        .announcement-card h2 {
+            color: var(--primary-color);
+            border-bottom: none;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+        .announcement-card p {
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        @media (max-width: 1024px) { #admin-view .dashboard-grid { grid-template-columns: 1fr; } }
+        
         /* --- ESTILOS DO MENU MOBILE --- */
         #mobile-menu-button { display: none; background: none; border: none; cursor: pointer; padding: 5px; color: var(--text-dark); }
         #mobile-menu-button svg { width: 28px; height: 28px; }
@@ -128,15 +141,7 @@
 
         @media (max-width: 768px) {
             #app-layout { grid-template-columns: 1fr; }
-            .sidebar {
-                position: fixed;
-                left: 0;
-                top: 0;
-                height: 100%;
-                transform: translateX(-100%);
-                transition: transform 0.3s ease-in-out;
-                z-index: 1002;
-            }
+            .sidebar { position: fixed; left: 0; top: 0; height: 100%; transform: translateX(-100%); transition: transform 0.3s ease-in-out; z-index: 1002; }
             .main-content { padding: 16px; }
             .main-header h1 { font-size: 22px; }
             .plan-card { padding: 24px; }
@@ -152,7 +157,7 @@
             <h1>Bem-vindo de volta!</h1>
             <p>Acesse sua área exclusiva para clientes.</p>
             <div class="input-wrapper">
-                <input type="text" id="docInput" class="input-field" placeholder="Seu CPF ou CNPJ">
+                <input type="text" id="docInput" class="input-field" placeholder="Seu CPF, CNPJ ou Usuário">
                 <input type="password" id="passwordInput" class="input-field" placeholder="Sua senha">
             </div>
             <button id="loginButton" class="action-button">Entrar</button>
@@ -167,10 +172,7 @@
             </button>
             <div class="sidebar-header"><img src="img/Logo.png" alt="Logo" class="company-logo"></div>
             <nav>
-                <ul>
-                    <li><a href="#" class="nav-link active" data-view="dashboard-view"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>Dashboard</a></li>
-                    <li><a href="#" class="nav-link" data-view="plans-view"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>Planos e Assinatura</a></li>
-                </ul>
+                <ul></ul>
             </nav>
             <div class="sidebar-footer">
                 <button class="logout-button"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>Sair</button>
@@ -182,90 +184,35 @@
                 <button id="mobile-menu-button">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"></path></svg>
                 </button>
-                <h1 id="page-title">Dashboard</h1>
+                <h1 id="page-title"></h1>
                 <div class="user-profile">
                     <span id="username-display"></span>
                 </div>
             </header>
 
-            <div id="dashboard-view" class="view-content">
-                <section class="summary-cards"></section>
-                <section class="dashboard-grid"></section>
-            </div>
-
-            <div id="plans-view" class="view-content" style="display: none;">
-                 <div class="plans-container">
-                    <div class="plan-card">
-                        <h3>Essencial</h3>
-                        <p class="description">Proteção para o seu CPF</p>
-                        <div class="plan-price"><span class="currency">R$</span><span class="amount">14,90</span><span class="period">/mês</span></div>
-                        <ul class="plan-features">
-                            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Monitoramento de CPF 24h com alertas</li>
-                            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Relatório de Score detalhado</li>
-                            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Acesso a ofertas exclusivas de negociação</li>
-                            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>1 Consulta CPF ou CNPJ</li>
-                        </ul>
-                        <button class="plan-button secondary">Começar com Essencial</button>
-                    </div>
-                    <div class="plan-card popular">
-                        <div class="plan-badge">Mais Popular</div>
-                        <h3>Plus</h3>
-                        <p class="description">Sua saúde financeira completa</p>
-                        <div class="plan-price"><span class="currency">R$</span><span class="amount">29,90</span><span class="period">/mês</span></div>
-                        <ul class="plan-features">
-                            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Tudo do Plano Essencial, e mais:</li>
-                            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Plano de Ação para Aumentar Score</li>
-                            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Ferramenta de Orçamento Pessoal</li>
-                            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Canal de Atendimento Prioritário</li>
-                            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>2 Consultas CPF ou CNPJ</li>
-                        </ul>
-                        <button class="plan-button primary">Escolher Plano Plus</button>
-                    </div>
-                    <div class="plan-card">
-                        <h3>Premium</h3>
-                        <p class="description">Consultoria e suporte VIP</p>
-                        <div class="plan-price"><span class="currency">R$</span><span class="amount">79,90</span><span class="period">/mês</span></div>
-                        <ul class="plan-features">
-                            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Tudo do Plano Plus, e mais:</li>
-                            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Consultoria Financeira Pessoal (2x/mês)</li>
-                            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Assistente Pessoal para Negociação de Dívidas</li>
-                            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Relatório Financeiro Completo e Personalizado</li>
-                            <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>4 Consultas CPF ou CNPJ</li>
-                        </ul>
-                        <button class="plan-button secondary">Assinar Premium</button>
-                    </div>
-                </div>
-            </div>
+            <div id="dashboard-view" class="view-content" style="display: none;"></div>
+            <div id="plans-view" class="view-content" style="display: none;"></div>
+            <div id="admin-view" class="view-content" style="display: none;"></div>
         </main>
         
         <div id="menu-overlay"></div>
-
     </div> 
 
-    <div id="pix-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <h3>Pagamento via PIX</h3>
-            <p>Use o app do seu banco para ler o QR Code ou copie o código abaixo.</p>
-            <img id="qr-code-img" src="" alt="QR Code PIX">
-            <input type="text" id="pix-copy-paste" readonly>
-            <p style="font-size: 12px; margin-top: 15px;">Chave: Contato.cobecode@gmail.com</p>
-        </div>
-    </div>
-    
     <script>
-        // --- SCRIPT EXISTENTE (com as mesmas modificações anteriores) ---
+        // --- BANCO DE DADOS SIMULADO ---
         const clientDatabase = {
             "11122233344": { name: "CLIENTE TESTE PENDENTE", status: "EM TRANSIÇÃO DE ENVIO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
             "22233344455": { name: "CLIENTE TESTE EM DIA", status: "LIMINAR CONCEDIDA", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
             "44455566677": { name: "CLIENTE FINALIZADO", status: "PROCESSO FINALIZADO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
+            "55566677788": { name: "CLIENTE REPROTOCOLADO", status: "RE-PROTOCOLO EMITIDO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
+            "09594281782": { name: "GUSTAVO FARIA CORREA", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
             "11122233344": { name: "CLIENTE TESTE PENDENTE", status: "EM TRANSIÇÃO DE ENVIO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
             "22233344455": { name: "CLIENTE TESTE EM DIA", status: "LIMINAR CONCEDIDA", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
             "44455566677": { name: "CLIENTE FINALIZADO", status: "PROCESSO FINALIZADO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
             "55566677788": { name: "CLIENTE REPROTOCOLADO", status: "RE-PROTOCOLO EMITIDO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
             "69805440982": { name: "Jorge Luiz Ramos", status: "EM TRANSIÇÃO DE ENVIO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
             "08668035000105": { name: "JSA-JUNIOR SOLUCOES ARTE & COMERCIO ACRILICOS LTDA", status: "EM TRANSIÇÃO DE ENVIO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-            "40166398000155": { name: "MARQUES ALIMENTOS LTDA", status: "EM TRANSIÇÃO DE ENVIO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
+            "40166398000155": { name: "MARQUES ALIMENTOS LTDA", status: "LIMINAR CONCEDIDA", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
             "29242033847": { name: "Rogério Alvez dos santos", status: "EM TRANSIÇÃO DE ENVIO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
             "58526108000100": { name: "MERCADAO DO ALHO LTDA", status: "EM TRANSIÇÃO DE ENVIO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
             "38021330805": { name: "ANTONIO CARLOS DA SILVA SOUZA", status: "EM TRANSIÇÃO DE ENVIO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
@@ -369,82 +316,268 @@
             "14524999850": { name: "ANDRÉIA CRISTINA DE MORAES", status: "RE-PROTOCOLO EMITIDO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
             "16826215888": { name: "JOEL ALVES PEREIRA", status: "RE-PROTOCOLO EMITIDO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
         
+       
         };
 
+        // --- LÓGICA DOS ANÚNCIOS (NOVO) ---
+        const announcements = [
+            { title: "📢 Novidades a Caminho!", text: "Em breve, lançaremos novos planos de monitoramento financeiro com benefícios exclusivos para clientes como você. Aguarde!" },
+            { title: "💡 Dica da Semana", text: "Mantenha seus dados cadastrais sempre atualizados para garantir que você receba todas as nossas comunicações importantes." },
+            { title: "🔒 Sua Segurança", text: "Nunca compartilhe sua senha. Nossa equipe jamais solicitará suas credenciais de acesso por e-mail ou telefone." }
+        ];
+        let currentAnnouncementIndex = 0;
+        let announcementInterval = null; // Para controlar o setInterval
+
+        // --- ELEMENTOS GLOBAIS ---
         const loginScreen = document.getElementById('login-screen');
         const appLayout = document.getElementById('app-layout');
         const docInput = document.getElementById('docInput');
         const passwordInput = document.getElementById('passwordInput');
         const loginButton = document.getElementById('loginButton');
         const logoutButton = document.querySelector('.logout-button');
-        let announcementInterval = null;
+        let statusChart = null;
 
+        // --- LÓGICA DE LOGIN ---
         loginButton.addEventListener('click', () => {
+            if (announcementInterval) clearInterval(announcementInterval); // Limpa o intervalo anterior ao logar
+            
             const docNumber = docInput.value.replace(/\D/g, '');
+            const userInput = docInput.value.toLowerCase();
             const password = passwordInput.value;
             const expectedPassword = docNumber.substring(0, 4);
-            if (clientDatabase.hasOwnProperty(docNumber) && password === expectedPassword) {
-                loginScreen.style.display = 'none';
-                appLayout.style.display = 'grid';
-                populateDashboard(clientDatabase[docNumber]);
-            } else {
+
+            if (userInput === 'admin' && password === 'admin123') {
+                setupUIForUser('admin');
+                populateAdminDashboard();
+            } 
+            else if (clientDatabase.hasOwnProperty(docNumber) && password === expectedPassword) {
+                const clientData = clientDatabase[docNumber];
+                setupUIForUser('client', clientData);
+                populateDashboard(clientData);
+                populatePlansView();
+            } 
+            else {
                 document.getElementById('error-message').textContent = 'Documento ou senha incorretos.';
             }
         });
+        
+        // --- FUNÇÃO DE LOGOUT ---
         logoutButton.addEventListener('click', () => {
             appLayout.style.display = 'none';
             loginScreen.style.display = 'flex';
             docInput.value = '';
             passwordInput.value = '';
             document.getElementById('error-message').textContent = '';
+            if (statusChart) { statusChart.destroy(); }
+            if (announcementInterval) clearInterval(announcementInterval); // Limpa o intervalo ao deslogar
         });
-        function populateDashboard(clientData) {
-            document.getElementById('username-display').textContent = clientData.name.split(' ')[0];
-            document.querySelector('#dashboard-view .summary-cards').innerHTML = '';
-            document.querySelector('#dashboard-view .dashboard-grid').innerHTML = '';
-            const summaryContainer = document.querySelector('#dashboard-view .summary-cards');
-            summaryContainer.innerHTML = `
-                <div class="summary-card"><div class="icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div><div class="text"><h3>Status do Processo</h3><p>${clientData.status.replace(/-/g, ' ')}</p></div></div>
-                <div class="summary-card"><div class="icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg></div><div class="text"><h3>Próxima Parcela</h3><p>${clientData.pagamentoEmAberto ? clientData.pagamentoEmAberto.vencimento : "Em dia"}</p></div></div>
-                <div class="summary-card"><div class="icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01M12 6v-1.5M12 9.5v-1.5M12 15.5v-1.5M12 18v-1.5m-6-6.5v-1.5M6 9.5v-1.5M6 15.5v-1.5M18 9.5v-1.5M18 15.5v-1.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div><div class="text"><h3>Valor Pendente</h3><p>R$ 0,00</p></div></div>
-                <div class="summary-card"><div class="icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg></div><div class="text"><h3>Materiais</h3><p>${clientData.materiais.length} Arquivos</p></div></div>`;
-            const gridContainer = document.querySelector('#dashboard-view .dashboard-grid');
-            gridContainer.innerHTML = `
-                <div class="dashboard-card"><h2>Andamento da Liminar</h2><div id="timeline-container"></div></div>
-                <div class="dashboard-card"><h2>Situação Financeira</h2><div id="payments-container"></div></div>
-                <div class="dashboard-card" style="grid-column: 1 / -1;"><h2>Meus Materiais</h2><ul id="materiais-list"></ul></div>`;
-            const statusInfo = getStatusInfo(clientData.status);
-            document.getElementById('timeline-container').innerHTML = `<div class="timeline"><div id="progress-bar"></div><div class="step" id="step-1"><div class="step-icon">✔</div><div class="step-text">Envio</div></div><div class="step" id="step-2"><div class="step-icon">✔</div><div class="step-text">Liminar</div></div><div class="step" id="step-3"><div class="step-icon">✔</div><div class="step-text">Atualização</div></div><div class="step" id="step-4"><div class="step-icon">✔</div><div class="step-text">Finalizado</div></div></div><div id="status-message">${statusInfo.message}</div>`;
-            updateTimeline(statusInfo.step);
-            const paymentsContainer = document.getElementById('payments-container');
-            paymentsContainer.innerHTML = `<h4>Pagamentos Realizados</h4><p>Nenhum pagamento realizado.</p><h4 style="margin-top: 20px;">Pendentes</h4><p>Nenhuma pendência financeira.</p>`;
-            const materiaisList = document.getElementById('materiais-list');
-            materiaisList.innerHTML = '';
-            if (clientData.materiais.length > 0) {
-                clientData.materiais.forEach(m => { materiaisList.innerHTML += `<li><a href="${m.url}" target="_blank">📄 ${m.nome}</a></li>`; });
+        
+        // --- FUNÇÃO CENTRAL PARA CONFIGURAR A INTERFACE ---
+        function setupUIForUser(userType, userData = {}) {
+            loginScreen.style.display = 'none';
+            appLayout.style.display = 'grid';
+
+            const navContainer = document.querySelector('.sidebar nav ul');
+            let navLinks = '';
+
+            if (userType === 'admin') {
+                document.getElementById('page-title').textContent = 'Painel do Administrador';
+                document.getElementById('username-display').textContent = 'Admin';
+                navLinks = `<li><a href="#" class="nav-link active" data-view="admin-view"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg>Dashboard</a></li>`;
+                document.getElementById('dashboard-view').style.display = 'none';
+                document.getElementById('plans-view').style.display = 'none';
             } else {
-                materiaisList.innerHTML = '<li>Nenhum material disponível.</li>';
+                document.getElementById('page-title').textContent = 'Dashboard';
+                document.getElementById('username-display').textContent = userData.name.split(' ')[0];
+                navLinks = `
+                    <li><a href="#" class="nav-link active" data-view="dashboard-view"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>Dashboard</a></li>
+                    <li><a href="#" class="nav-link" data-view="plans-view"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>Planos</a></li>`;
+                document.getElementById('admin-view').style.display = 'none';
             }
-            const announcementsHTML = `<section class="announcements-section"><h2>Anúncios Importantes</h2><div class="announcement-slider"><div class="announcement-card active"><h3>Atualize seus Dados</h3><p>Mantenha seu cadastro sempre atualizado para não perder nenhuma comunicação importante sobre seu processo.</p></div><div class="announcement-card"><h3>Novo Canal de Atendimento</h3><p>Agora você pode tirar suas dúvidas diretamente pelo WhatsApp! Adicione nosso número e mande um "Olá".</p></div><div class="announcement-card"><h3>Indique um Amigo</h3><p>Gostando dos nossos serviços? Indique um amigo e ganhe descontos na sua próxima fatura. Fale com nosso suporte.</p></div></div></section>`;
-            const oldAnnouncements = document.querySelector('.announcements-section');
-            if (oldAnnouncements) oldAnnouncements.remove();
-            document.querySelector('#dashboard-view .summary-cards').insertAdjacentHTML('afterend', announcementsHTML);
-            clearInterval(announcementInterval);
-            const announcementCards = document.querySelectorAll('.announcement-card');
-            if (announcementCards.length > 1) {
-                let currentAnnouncement = 0;
-                const showNextAnnouncement = () => {
-                    announcementCards[currentAnnouncement].classList.remove('active');
-                    currentAnnouncement = (currentAnnouncement + 1) % announcementCards.length;
-                    announcementCards[currentAnnouncement].classList.add('active');
-                };
-                announcementInterval = setInterval(showNextAnnouncement, 5000);
-            }
+            
+            navContainer.innerHTML = navLinks;
+            addNavListeners();
         }
+
+        // --- FUNÇÃO PARA MONTAR O PAINEL DO ADMINISTRADOR (RESTAURADA) ---
+        function populateAdminDashboard() {
+            const adminContainer = document.getElementById('admin-view');
+            adminContainer.style.display = 'block';
+
+            const statusCounts = {};
+            for (const doc in clientDatabase) {
+                const status = clientDatabase[doc].status;
+                statusCounts[status] = (statusCounts[status] || 0) + 1;
+            }
+            const chartLabels = Object.keys(statusCounts).map(s => s.replace(/-/g, ' '));
+            const chartData = Object.values(statusCounts);
+
+            adminContainer.innerHTML = `
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h2>Clientes por Status</h2>
+                        <canvas id="statusChartCanvas"></canvas>
+                    </div>
+                    <div class="dashboard-card">
+                        <h2>Lista de Clientes (${Object.keys(clientDatabase).length})</h2>
+                        <div style="overflow-x: auto;">
+                        <table id="admin-client-table">
+                            <thead>
+                                <tr><th>CPF / CNPJ</th><th>Nome</th><th>Status</th></tr>
+                            </thead>
+                            <tbody>
+                                ${Object.entries(clientDatabase).map(([doc, client]) => `
+                                    <tr>
+                                        <td>${doc}</td>
+                                        <td>${client.name}</td>
+                                        <td>${client.status.replace(/-/g, ' ')}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>`;
+            
+            const ctx = document.getElementById('statusChartCanvas').getContext('2d');
+            if (statusChart) { statusChart.destroy(); }
+            statusChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: chartLabels,
+                    datasets: [{
+                        label: 'Clientes',
+                        data: chartData,
+                        backgroundColor: ['#140190', '#f59e0b', '#10b981', '#ef4444', '#6b7280', '#3b82f6'],
+                        borderColor: '#ffffff',
+                        borderWidth: 2
+                    }]
+                },
+                options: { responsive: true, plugins: { legend: { position: 'top' } } }
+            });
+        }
+        
+        // --- FUNÇÃO PARA EXIBIR PRÓXIMO ANÚNCIO (NOVO) ---
+        function showNextAnnouncement() {
+            const card = document.querySelector('.announcement-card');
+            const titleEl = document.getElementById('announcement-title');
+            const textEl = document.getElementById('announcement-text');
+
+            if (!card || !titleEl || !textEl) return;
+
+            card.classList.add('fading'); // Adiciona classe para iniciar o fade-out
+
+            setTimeout(() => {
+                const announcement = announcements[currentAnnouncementIndex];
+                titleEl.textContent = announcement.title;
+                textEl.textContent = announcement.text;
+                
+                currentAnnouncementIndex = (currentAnnouncementIndex + 1) % announcements.length;
+                
+                card.classList.remove('fading'); // Remove a classe para o fade-in
+            }, 400); // Deve ser igual à duração da transição no CSS
+        }
+
+        // --- FUNÇÃO PARA MONTAR O PAINEL DO CLIENTE ---
+        function populateDashboard(clientData) {
+            const dashboardContainer = document.getElementById('dashboard-view');
+            dashboardContainer.style.display = 'block';
+
+            dashboardContainer.innerHTML = `
+                <section class="summary-cards">
+                    <div class="summary-card">
+                        <div class="icon" style="background-color: #dbeafe; color: #3b82f6;"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+                        <div class="text"><h3>Status do Processo</h3><p>${clientData.status.replace(/-/g, ' ')}</p></div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="icon" style="background-color: #fef3c7; color: #f59e0b;"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg></div>
+                        <div class="text"><h3>Próxima Parcela</h3><p>${clientData.pagamentoEmAberto ? clientData.pagamentoEmAberto.vencimento : "Em dia"}</p></div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="icon" style="background-color: #d1fae5; color: #10b981;"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg></div>
+                        <div class="text"><h3>Materiais</h3><p>${clientData.materiais.length} Arquivos</p></div>
+                    </div>
+                </section>
+
+                <section class="dashboard-card announcement-card">
+                    <h2 id="announcement-title"></h2>
+                    <p id="announcement-text"></p>
+                </section>
+
+                <section class="dashboard-grid">
+                    <div class="dashboard-card"><h2>Andamento da Liminar</h2><div id="timeline-container"></div></div>
+                    <div class="dashboard-card"><h2>Meus Materiais</h2><ul id="materiais-list"></ul></div>
+                </section>`;
+            
+            const statusInfo = getStatusInfo(clientData.status);
+            document.getElementById('timeline-container').innerHTML = `<div class="timeline"><div id="progress-bar"></div><div class="step"><div class="step-icon">✔</div><div class="step-text">Envio</div></div><div class="step"><div class="step-icon">✔</div><div class="step-text">Liminar</div></div><div class="step"><div class="step-icon">✔</div><div class="step-text">Atualização</div></div><div class="step"><div class="step-icon">✔</div><div class="step-text">Finalizado</div></div></div><div id="status-message">${statusInfo.message}</div>`;
+            updateTimeline(statusInfo.step);
+            
+            const materiaisList = document.getElementById('materiais-list');
+            materiaisList.innerHTML = clientData.materiais.length > 0
+                ? clientData.materiais.map(m => `<li><a href="${m.url}" target="_blank">📄 ${m.nome}</a></li>`).join('')
+                : '<li>Nenhum material disponível.</li>';
+            
+            // Inicia o carrossel de anúncios
+            showNextAnnouncement(); // Mostra o primeiro imediatamente
+            announcementInterval = setInterval(showNextAnnouncement, 7000); // Troca a cada 7 segundos
+        }
+        
+        // --- FUNÇÃO PARA MONTAR A PÁGINA DE PLANOS ---
+        function populatePlansView() {
+            const plansContainer = document.getElementById('plans-view');
+            const checkmarkIcon = `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
+
+            plansContainer.innerHTML = `
+            <div class="plans-container">
+                <div class="plan-card">
+                    <h3>Essencial</h3>
+                    <p class="description">Proteção para o seu CPF</p>
+                    <div class="plan-price"><span class="currency">R$</span><span class="amount">14,90</span><span class="period">/mês</span></div>
+                    <ul class="plan-features">
+                        <li>${checkmarkIcon}Monitoramento de CPF 24h com alertas</li>
+                        <li>${checkmarkIcon}Relatório de Score detalhado</li>
+                        <li>${checkmarkIcon}Acesso a ofertas exclusivas de negociação</li>
+                        <li>${checkmarkIcon}1 Consulta CPF ou CNPJ</li>
+                    </ul>
+                    <a href="#" class="plan-button secondary">Começar com Essencial</a>
+                </div>
+                <div class="plan-card popular">
+                    <div class="plan-badge">Mais Popular</div>
+                    <h3>Plus</h3>
+                    <p class="description">Sua saúde financeira completa</p>
+                    <div class="plan-price"><span class="currency">R$</span><span class="amount">29,90</span><span class="period">/mês</span></div>
+                    <ul class="plan-features">
+                        <li>${checkmarkIcon}Tudo do Plano Essencial, e mais:</li>
+                        <li>${checkmarkIcon}Plano de Ação para Aumentar Score</li>
+                        <li>${checkmarkIcon}Ferramenta de Orçamento Pessoal</li>
+                        <li>${checkmarkIcon}Canal de Atendimento Prioritário</li>
+                        <li>${checkmarkIcon}2 Consultas CPF ou CNPJ</li>
+                    </ul>
+                    <a href="#" class="plan-button primary">Escolher Plano Plus</a>
+                </div>
+                <div class="plan-card">
+                    <h3>Premium</h3>
+                    <p class="description">Consultoria e suporte VIP</p>
+                    <div class="plan-price"><span class="currency">R$</span><span class="amount">79,90</span><span class="period">/mês</span></div>
+                    <ul class="plan-features">
+                        <li>${checkmarkIcon}Tudo do Plano Plus, e mais:</li>
+                        <li>${checkmarkIcon}Consultoria Financeira Pessoal (2x/mês)</li>
+                        <li>${checkmarkIcon}Assistente Pessoal para Negociação de Dívidas</li>
+                        <li>${checkmarkIcon}Relatório Financeiro Completo e Personalizado</li>
+                        <li>${checkmarkIcon}4 Consultas CPF ou CNPJ</li>
+                    </ul>
+                    <a href="#" class="plan-button secondary">Assinar Premium</a>
+                </div>
+            </div>`;
+        }
+
+        // --- FUNÇÕES AUXILIARES (RESTAURADAS) ---
         function getStatusInfo(statusName) {
             const statuses = { "EM TRANSIÇÃO DE ENVIO": { step: 1, message: "Sua documentação foi recebida e está na fila para análise judicial." }, "LIMINAR CONCEDIDA": { step: 2, message: "Decisão judicial favorável! Agora entra na fase de notificar os órgãos de crédito." }, "AGUARDANDO DECISÃO-ATUALIZAÇÃO": { step: 3, message: "Aguardando os órgãos de crédito cumprirem a decisão judicial." }, "RE-PROTOCOLO EMITIDO": { step: 3, message: "Documentação re-emitida e protocolada. Aguardando nova decisão." }, "PROCESSO FINALIZADO": { step: 4, message: "Parabéns! Seu processo foi concluído com sucesso." } };
             return statuses[statusName] || { step: 0, message: "Status não encontrado." };
         }
+
         function updateTimeline(currentStep) {
             const steps = document.querySelectorAll('.step');
             const progressBar = document.getElementById('progress-bar');
@@ -454,42 +587,46 @@
             steps.forEach((step, index) => {
                 const stepNumber = index + 1;
                 const icon = step.querySelector('.step-icon');
+                if(!icon) return;
                 step.classList.remove('active', 'completed');
                 icon.classList.remove('active', 'completed');
                 if (stepNumber < currentStep) {
-                    step.classList.add('completed');
-                    icon.classList.add('completed');
+                    step.classList.add('completed'); icon.classList.add('completed');
                 } else if (stepNumber === currentStep) {
-                    step.classList.add('active');
-                    icon.classList.add('active');
+                    step.classList.add('active'); icon.classList.add('active');
                 }
             });
         }
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', (e) => {
+
+        // --- FUNÇÃO PARA ADICIONAR EVENTOS DE NAVEGAÇÃO ---
+        function addNavListeners() {
+            const navList = document.querySelector('.sidebar nav ul');
+            // Clona e substitui para remover listeners antigos e evitar duplicação
+            const newNavList = navList.cloneNode(true);
+            navList.parentNode.replaceChild(newNavList, navList);
+
+            newNavList.addEventListener('click', (e) => {
+                const link = e.target.closest('a');
+                if (!link) return;
                 e.preventDefault();
+
                 document.querySelectorAll('.nav-link').forEach(item => item.classList.remove('active'));
                 link.classList.add('active');
-                document.querySelectorAll('.view-content').forEach(view => view.style.display = 'none');
+                
                 const targetViewId = link.getAttribute('data-view');
-                document.getElementById(targetViewId).style.display = 'block';
+                document.querySelectorAll('.view-content').forEach(view => {
+                    view.style.display = (view.id === targetViewId) ? 'block' : 'none';
+                });
+                
                 document.getElementById('page-title').textContent = link.textContent.trim();
             });
-        });
-        const pixModal = document.getElementById('pix-modal');
-        const closeBtn = document.querySelector('.close-btn');
-        function showPixModal(valor, nomeCliente) { const payload = generatePixPayload("Contato.cobecode@gmail.com", "CMG Consultoria", valor, "SAO PAULO", "***"); document.getElementById('pix-copy-paste').value = payload; document.getElementById('qr-code-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(payload)}`; pixModal.style.display = 'flex'; }
-        function generatePixPayload(chave, nome, valor, cidade, txid) { const p = [ '000201', '26' + ('0014BR.GOV.BCB.PIX01' + chave.length).padStart(2, '0') + chave, '52040000', '5303986', '54' + (parseFloat(valor).toFixed(2).length).padStart(2, '0') + parseFloat(valor).toFixed(2), '5802BR', '59' + (nome.substring(0,25).length).padStart(2, '0') + nome.substring(0,25), '60' + (cidade.length).padStart(2, '0') + cidade, '62' + (('05' + txid.length).padStart(2, '0') + txid).length.padStart(2, '0') + ('05' + txid.length).padStart(2, '0') + txid, '6304' ]; return p.join('') + 'A3C2'; }
-        closeBtn.onclick = () => pixModal.style.display = 'none';
-        window.onclick = (event) => { if (event.target == pixModal) pixModal.style.display = 'none'; };
-        docInput.addEventListener('input', () => { let v = docInput.value.replace(/\D/g, ''); if (v.length <= 11) { v = v.replace(/(\d{3})(\d)/, '$1.$2'); v = v.replace(/(\d{3})(\d)/, '$1.$2'); v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2'); } else { v = v.slice(0, 14); v = v.replace(/(\d{2})(\d)/, '$1.$2'); v = v.replace(/(\d{3})(\d)/, '$1.$2'); v = v.replace(/(\d{3})(\d)/, '$1/$2'); v = v.replace(/(\d{4})(\d{1,2})$/, '$1-$2'); } docInput.value = v; });
-
+        }
+        
         // --- LÓGICA DO MENU MOBILE ---
         const sidebar = document.querySelector('.sidebar');
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const closeMenuButton = document.getElementById('close-menu-button');
         const menuOverlay = document.getElementById('menu-overlay');
-        const navLinks = document.querySelectorAll('.sidebar nav a');
         function toggleMobileMenu() {
             sidebar.classList.toggle('open');
             menuOverlay.classList.toggle('open');
@@ -497,13 +634,12 @@
         mobileMenuButton.addEventListener('click', toggleMobileMenu);
         closeMenuButton.addEventListener('click', toggleMobileMenu);
         menuOverlay.addEventListener('click', toggleMobileMenu);
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                if (sidebar.classList.contains('open')) {
-                    toggleMobileMenu();
-                }
-            });
+        document.querySelector('.sidebar nav').addEventListener('click', (e) => {
+            if (e.target.closest('a') && sidebar.classList.contains('open')) {
+                toggleMobileMenu();
+            }
         });
     </script>
+
 </body>
 </html>
