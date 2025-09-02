@@ -10,7 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --primary-color: #000000;
+            --primary-color: #140190;
             --primary-light: #F0EFFF;
             --background-color: #f9fafb;
             --sidebar-bg: #ffffff;
@@ -67,14 +67,17 @@
         .dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 24px; margin-top: 24px;}
         .dashboard-card { background-color: var(--card-bg); padding: 24px; border-radius: 12px; box-shadow: 0 4px 12px var(--shadow-color); }
         .dashboard-card h2 { font-size: 18px; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); }
-        .timeline { display: flex; justify-content: space-between; position: relative; margin-bottom: 20px; padding-top: 10px; }
+        
+        /* --- TIMELINE HORIZONTAL (TELAS GRANDES) --- */
+        .timeline { display: flex; justify-content: space-between; position: relative; margin: 20px 0; padding-top: 10px; }
         .timeline::before { content: ''; position: absolute; top: 35px; left: 15%; right: 15%; height: 4px; background-color: #e5e7eb; z-index: 1; }
         #progress-bar { position: absolute; top: 35px; left: 15%; height: 4px; background-color: var(--primary-color); width: 0%; z-index: 2; transition: width 0.5s ease-in-out; }
         .step { display: flex; flex-direction: column; align-items: center; position: relative; z-index: 3; text-align: center; width: 100px; }
-        .step-icon { width: 50px; height: 50px; border-radius: 50%; background-color: #ccc; color: white; display: flex; justify-content: center; align-items: center; font-size: 24px; font-weight: bold; margin-bottom: 10px; border: 4px solid var(--card-bg); transition: background-color 0.3s; }
+        .step-icon { width: 50px; height: 50px; border-radius: 50%; background-color: #ccc; color: white; display: flex; justify-content: center; align-items: center; font-size: 24px; font-weight: bold; margin-bottom: 10px; border: 4px solid var(--card-bg); transition: background-color 0.3s; flex-shrink: 0; }
         .step-icon.active { background-color: var(--primary-color); }
         .step-icon.completed { background-color: var(--success-color); }
         .step-text { font-size: 13px; color: #6b7280; font-weight: 500; }
+        
         #status-message { margin-top: 20px; padding: 15px; background-color: #F0EFFF; border: 1px solid #dcd5f8; border-radius: 8px; color: #6A5ACD; font-size: 15px; font-weight: 500; }
         #materiais-list { list-style: none; padding: 0; }
         #materiais-list li { margin-bottom: 10px; }
@@ -96,7 +99,6 @@
         .plan-button.secondary { background: white; color: var(--primary-color); border: 2px solid var(--primary-color); }
         .plan-button:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
         
-        /* --- ESTILOS DO PAINEL ADMIN --- */
         #admin-view .dashboard-grid { grid-template-columns: 1fr 2fr; align-items: flex-start; }
         #admin-client-table { width: 100%; border-collapse: collapse; background-color: var(--card-bg); box-shadow: 0 4px 12px var(--shadow-color); border-radius: 12px; overflow: hidden; }
         #admin-client-table th, #admin-client-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--border-color); }
@@ -105,32 +107,14 @@
         #admin-client-table tr:last-child td { border-bottom: none; }
         #admin-client-table tr:hover { background-color: #f9fafb; }
 
-        /* --- ESTILOS DA ÁREA DE ANÚNCIO --- */
-        .announcement-card {
-            background-color: var(--primary-light);
-            border-left: 5px solid var(--primary-color);
-            margin-top: 24px;
-        }
-        .announcement-card h2, .announcement-card p {
-            transition: opacity 0.4s ease-in-out; /* Efeito de transição */
-        }
-        .announcement-card.fading h2, .announcement-card.fading p {
-            opacity: 0; /* Some ao trocar */
-        }
-        .announcement-card h2 {
-            color: var(--primary-color);
-            border-bottom: none;
-            padding-bottom: 5px;
-            margin-bottom: 10px;
-        }
-        .announcement-card p {
-            color: var(--text-dark);
-            line-height: 1.6;
-        }
+        .announcement-card { background-color: var(--primary-light); border-left: 5px solid var(--primary-color); margin-top: 24px; }
+        .announcement-card h2, .announcement-card p { transition: opacity 0.4s ease-in-out; }
+        .announcement-card.fading h2, .announcement-card.fading p { opacity: 0; }
+        .announcement-card h2 { color: var(--primary-color); border-bottom: none; padding-bottom: 5px; margin-bottom: 10px; }
+        .announcement-card p { color: var(--text-dark); line-height: 1.6; }
 
         @media (max-width: 1024px) { #admin-view .dashboard-grid { grid-template-columns: 1fr; } }
         
-        /* --- ESTILOS DO MENU MOBILE --- */
         #mobile-menu-button { display: none; background: none; border: none; cursor: pointer; padding: 5px; color: var(--text-dark); }
         #mobile-menu-button svg { width: 28px; height: 28px; }
         #close-menu-button { display: none; position: absolute; top: 15px; right: 15px; background: none; border: none; cursor: pointer; color: var(--text-light); }
@@ -142,10 +126,46 @@
         @media (max-width: 768px) {
             #app-layout { grid-template-columns: 1fr; }
             .sidebar { position: fixed; left: 0; top: 0; height: 100%; transform: translateX(-100%); transition: transform 0.3s ease-in-out; z-index: 1002; }
+            #mobile-menu-button, #close-menu-button { display: block; }
+
+            /* --- AJUSTES DE RESPONSIVIDADE GERAL --- */
+            #login-container { padding: 25px; }
             .main-content { padding: 16px; }
             .main-header h1 { font-size: 22px; }
+            .summary-card .text p { font-size: 18px; }
+            .dashboard-card { padding: 16px; }
+            .dashboard-card h2 { font-size: 17px; }
             .plan-card { padding: 24px; }
-            #mobile-menu-button, #close-menu-button { display: block; }
+            
+            /* --- TIMELINE VERTICAL (TELAS PEQUENAS) --- */
+            #timeline-container { padding-left: 20px; } /* Espaço para a linha vertical */
+            .timeline {
+                flex-direction: column; /* Altera para layout vertical */
+                align-items: flex-start; /* Alinha itens à esquerda */
+                justify-content: flex-start;
+                margin: 0;
+                padding: 0;
+            }
+            .timeline::before { /* A linha de fundo */
+                left: 25px; top: 25px; right: auto;
+                width: 4px; height: calc(100% - 25px); /* Altura total */
+            }
+            #progress-bar { /* A barra de progresso */
+                left: 25px; top: 25px;
+                width: 4px; height: 0%; /* Inicia com altura 0 */
+                transition: height 0.5s ease-in-out; /* Anima a altura */
+            }
+            .step {
+                flex-direction: row; /* Ícone e texto na mesma linha */
+                align-items: center;
+                text-align: left;
+                width: 100%;
+                margin-bottom: 30px; /* Espaço entre as etapas */
+            }
+            .step-icon {
+                margin-right: 15px; /* Espaço entre o ícone e o texto */
+                margin-bottom: 0;
+            }
         }
     </style>
 </head>
@@ -212,7 +232,7 @@
             "55566677788": { name: "CLIENTE REPROTOCOLADO", status: "RE-PROTOCOLO EMITIDO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
             "69805440982": { name: "Jorge Luiz Ramos", status: "EM TRANSIÇÃO DE ENVIO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
             "08668035000105": { name: "JSA-JUNIOR SOLUCOES ARTE & COMERCIO ACRILICOS LTDA", status: "EM TRANSIÇÃO DE ENVIO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-            "40166398000155": { name: "MARQUES ALIMENTOS LTDA", status: "LIMINAR CONCEDIDA", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
+            "40166398000155": { name: "MARQUES ALIMENTOS LTDA", status: "EM TRANSIÇÃO DE ENVIO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
             "29242033847": { name: "Rogério Alvez dos santos", status: "EM TRANSIÇÃO DE ENVIO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
             "58526108000100": { name: "MERCADAO DO ALHO LTDA", status: "EM TRANSIÇÃO DE ENVIO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
             "38021330805": { name: "ANTONIO CARLOS DA SILVA SOUZA", status: "EM TRANSIÇÃO DE ENVIO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
@@ -319,16 +339,14 @@
        
         };
 
-        // --- LÓGICA DOS ANÚNCIOS (NOVO) ---
         const announcements = [
             { title: "📢 Novidades a Caminho!", text: "Em breve, lançaremos novos planos de monitoramento financeiro com benefícios exclusivos para clientes como você. Aguarde!" },
             { title: "💡 Dica da Semana", text: "Mantenha seus dados cadastrais sempre atualizados para garantir que você receba todas as nossas comunicações importantes." },
             { title: "🔒 Sua Segurança", text: "Nunca compartilhe sua senha. Nossa equipe jamais solicitará suas credenciais de acesso por e-mail ou telefone." }
         ];
         let currentAnnouncementIndex = 0;
-        let announcementInterval = null; // Para controlar o setInterval
+        let announcementInterval = null;
 
-        // --- ELEMENTOS GLOBAIS ---
         const loginScreen = document.getElementById('login-screen');
         const appLayout = document.getElementById('app-layout');
         const docInput = document.getElementById('docInput');
@@ -337,10 +355,8 @@
         const logoutButton = document.querySelector('.logout-button');
         let statusChart = null;
 
-        // --- LÓGICA DE LOGIN ---
         loginButton.addEventListener('click', () => {
-            if (announcementInterval) clearInterval(announcementInterval); // Limpa o intervalo anterior ao logar
-            
+            if (announcementInterval) clearInterval(announcementInterval);
             const docNumber = docInput.value.replace(/\D/g, '');
             const userInput = docInput.value.toLowerCase();
             const password = passwordInput.value;
@@ -361,7 +377,6 @@
             }
         });
         
-        // --- FUNÇÃO DE LOGOUT ---
         logoutButton.addEventListener('click', () => {
             appLayout.style.display = 'none';
             loginScreen.style.display = 'flex';
@@ -369,17 +384,14 @@
             passwordInput.value = '';
             document.getElementById('error-message').textContent = '';
             if (statusChart) { statusChart.destroy(); }
-            if (announcementInterval) clearInterval(announcementInterval); // Limpa o intervalo ao deslogar
+            if (announcementInterval) clearInterval(announcementInterval);
         });
         
-        // --- FUNÇÃO CENTRAL PARA CONFIGURAR A INTERFACE ---
         function setupUIForUser(userType, userData = {}) {
             loginScreen.style.display = 'none';
             appLayout.style.display = 'grid';
-
             const navContainer = document.querySelector('.sidebar nav ul');
             let navLinks = '';
-
             if (userType === 'admin') {
                 document.getElementById('page-title').textContent = 'Painel do Administrador';
                 document.getElementById('username-display').textContent = 'Admin';
@@ -394,16 +406,13 @@
                     <li><a href="#" class="nav-link" data-view="plans-view"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>Planos</a></li>`;
                 document.getElementById('admin-view').style.display = 'none';
             }
-            
             navContainer.innerHTML = navLinks;
             addNavListeners();
         }
 
-        // --- FUNÇÃO PARA MONTAR O PAINEL DO ADMINISTRADOR (RESTAURADA) ---
         function populateAdminDashboard() {
             const adminContainer = document.getElementById('admin-view');
             adminContainer.style.display = 'block';
-
             const statusCounts = {};
             for (const doc in clientDatabase) {
                 const status = clientDatabase[doc].status;
@@ -411,7 +420,6 @@
             }
             const chartLabels = Object.keys(statusCounts).map(s => s.replace(/-/g, ' '));
             const chartData = Object.values(statusCounts);
-
             adminContainer.innerHTML = `
                 <div class="dashboard-grid">
                     <div class="dashboard-card">
@@ -438,7 +446,6 @@
                         </div>
                     </div>
                 </div>`;
-            
             const ctx = document.getElementById('statusChartCanvas').getContext('2d');
             if (statusChart) { statusChart.destroy(); }
             statusChart = new Chart(ctx, {
@@ -457,32 +464,24 @@
             });
         }
         
-        // --- FUNÇÃO PARA EXIBIR PRÓXIMO ANÚNCIO (NOVO) ---
         function showNextAnnouncement() {
             const card = document.querySelector('.announcement-card');
             const titleEl = document.getElementById('announcement-title');
             const textEl = document.getElementById('announcement-text');
-
             if (!card || !titleEl || !textEl) return;
-
-            card.classList.add('fading'); // Adiciona classe para iniciar o fade-out
-
+            card.classList.add('fading');
             setTimeout(() => {
                 const announcement = announcements[currentAnnouncementIndex];
                 titleEl.textContent = announcement.title;
                 textEl.textContent = announcement.text;
-                
                 currentAnnouncementIndex = (currentAnnouncementIndex + 1) % announcements.length;
-                
-                card.classList.remove('fading'); // Remove a classe para o fade-in
-            }, 400); // Deve ser igual à duração da transição no CSS
+                card.classList.remove('fading');
+            }, 400);
         }
 
-        // --- FUNÇÃO PARA MONTAR O PAINEL DO CLIENTE ---
         function populateDashboard(clientData) {
             const dashboardContainer = document.getElementById('dashboard-view');
             dashboardContainer.style.display = 'block';
-
             dashboardContainer.innerHTML = `
                 <section class="summary-cards">
                     <div class="summary-card">
@@ -498,12 +497,10 @@
                         <div class="text"><h3>Materiais</h3><p>${clientData.materiais.length} Arquivos</p></div>
                     </div>
                 </section>
-
                 <section class="dashboard-card announcement-card">
                     <h2 id="announcement-title"></h2>
                     <p id="announcement-text"></p>
                 </section>
-
                 <section class="dashboard-grid">
                     <div class="dashboard-card"><h2>Andamento da Liminar</h2><div id="timeline-container"></div></div>
                     <div class="dashboard-card"><h2>Meus Materiais</h2><ul id="materiais-list"></ul></div>
@@ -518,16 +515,13 @@
                 ? clientData.materiais.map(m => `<li><a href="${m.url}" target="_blank">📄 ${m.nome}</a></li>`).join('')
                 : '<li>Nenhum material disponível.</li>';
             
-            // Inicia o carrossel de anúncios
-            showNextAnnouncement(); // Mostra o primeiro imediatamente
-            announcementInterval = setInterval(showNextAnnouncement, 7000); // Troca a cada 7 segundos
+            showNextAnnouncement();
+            announcementInterval = setInterval(showNextAnnouncement, 7000);
         }
         
-        // --- FUNÇÃO PARA MONTAR A PÁGINA DE PLANOS ---
         function populatePlansView() {
             const plansContainer = document.getElementById('plans-view');
             const checkmarkIcon = `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
-
             plansContainer.innerHTML = `
             <div class="plans-container">
                 <div class="plan-card">
@@ -572,7 +566,6 @@
             </div>`;
         }
 
-        // --- FUNÇÕES AUXILIARES (RESTAURADAS) ---
         function getStatusInfo(statusName) {
             const statuses = { "EM TRANSIÇÃO DE ENVIO": { step: 1, message: "Sua documentação foi recebida e está na fila para análise judicial." }, "LIMINAR CONCEDIDA": { step: 2, message: "Decisão judicial favorável! Agora entra na fase de notificar os órgãos de crédito." }, "AGUARDANDO DECISÃO-ATUALIZAÇÃO": { step: 3, message: "Aguardando os órgãos de crédito cumprirem a decisão judicial." }, "RE-PROTOCOLO EMITIDO": { step: 3, message: "Documentação re-emitida e protocolada. Aguardando nova decisão." }, "PROCESSO FINALIZADO": { step: 4, message: "Parabéns! Seu processo foi concluído com sucesso." } };
             return statuses[statusName] || { step: 0, message: "Status não encontrado." };
@@ -582,8 +575,16 @@
             const steps = document.querySelectorAll('.step');
             const progressBar = document.getElementById('progress-bar');
             if (!progressBar) return;
-            const progressPercentage = currentStep > 1 ? ((currentStep - 1.5) / (steps.length - 2)) * 70 : 0;
-            progressBar.style.width = progressPercentage + '%';
+
+            // Lógica para preenchimento da barra de progresso (horizontal e vertical)
+            if (window.innerWidth <= 768) {
+                const progressPercentage = currentStep > 1 ? ((currentStep - 1) / (steps.length - 1)) * 100 : 5;
+                progressBar.style.height = progressPercentage + '%';
+            } else {
+                const progressPercentage = currentStep > 1 ? ((currentStep - 1.5) / (steps.length - 2)) * 70 : 0;
+                progressBar.style.width = progressPercentage + '%';
+            }
+            
             steps.forEach((step, index) => {
                 const stepNumber = index + 1;
                 const icon = step.querySelector('.step-icon');
@@ -598,31 +599,24 @@
             });
         }
 
-        // --- FUNÇÃO PARA ADICIONAR EVENTOS DE NAVEGAÇÃO ---
         function addNavListeners() {
             const navList = document.querySelector('.sidebar nav ul');
-            // Clona e substitui para remover listeners antigos e evitar duplicação
             const newNavList = navList.cloneNode(true);
             navList.parentNode.replaceChild(newNavList, navList);
-
             newNavList.addEventListener('click', (e) => {
                 const link = e.target.closest('a');
                 if (!link) return;
                 e.preventDefault();
-
                 document.querySelectorAll('.nav-link').forEach(item => item.classList.remove('active'));
                 link.classList.add('active');
-                
                 const targetViewId = link.getAttribute('data-view');
                 document.querySelectorAll('.view-content').forEach(view => {
                     view.style.display = (view.id === targetViewId) ? 'block' : 'none';
                 });
-                
                 document.getElementById('page-title').textContent = link.textContent.trim();
             });
         }
         
-        // --- LÓGICA DO MENU MOBILE ---
         const sidebar = document.querySelector('.sidebar');
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const closeMenuButton = document.getElementById('close-menu-button');
