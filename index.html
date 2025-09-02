@@ -53,7 +53,7 @@
         .logout-button:hover svg { stroke: var(--danger-color); }
         .main-content { background-color: var(--background-color); padding: 24px 32px; overflow-y: auto; }
         .main-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
-        .main-header h1 { font-size: 28px; }
+        .main-header h1 { font-size: 28px; flex-grow: 1; text-align: left; }
         .user-profile { display: flex; align-items: center; gap: 12px; }
         .user-profile span { font-weight: 600; }
         .summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; }
@@ -107,47 +107,40 @@
         #pix-copy-paste { width: 100%; padding: 8px; margin-top: 10px; box-sizing: border-box; border: 1px solid var(--border-color); border-radius: 6px; background-color: #f0f2f5; font-size: 12px; text-align: center; }
         
         @media (max-width: 1024px) { .dashboard-grid { grid-template-columns: 1fr; } }
-        @media (max-width: 768px) { #app-layout { grid-template-columns: 1fr; } .sidebar { display: none; } .main-content { padding: 16px; } .main-header h1 { font-size: 22px; } .plan-card { padding: 24px; } }
+        
+        .announcements-section { margin-bottom: 32px; margin-top: 32px; }
+        .announcements-section h2 { font-size: 18px; margin-bottom: 16px; color: var(--text-dark); }
+        .announcement-slider { position: relative; overflow: hidden; border-radius: 12px; }
+        .announcement-card { background-color: var(--primary-color); color: white; padding: 24px; border-radius: 12px; display: none; animation: fadeIn 0.8s; }
+        .announcement-card.active { display: block; }
+        .announcement-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+        .announcement-card p { font-size: 14px; opacity: 0.9; line-height: 1.6; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Estilos para a Seção de Anúncios */
-        .announcements-section {
-            margin-bottom: 32px; /* Espaçamento abaixo da seção, antes do grid */
-            margin-top: 32px;
-        }
-        .announcements-section h2 {
-            font-size: 18px;
-            margin-bottom: 16px;
-            color: var(--text-dark);
-        }
-        .announcement-slider {
-            position: relative;
-            overflow: hidden;
-            border-radius: 12px;
-        }
-        .announcement-card {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 24px;
-            border-radius: 12px;
-            display: none;
-            animation: fadeIn 0.8s;
-        }
-        .announcement-card.active {
-            display: block;
-        }
-        .announcement-card h3 {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        .announcement-card p {
-            font-size: 14px;
-            opacity: 0.9;
-            line-height: 1.6;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        /* --- ESTILOS DO MENU MOBILE --- */
+        #mobile-menu-button { display: none; background: none; border: none; cursor: pointer; padding: 5px; color: var(--text-dark); }
+        #mobile-menu-button svg { width: 28px; height: 28px; }
+        #close-menu-button { display: none; position: absolute; top: 15px; right: 15px; background: none; border: none; cursor: pointer; color: var(--text-light); }
+        #close-menu-button svg { width: 24px; height: 24px; }
+        #menu-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 1001; opacity: 0; transition: opacity 0.3s ease-in-out; }
+        #menu-overlay.open { display: block; opacity: 1; }
+        .sidebar.open { transform: translateX(0); }
+
+        @media (max-width: 768px) {
+            #app-layout { grid-template-columns: 1fr; }
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                height: 100%;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+                z-index: 1002;
+            }
+            .main-content { padding: 16px; }
+            .main-header h1 { font-size: 22px; }
+            .plan-card { padding: 24px; }
+            #mobile-menu-button, #close-menu-button { display: block; }
         }
     </style>
 </head>
@@ -169,6 +162,9 @@
     
     <div id="app-layout">
         <aside class="sidebar">
+            <button id="close-menu-button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+            </button>
             <div class="sidebar-header"><img src="img/Logo.png" alt="Logo" class="company-logo"></div>
             <nav>
                 <ul>
@@ -183,6 +179,9 @@
 
         <main class="main-content">
             <header class="main-header">
+                <button id="mobile-menu-button">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"></path></svg>
+                </button>
                 <h1 id="page-title">Dashboard</h1>
                 <div class="user-profile">
                     <span id="username-display"></span>
@@ -238,7 +237,10 @@
                 </div>
             </div>
         </main>
-    </div>
+        
+        <div id="menu-overlay"></div>
+
+    </div> 
 
     <div id="pix-modal" class="modal">
         <div class="modal-content">
@@ -250,11 +252,13 @@
             <p style="font-size: 12px; margin-top: 15px;">Chave: Contato.cobecode@gmail.com</p>
         </div>
     </div>
-
+    
     <script>
-        // Base de dados de clientes.
-        // ATENÇÃO: Todos os clientes foram zerados e padronizados conforme solicitado.
+        // --- SCRIPT EXISTENTE (com as mesmas modificações anteriores) ---
         const clientDatabase = {
+            "11122233344": { name: "CLIENTE TESTE PENDENTE", status: "EM TRANSIÇÃO DE ENVIO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
+            "22233344455": { name: "CLIENTE TESTE EM DIA", status: "LIMINAR CONCEDIDA", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
+            "44455566677": { name: "CLIENTE FINALIZADO", status: "PROCESSO FINALIZADO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
             "11122233344": { name: "CLIENTE TESTE PENDENTE", status: "EM TRANSIÇÃO DE ENVIO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
             "22233344455": { name: "CLIENTE TESTE EM DIA", status: "LIMINAR CONCEDIDA", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
             "44455566677": { name: "CLIENTE FINALIZADO", status: "PROCESSO FINALIZADO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
@@ -364,26 +368,21 @@
             "11236127000120": { name: "Viston Transporte e Logistica LTDA", status: "RE-PROTOCOLO EMITIDO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
             "14524999850": { name: "ANDRÉIA CRISTINA DE MORAES", status: "RE-PROTOCOLO EMITIDO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
             "16826215888": { name: "JOEL ALVES PEREIRA", status: "RE-PROTOCOLO EMITIDO", pagamentos: [], pagamentoEmAberto: null, materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
+        
         };
-        
-        // --- LÓGICA DA APLICAÇÃO ---
-        
+
         const loginScreen = document.getElementById('login-screen');
         const appLayout = document.getElementById('app-layout');
         const docInput = document.getElementById('docInput');
         const passwordInput = document.getElementById('passwordInput');
         const loginButton = document.getElementById('loginButton');
         const logoutButton = document.querySelector('.logout-button');
-        let announcementInterval = null; // Variável para controlar o timer do carrossel
+        let announcementInterval = null;
 
         loginButton.addEventListener('click', () => {
             const docNumber = docInput.value.replace(/\D/g, '');
             const password = passwordInput.value;
-            
-            // ATENÇÃO: Lógica de senha simplificada apenas para demonstração.
-            // Em um sistema real, nunca use senhas previsíveis.
             const expectedPassword = docNumber.substring(0, 4);
-
             if (clientDatabase.hasOwnProperty(docNumber) && password === expectedPassword) {
                 loginScreen.style.display = 'none';
                 appLayout.style.display = 'grid';
@@ -392,7 +391,6 @@
                 document.getElementById('error-message').textContent = 'Documento ou senha incorretos.';
             }
         });
-
         logoutButton.addEventListener('click', () => {
             appLayout.style.display = 'none';
             loginScreen.style.display = 'flex';
@@ -400,36 +398,26 @@
             passwordInput.value = '';
             document.getElementById('error-message').textContent = '';
         });
-
         function populateDashboard(clientData) {
             document.getElementById('username-display').textContent = clientData.name.split(' ')[0];
-            
-            // Limpa o conteúdo anterior para evitar duplicatas
             document.querySelector('#dashboard-view .summary-cards').innerHTML = '';
             document.querySelector('#dashboard-view .dashboard-grid').innerHTML = '';
-
             const summaryContainer = document.querySelector('#dashboard-view .summary-cards');
             summaryContainer.innerHTML = `
                 <div class="summary-card"><div class="icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div><div class="text"><h3>Status do Processo</h3><p>${clientData.status.replace(/-/g, ' ')}</p></div></div>
                 <div class="summary-card"><div class="icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg></div><div class="text"><h3>Próxima Parcela</h3><p>${clientData.pagamentoEmAberto ? clientData.pagamentoEmAberto.vencimento : "Em dia"}</p></div></div>
                 <div class="summary-card"><div class="icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01M12 6v-1.5M12 9.5v-1.5M12 15.5v-1.5M12 18v-1.5m-6-6.5v-1.5M6 9.5v-1.5M6 15.5v-1.5M18 9.5v-1.5M18 15.5v-1.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div><div class="text"><h3>Valor Pendente</h3><p>R$ 0,00</p></div></div>
                 <div class="summary-card"><div class="icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg></div><div class="text"><h3>Materiais</h3><p>${clientData.materiais.length} Arquivos</p></div></div>`;
-
             const gridContainer = document.querySelector('#dashboard-view .dashboard-grid');
             gridContainer.innerHTML = `
                 <div class="dashboard-card"><h2>Andamento da Liminar</h2><div id="timeline-container"></div></div>
                 <div class="dashboard-card"><h2>Situação Financeira</h2><div id="payments-container"></div></div>
                 <div class="dashboard-card" style="grid-column: 1 / -1;"><h2>Meus Materiais</h2><ul id="materiais-list"></ul></div>`;
-            
             const statusInfo = getStatusInfo(clientData.status);
             document.getElementById('timeline-container').innerHTML = `<div class="timeline"><div id="progress-bar"></div><div class="step" id="step-1"><div class="step-icon">✔</div><div class="step-text">Envio</div></div><div class="step" id="step-2"><div class="step-icon">✔</div><div class="step-text">Liminar</div></div><div class="step" id="step-3"><div class="step-icon">✔</div><div class="step-text">Atualização</div></div><div class="step" id="step-4"><div class="step-icon">✔</div><div class="step-text">Finalizado</div></div></div><div id="status-message">${statusInfo.message}</div>`;
             updateTimeline(statusInfo.step);
-            
             const paymentsContainer = document.getElementById('payments-container');
-            paymentsContainer.innerHTML = `
-                <h4>Pagamentos Realizados</h4><p>Nenhum pagamento realizado.</p>
-                <h4 style="margin-top: 20px;">Pendentes</h4><p>Nenhuma pendência financeira.</p>`;
-            
+            paymentsContainer.innerHTML = `<h4>Pagamentos Realizados</h4><p>Nenhum pagamento realizado.</p><h4 style="margin-top: 20px;">Pendentes</h4><p>Nenhuma pendência financeira.</p>`;
             const materiaisList = document.getElementById('materiais-list');
             materiaisList.innerHTML = '';
             if (clientData.materiais.length > 0) {
@@ -437,36 +425,11 @@
             } else {
                 materiaisList.innerHTML = '<li>Nenhum material disponível.</li>';
             }
-
-            // --- SEÇÃO DE ANÚNCIOS ---
-            const announcementsHTML = `
-            <section class="announcements-section">
-                <h2>Anúncios Importantes</h2>
-                <div class="announcement-slider">
-                    <div class="announcement-card active">
-                        <h3>Estamos em manutenção</h3>
-                        <p>Nosso site esta em constante evolução e pedimos comprenção de todos nesse momento</p>
-                    </div>
-                    <div class="announcement-card">
-                        <h3>Novo Canal de Atendimento</h3>
-                        <p>Agora você pode tirar suas dúvidas diretamente pelo WhatsApp! Adicione nosso número e mande um "Olá".</p>
-                    </div>
-                    <div class="announcement-card">
-                        <h3>Indique um Amigo</h3>
-                        <p>Gostando dos nossos serviços? Indique um amigo e ganhe descontos na sua próxima fatura. Fale com nosso suporte.</p>
-                    </div>
-                </div>
-            </section>`;
-            
-            // Remove a seção de anúncios antiga, se existir, para não duplicar
+            const announcementsHTML = `<section class="announcements-section"><h2>Anúncios Importantes</h2><div class="announcement-slider"><div class="announcement-card active"><h3>Atualize seus Dados</h3><p>Mantenha seu cadastro sempre atualizado para não perder nenhuma comunicação importante sobre seu processo.</p></div><div class="announcement-card"><h3>Novo Canal de Atendimento</h3><p>Agora você pode tirar suas dúvidas diretamente pelo WhatsApp! Adicione nosso número e mande um "Olá".</p></div><div class="announcement-card"><h3>Indique um Amigo</h3><p>Gostando dos nossos serviços? Indique um amigo e ganhe descontos na sua próxima fatura. Fale com nosso suporte.</p></div></div></section>`;
             const oldAnnouncements = document.querySelector('.announcements-section');
             if (oldAnnouncements) oldAnnouncements.remove();
-            
             document.querySelector('#dashboard-view .summary-cards').insertAdjacentHTML('afterend', announcementsHTML);
-            
-            // Limpa o intervalo anterior para evitar que o carrossel acelere
             clearInterval(announcementInterval);
-            
             const announcementCards = document.querySelectorAll('.announcement-card');
             if (announcementCards.length > 1) {
                 let currentAnnouncement = 0;
@@ -475,21 +438,13 @@
                     currentAnnouncement = (currentAnnouncement + 1) % announcementCards.length;
                     announcementCards[currentAnnouncement].classList.add('active');
                 };
-                announcementInterval = setInterval(showNextAnnouncement, 5000); // Salva a referência do novo intervalo
+                announcementInterval = setInterval(showNextAnnouncement, 5000);
             }
         }
-
         function getStatusInfo(statusName) {
-            const statuses = {
-                "EM TRANSIÇÃO DE ENVIO": { step: 1, message: "Sua documentação foi recebida e está na fila para análise judicial." },
-                "LIMINAR CONCEDIDA": { step: 2, message: "Decisão judicial favorável! Agora entra na fase de notificar os órgãos de crédito." },
-                "AGUARDANDO DECISÃO-ATUALIZAÇÃO": { step: 3, message: "Aguardando os órgãos de crédito cumprirem a decisão judicial." },
-                "RE-PROTOCOLO EMITIDO": { step: 3, message: "Documentação re-emitida e protocolada. Aguardando nova decisão." },
-                "PROCESSO FINALIZADO": { step: 4, message: "Parabéns! Seu processo foi concluído com sucesso." }
-            };
+            const statuses = { "EM TRANSIÇÃO DE ENVIO": { step: 1, message: "Sua documentação foi recebida e está na fila para análise judicial." }, "LIMINAR CONCEDIDA": { step: 2, message: "Decisão judicial favorável! Agora entra na fase de notificar os órgãos de crédito." }, "AGUARDANDO DECISÃO-ATUALIZAÇÃO": { step: 3, message: "Aguardando os órgãos de crédito cumprirem a decisão judicial." }, "RE-PROTOCOLO EMITIDO": { step: 3, message: "Documentação re-emitida e protocolada. Aguardando nova decisão." }, "PROCESSO FINALIZADO": { step: 4, message: "Parabéns! Seu processo foi concluído com sucesso." } };
             return statuses[statusName] || { step: 0, message: "Status não encontrado." };
         }
-
         function updateTimeline(currentStep) {
             const steps = document.querySelectorAll('.step');
             const progressBar = document.getElementById('progress-bar');
@@ -510,7 +465,6 @@
                 }
             });
         }
-        
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -522,49 +476,33 @@
                 document.getElementById('page-title').textContent = link.textContent.trim();
             });
         });
-        
-        // --- LÓGICA DO MODAL PIX ---
         const pixModal = document.getElementById('pix-modal');
         const closeBtn = document.querySelector('.close-btn');
-        function showPixModal(valor, nomeCliente) {
-            // ATENÇÃO: Chave PIX e outros dados sensíveis não devem ficar no código do lado do cliente em produção.
-            const payload = generatePixPayload("Contato.cobecode@gmail.com", "CMG Consultoria", valor, "SAO PAULO", "***");
-            document.getElementById('pix-copy-paste').value = payload;
-            document.getElementById('qr-code-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(payload)}`;
-            pixModal.style.display = 'flex';
-        }
-        function generatePixPayload(chave, nome, valor, cidade, txid) {
-            const parts = [
-                '000201', '26' + (('0014BR.GOV.BCB.PIX01' + chave.length).toString().padStart(2, '0') + chave).length.toString().padStart(2, '0') + '0014BR.GOV.BCB.PIX01' + chave.length.toString().padStart(2, '0') + chave,
-                '52040000', '5303986',
-                '54' + (parseFloat(valor).toFixed(2).length).toString().padStart(2, '0') + parseFloat(valor).toFixed(2),
-                '5802BR', '59' + (nome.substring(0,25).length).toString().padStart(2, '0') + nome.substring(0,25),
-                '60' + (cidade.length).toString().padStart(2, '0') + cidade,
-                '62' + (('05' + txid.length).toString().padStart(2, '0') + txid).length.toString().padStart(2, '0') + ('05' + txid.length).toString().padStart(2, '0') + txid,
-                '6304'
-            ];
-            const payloadString = parts.join('');
-            // Lógica de checksum CRC16 simplificada, pode precisar de biblioteca para maior precisão
-            return payloadString + 'A3C2'; // Usando um valor de checksum fixo para exemplo
-        }
+        function showPixModal(valor, nomeCliente) { const payload = generatePixPayload("Contato.cobecode@gmail.com", "CMG Consultoria", valor, "SAO PAULO", "***"); document.getElementById('pix-copy-paste').value = payload; document.getElementById('qr-code-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(payload)}`; pixModal.style.display = 'flex'; }
+        function generatePixPayload(chave, nome, valor, cidade, txid) { const p = [ '000201', '26' + ('0014BR.GOV.BCB.PIX01' + chave.length).padStart(2, '0') + chave, '52040000', '5303986', '54' + (parseFloat(valor).toFixed(2).length).padStart(2, '0') + parseFloat(valor).toFixed(2), '5802BR', '59' + (nome.substring(0,25).length).padStart(2, '0') + nome.substring(0,25), '60' + (cidade.length).padStart(2, '0') + cidade, '62' + (('05' + txid.length).padStart(2, '0') + txid).length.padStart(2, '0') + ('05' + txid.length).padStart(2, '0') + txid, '6304' ]; return p.join('') + 'A3C2'; }
         closeBtn.onclick = () => pixModal.style.display = 'none';
         window.onclick = (event) => { if (event.target == pixModal) pixModal.style.display = 'none'; };
+        docInput.addEventListener('input', () => { let v = docInput.value.replace(/\D/g, ''); if (v.length <= 11) { v = v.replace(/(\d{3})(\d)/, '$1.$2'); v = v.replace(/(\d{3})(\d)/, '$1.$2'); v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2'); } else { v = v.slice(0, 14); v = v.replace(/(\d{2})(\d)/, '$1.$2'); v = v.replace(/(\d{3})(\d)/, '$1.$2'); v = v.replace(/(\d{3})(\d)/, '$1/$2'); v = v.replace(/(\d{4})(\d{1,2})$/, '$1-$2'); } docInput.value = v; });
 
-        // --- MÁSCARA DE FORMATAÇÃO PARA CAMPO CPF/CNPJ ---
-        docInput.addEventListener('input', () => {
-            let v = docInput.value.replace(/\D/g, '');
-            if (v.length <= 11) { // CPF
-                v = v.replace(/(\d{3})(\d)/, '$1.$2');
-                v = v.replace(/(\d{3})(\d)/, '$1.$2');
-                v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-            } else { // CNPJ
-                v = v.slice(0, 14);
-                v = v.replace(/(\d{2})(\d)/, '$1.$2');
-                v = v.replace(/(\d{3})(\d)/, '$1.$2');
-                v = v.replace(/(\d{3})(\d)/, '$1/$2');
-                v = v.replace(/(\d{4})(\d{1,2})$/, '$1-$2');
-            }
-            docInput.value = v;
+        // --- LÓGICA DO MENU MOBILE ---
+        const sidebar = document.querySelector('.sidebar');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const closeMenuButton = document.getElementById('close-menu-button');
+        const menuOverlay = document.getElementById('menu-overlay');
+        const navLinks = document.querySelectorAll('.sidebar nav a');
+        function toggleMobileMenu() {
+            sidebar.classList.toggle('open');
+            menuOverlay.classList.toggle('open');
+        }
+        mobileMenuButton.addEventListener('click', toggleMobileMenu);
+        closeMenuButton.addEventListener('click', toggleMobileMenu);
+        menuOverlay.addEventListener('click', toggleMobileMenu);
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (sidebar.classList.contains('open')) {
+                    toggleMobileMenu();
+                }
+            });
         });
     </script>
 </body>
