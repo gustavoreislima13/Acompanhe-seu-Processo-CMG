@@ -563,7 +563,7 @@
                 copyBtn.textContent = 'Copiar';
                 copyBtn.onclick = () => { navigator.clipboard.writeText(pixCodeInput.value).then(() => { copyBtn.textContent = 'Copiado!'; }); };
                 const whatsappMessage = `Olá! Envio o comprovante de: ${modalTitle}, no valor de R$ ${amount}.`;
-                document.getElementById('whatsapp-link').href = `https://api.whatsapp.com/send?phone=5511995688690&text=${encodeURIComponent(whatsappMessage)}`;
+                document.getElementById('whatsapp-link').href = `https://api.whatsapp.com/send?phone=5511995688690&text`;
                 modal.style.display = 'flex';
                 const closeModal = () => modal.style.display = 'none';
                 modal.querySelector('.close-modal').onclick = closeModal;
