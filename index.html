@@ -144,6 +144,22 @@
         .client-links a:hover { text-decoration: underline; }
         #admin-logout-btn { background-color: var(--danger-color); color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 500; }
 
+        /* --- ESTILOS DO HISTÓRICO DE PAGAMENTOS --- */
+        .payment-history-card { background-color: var(--card-bg); padding: 24px; border-radius: 12px; box-shadow: 0 4px 12px var(--shadow-color); }
+        .payment-history-card h2 { font-size: 18px; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); }
+        .history-table-container { overflow-x: auto; }
+        .payment-history-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .payment-history-table th, .payment-history-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        .payment-history-table th { font-weight: 600; font-size: 14px; color: var(--text-light); }
+        .payment-history-table td { font-size: 15px; }
+        .status-badge { padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 12px; color: white; white-space: nowrap; }
+        .status-pago { background-color: var(--success-color); }
+        .status-pendente { background-color: var(--danger-color); }
+        .regularizar-btn { background-color: var(--warning-color); color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; transition: background-color 0.3s; }
+        .regularizar-btn:hover { background-color: #d97706; }
+        .no-payments-message { text-align: center; padding: 40px; background-color: #f9fafb; border-radius: 8px; }
+        .no-payments-message p { font-size: 16px; color: var(--text-light); }
+        
         /* --- ESTILOS RESPONSIVOS (APERFEIÇOADOS) --- */
         #mobile-menu-button {   color: rgb(0, 0, 0);display: none; background: none; border: none; cursor: pointer; padding: 5px; z-index: 1003; }
         #close-menu-button { display: none; position: absolute; top: 15px; right: 15px; background: none; border: none; cursor: pointer; color: var(--text-light); }
@@ -267,10 +283,93 @@
 
     <script>
         const clientDatabase = {
-    "11122233344": { name: "CLIENTE TESTE PENDENTE", status: "EM TRANSIÇÃO DE ENVIO", pagamentoEmAberto: { valor: "150,00", referencia: "Parcela 02/06" }, pagamentosEfetuados: [{ valor: "250,00", data: "2025-07-05", referencia: "Entrada" }], materiais: [{ nome: "Guia", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "22233344455": { name: "CLIENTE TESTE EM DIA", status: "LIMINAR CONCEDIDA", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", data: "2025-07-01", referencia: "Entrada" }, { valor: "150,00", data: "2025-08-01", referencia: "Parcela 01/06" }], materiais: [{ nome: "Guia", url: "#" }] },
-    "44455566677": { name: "CLIENTE FINALIZADO", status: "PROCESSO FINALIZADO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", data: "2025-06-10", referencia: "Entrada" }, { valor: "150,00", data: "2025-07-10", referencia: "Parcela 01/06" }, { valor: "150,00", data: "2025-08-10", referencia: "Parcela 02/06" }], materiais: [{ nome: "Guia", url: "#" }] },
-    "55566677788": { name: "CLIENTE REPROTOCOLADO", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: { valor: "100,00", referencia: "Taxa" }, pagamentosEfetuados: [{ valor: "250,00", data: "2025-05-15", referencia: "Entrada" }], materiais: [{ nome: "Guia", url: "#" }] },
+            // Clientes de exemplo com o novo formato de histórico
+            "11122233344": { 
+                name: "CLIENTE TESTE PENDENTE", 
+                status: "EM TRANSIÇÃO DE ENVIO", 
+                historicoPagamentos: [
+                    { valor: "250,00", data: "2025-07-05", referencia: "Entrada", status: 'pago' },
+                    { valor: "150,00", data: "2025-08-05", referencia: "Parcela 02/06", status: 'pendente' }
+                ],
+                materiais: [{ nome: "Guia", url: "#" }, { nome: "Contrato", url: "#" }] 
+            },
+            "22233344455": { 
+                name: "CLIENTE TESTE EM DIA", 
+                status: "LIMINAR CONCEDIDA", 
+                historicoPagamentos: [
+                    { valor: "250,00", data: "2025-07-01", referencia: "Entrada", status: 'pago' }, 
+                    { valor: "150,00", data: "2025-08-01", referencia: "Parcela 01/06", status: 'pago' }
+                ],
+                materiais: [{ nome: "Guia", url: "#" }] 
+            },
+            "44455566677": { 
+                name: "CLIENTE FINALIZADO", 
+                status: "PROCESSO FINALIZADO", 
+                historicoPagamentos: [
+                    { valor: "250,00", data: "2025-06-10", referencia: "Entrada", status: 'pago' }, 
+                    { valor: "150,00", data: "2025-07-10", referencia: "Parcela 01/06", status: 'pago' }, 
+                    { valor: "150,00", data: "2025-08-10", referencia: "Parcela 02/06", status: 'pago' }
+                ],
+                materiais: [{ nome: "Guia", url: "#" }] 
+            },
+            "55566677788": { 
+                name: "CLIENTE REPROTOCOLADO", 
+                status: "RE-PROTOCOLO EMITIDO", 
+                historicoPagamentos: [
+                    { valor: "250,00", data: "2025-05-15", referencia: "Entrada", status: 'pago' },
+                    { valor: "100,00", data: "2025-08-20", referencia: "Taxa", status: 'pendente' }
+                ],
+                materiais: [{ nome: "Guia", url: "#" }] 
+            },
+
+            "43550741880": { 
+                name: "CAROLINE DOS SANTOS SOUSA BONFIM", 
+                status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", 
+                historicoPagamentos: [
+                    { valor: "212,50", data: "10/09/2025", referencia: "Entrada", status: 'pendente' }, 
+                    { valor: "212,50", data: "10/10/2025", referencia: "Entrada", status: 'pendente' }, 
+                    { valor: "425,00", data: "10/11/2025", referencia: "Entrada", status: 'pendente' },
+                    { valor: "85,00", data: "10/12/2025", referencia: "Parcela", status: 'pendente' },
+                    { valor: "85,00", data: "10/01/2026", referencia: "Parcela", status: 'pendente' },
+                    { valor: "85,00", data: "10/02/2026", referencia: "Parcela", status: 'pendente' },
+                    { valor: "85,00", data: "10/03/2026", referencia: "Parcela", status: 'pendente' },
+                    { valor: "85,00", data: "10/04/2026", referencia: "Parcela", status: 'pendente' },
+                    { valor: "85,00", data: "10/05/2026", referencia: "Parcela", status: 'pendente' },
+                    { valor: "85,00", data: "10/06/2026", referencia: "Parcela", status: 'pendente' },
+                    { valor: "85,00", data: "10/07/2026", referencia: "Parcela", status: 'pendente' },
+                    { valor: "85,00", data: "10/08/2026", referencia: "Parcela", status: 'pendente' },
+                    { valor: "85,00", data: "10/09/2026", referencia: "Parcela", status: 'pendente' },
+                    { valor: "85,00", data: "10/10/2026", referencia: "Parcela", status: 'pendente' },
+                    { valor: "85,00", data: "10/11/2026", referencia: "Parcela", status: 'pendente' },
+                    
+                ],
+                materiais: [{ nome: "Guia", url: "#" }] 
+            },
+
+             "15155777836": { 
+                name: "JESICA ALESSANDRA DO CARMO", 
+                status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", 
+                historicoPagamentos: [
+                    { valor: "200,00", data: "04/09/2025", referencia: "Entrada", status: 'pago' }, 
+                    { valor: "200,00", data: "04/10/2025", referencia: "Entrada", status: 'pendente' }, 
+                    { valor: "200,00", data: "04/11/2025", referencia: "Entrada", status: 'pendente' }, 
+                    { valor: "200,00", data: "04/12/2025", referencia: "Entrada", status: 'pendente' }, 
+                    { valor: "200,00", data: "04/01/2026", referencia: "Entrada", status: 'pendente' }, 
+                    { valor: "200,00", data: "04/02/2026", referencia: "Parcela", status: 'pendente' }, 
+                    { valor: "200,00", data: "04/03/2026", referencia: "Parcela", status: 'pendente' }, 
+                    { valor: "200,00", data: "04/04/2026", referencia: "Parcela", status: 'pendente' }, 
+                    { valor: "200,00", data: "04/05/2026", referencia: "Parcela", status: 'pendente' }, 
+                    { valor: "200,00", data: "04/06/2026", referencia: "Parcela", status: 'pendente' }, 
+                    { valor: "200,00", data: "04/07/2026", referencia: "Parcela", status: 'pendente' }, 
+                    { valor: "200,00", data: "04/08/2026", referencia: "Parcela", status: 'pendente' }, 
+                    
+                    
+                ],
+                materiais: [{ nome: "Guia", url: "#" }] 
+            },
+
+
+            // Demais clientes (convertidos para o novo formato, a maioria sem histórico ainda)
 
     "69805440982": { name: "Jorge Luiz Ramos", status: "EM TRANSIÇÃO DE ENVIO", pagamentoEmAberto: null, pagamentosEfetuados: [], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
     "08668035000105": { name: "JSA-JUNIOR SOLUCOES ARTE & COMERCIO ACRILICOS LTDA", status: "EM TRANSIÇÃO DE ENVIO", pagamentoEmAberto: null, pagamentosEfetuados: [], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
@@ -300,7 +399,6 @@
     "95959980282": { name: "NILTON MOREira CUNHA JUNIOR", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
     "39166169860": { name: "TIAGO RODRIGO DOS SANTOS", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
     "49478560000145": { name: "M. J. S. AUTO CENTER LTDA", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "15155777836": { name: "JECICA ALESSANDRA DO CARMO", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
     "09880705882": { name: "MARCELO ASSALVE", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
     "40956701850": { name: "BRUNO DE SÁ SILVA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
     "32239171871": { name: "AMANDA MARIA DO PARTO CAETANO LOPES", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
@@ -377,9 +475,8 @@
     "11236127000120": { name: "Viston Transporte e Logistica LTDA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
     "14524999850": { name: "ANDRÉIA CRISTINA DE MORAES", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
     "16826215888": { name: "JOEL ALVES PEREIRA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "04377115600": { name: "Eliane Cristina Machado Garcia", status: "EM TRANSIÇÃO DE ENVIO", pagamentoEmAberto: null, pagamentosEfetuados: [], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] }
-};
-        
+        };
+
         const announcements = [ { title: "📢 Novidades a Caminho!", text: "Em breve, lançaremos novos planos de monitoramento financeiro. Aguarde!" }, { title: "💡 Dica da Semana", text: "Mantenha seus dados cadastrais sempre atualizados para receber nossas comunicações." }, { title: "🔒 Sua Segurança", text: "Nunca compartilhe sua senha. Nossa equipe jamais solicitará suas credenciais." } ];
         let currentAnnouncementIndex = 0, announcementInterval = null, activeClientData = null;
 
@@ -432,7 +529,7 @@
             adminLogoutButton.addEventListener('click', (e) => { e.preventDefault(); performLogout(); });
 
             // ===============================================
-            // || FUNÇÕES DO PAINEL DE ADMIN                  ||
+            // || FUNÇÕES DO PAINEL DE ADMIN                 ||
             // ===============================================
             function renderAdminDashboard() {
                 const clients = Object.entries(clientDatabase);
@@ -441,10 +538,20 @@
                 const finishedClients = clients.filter(([id, data]) => data.status === 'PROCESSO FINALIZADO').length;
                 let revenuePending = 0;
                 let revenueReceived = 0;
+                
                 clients.forEach(([id, data]) => {
-                    if (data.pagamentoEmAberto) revenuePending += parseFloat(data.pagamentoEmAberto.valor.replace(',', '.'));
-                    if (data.pagamentosEfetuados) data.pagamentosEfetuados.forEach(p => revenueReceived += parseFloat(p.valor.replace(',', '.')));
+                    if (data.historicoPagamentos) {
+                        data.historicoPagamentos.forEach(p => {
+                            const valor = parseFloat(p.valor.replace(',', '.'));
+                            if (p.status === 'pendente') {
+                                revenuePending += valor;
+                            } else if (p.status === 'pago') {
+                                revenueReceived += valor;
+                            }
+                        });
+                    }
                 });
+
                 document.getElementById('kpi-total-clients').textContent = totalClients;
                 document.getElementById('kpi-pending-clients').textContent = pendingClients;
                 document.getElementById('kpi-finished-clients').textContent = finishedClients;
@@ -460,7 +567,7 @@
                     type: 'doughnut', data: { labels: ['Recebidas', 'A Receber'], datasets: [{ data: [received, pending], backgroundColor: ['#10b981', '#f59e0b'], borderWidth: 1 }] },
                     options: { 
                         responsive: true, 
-                        maintainAspectRatio: false, // <-- AJUSTE CHAVE PARA O GRÁFICO
+                        maintainAspectRatio: false,
                         plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: c => `${c.label}: ${c.parsed.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}` } } } }
                 });
             }
@@ -470,7 +577,12 @@
                 tableBody.innerHTML = '';
                 clients.forEach(([id, data]) => {
                     const row = tableBody.insertRow();
-                    row.innerHTML = `<td data-label="Cliente">${data.name}</td><td data-label="Documento">${id}</td><td data-label="Status">${data.status}</td><td data-label="Pagamento">${data.pagamentoEmAberto ? `<span class="payment-status-pending">R$ ${data.pagamentoEmAberto.valor}</span>` : `<span class="payment-status-ok">Em dia</span>`}</td><td data-label="Links" class="client-links">${data.materiais.map(l => `<a href="${l.url}" target="_blank">${l.nome}</a>`).join('')}</td>`;
+                    const hasPendingPayment = data.historicoPagamentos && data.historicoPagamentos.some(p => p.status === 'pendente');
+                    const paymentStatusHTML = hasPendingPayment 
+                        ? `<span class="payment-status-pending">Pendente</span>` 
+                        : `<span class="payment-status-ok">Em dia</span>`;
+
+                    row.innerHTML = `<td data-label="Cliente">${data.name}</td><td data-label="Documento">${id}</td><td data-label="Status">${data.status}</td><td data-label="Pagamento">${paymentStatusHTML}</td><td data-label="Links" class="client-links">${data.materiais.map(l => `<a href="${l.url}" target="_blank">${l.nome}</a>`).join('')}</td>`;
                 });
             }
 
@@ -482,7 +594,7 @@
             });
 
             // ===============================================
-            // || FUNÇÕES DO PORTAL DO CLIENTE                ||
+            // || FUNÇÕES DO PORTAL DO CLIENTE               ||
             // ===============================================
             function toggleMobileMenu() { sidebar.classList.toggle('open'); menuOverlay.classList.toggle('open'); }
             mobileMenuButton.addEventListener('click', toggleMobileMenu);
@@ -515,7 +627,9 @@
 
             function populateDashboard(clientData) {
                 const dashboardContainer = document.getElementById('dashboard-view');
-                dashboardContainer.innerHTML = `<section class="summary-cards"><div class="summary-card"><div class="icon" style="background-color: #dbeafe; color: #3b82f6;"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div><div class="text"><h3>Status do Processo</h3><p>${clientData.status.replace(/-/g, ' ')}</p></div></div><div class="summary-card"><div class="icon" style="background-color: #fef3c7; color: #f59e0b;"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg></div><div class="text"><h3>Próxima Parcela</h3><p>${clientData.pagamentoEmAberto ? clientData.pagamentoEmAberto.vencimento : "Em dia"}</p></div></div><div class="summary-card"><div class="icon" style="background-color: #d1fae5; color: #10b981;"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg></div><div class="text"><h3>Materiais</h3><p>${clientData.materiais.length} Arquivos</p></div></div></section><section class="dashboard-card announcement-card"><h2 id="announcement-title"></h2><p id="announcement-text"></p></section><section class="dashboard-grid"><div class="dashboard-card"><h2>Andamento da Liminar</h2><div id="timeline-container"></div></div><div class="dashboard-card"><h2>Meus Materiais</h2><ul id="materiais-list"></ul></div></section>`;
+                const nextPayment = clientData.historicoPagamentos ? clientData.historicoPagamentos.find(p => p.status === 'pendente') : null;
+
+                dashboardContainer.innerHTML = `<section class="summary-cards"><div class="summary-card"><div class="icon" style="background-color: #dbeafe; color: #3b82f6;"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div><div class="text"><h3>Status do Processo</h3><p>${clientData.status.replace(/-/g, ' ')}</p></div></div><div class="summary-card"><div class="icon" style="background-color: #fef3c7; color: #f59e0b;"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg></div><div class="text"><h3>Próxima Parcela</h3><p>${nextPayment ? nextPayment.data : "Em dia"}</p></div></div><div class="summary-card"><div class="icon" style="background-color: #d1fae5; color: #10b981;"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg></div><div class="text"><h3>Materiais</h3><p>${clientData.materiais.length} Arquivos</p></div></div></section><section class="dashboard-card announcement-card"><h2 id="announcement-title"></h2><p id="announcement-text"></p></section><section class="dashboard-grid"><div class="dashboard-card"><h2>Andamento da Liminar</h2><div id="timeline-container"></div></div><div class="dashboard-card"><h2>Meus Materiais</h2><ul id="materiais-list"></ul></div></section>`;
                 const statusInfo = getStatusInfo(clientData.status);
                 const timelineContainer = document.getElementById('timeline-container');
                 const steps = [{ title: 'Análise', description: 'Documentos em análise.', icon: '<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 2v6h6"/><path d="M12 18a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/><path d="m22 22-3-3"/></svg>' },{ title: 'Processo', description: 'Ação protocolada.', icon: '<svg viewBox="0 0 24 24"><path d="M16 22h2a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M4.26 10.05A6.5 6.5 0 0 0 8 16.5c1.93 0 3.68-.93 4.74-2.45"/><path d="M12 12V6.5"/><path d="M12 22a1 1 0 0 0 1-1v-2.5a.5.5 0 0 0-.5-.5.5.5 0 0 1-.5-.5V17a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v1.5a.5.5 0 0 1-.5.5.5.5 0 0 0-.5.5V21a1 1 0 0 0 1 1z"/></svg>' },{ title: 'Notificação', description: 'Liminar concedida!', icon: '<svg viewBox="0 0 24 24"><path d="M22 17a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10z"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>' },{ title: 'Finalizado', description: 'Processo concluído.', icon: '<svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>' }];
@@ -528,10 +642,83 @@
 
             function populatePaymentsView(clientData) {
                 const container = document.getElementById('payments-view');
-                if (clientData.pagamentoEmAberto) {
-                    container.innerHTML = `<div class="payment-card overdue"><h3>⚠️ Pagamento Pendente</h3><p>Identificamos uma fatura em aberto referente a <strong>${clientData.pagamentoEmAberto.referencia}</strong>.</p><div class="amount">R$ ${clientData.pagamentoEmAberto.valor}</div><button class="pay-button" id="regularize-btn">Regularizar com PIX</button></div>`;
-                    document.getElementById('regularize-btn').addEventListener('click', () => handlePixPayment(clientData.pagamentoEmAberto.valor, `REG-${clientData.doc.substring(0,5)}`, 'Pagamento de Regularização'));
-                } else { container.innerHTML = `<div class="payment-card ok"><h3>🎉 Tudo em dia por aqui!</h3><p>Não há nenhuma pendência financeira.</p></div>`; }
+                
+                // Verifica se o cliente tem um histórico de pagamentos e se não está vazio.
+                if (clientData.historicoPagamentos && clientData.historicoPagamentos.length > 0) {
+                    
+                    // Monta a estrutura da tabela do histórico.
+                    let tableRowsHTML = clientData.historicoPagamentos.map(pagamento => {
+                        const isPendente = pagamento.status === 'pendente';
+                        const statusClass = isPendente ? 'status-pendente' : 'status-pago';
+                        const statusText = isPendente ? 'Pendente' : 'Pago';
+                        
+                        // Se o pagamento estiver pendente, cria um botão "Regularizar".
+                        // Usamos atributos "data-*" para armazenar as informações do pagamento no próprio botão.
+                        const actionButton = isPendente 
+                            ? `<button class="regularizar-btn" 
+                                        data-valor="${pagamento.valor}" 
+                                        data-referencia="${pagamento.referencia}">
+                                        Regularizar
+                               </button>`
+                            : '✔'; // Se estiver pago, mostra um ícone de "check".
+
+                        return `
+                            <tr>
+                                <td>${pagamento.referencia}</td>
+                                <td>${pagamento.data}</td>
+                                <td>R$ ${pagamento.valor}</td>
+                                <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                                <td>${actionButton}</td>
+                            </tr>
+                        `;
+                    }).join('');
+
+                    // Insere a tabela completa no container da view de pagamentos.
+                    container.innerHTML = `
+                        <div class="payment-history-card">
+                            <h2>Histórico de Pagamentos</h2>
+                            <div class="history-table-container">
+                                <table class="payment-history-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Referência</th>
+                                            <th>Data</th>
+                                            <th>Valor</th>
+                                            <th>Status</th>
+                                            <th>Ação</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${tableRowsHTML}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    `;
+
+                    // Agora que os botões existem na página, vamos adicionar o evento de clique a eles.
+                    document.querySelectorAll('.regularizar-btn').forEach(button => {
+                        button.addEventListener('click', () => {
+                            const valor = button.dataset.valor;
+                            const referencia = button.dataset.referencia;
+                            const doc = activeClientData.doc; // Pega o documento do cliente ativo
+                            
+                            // Chama a função que já existe para abrir o modal de pagamento PIX.
+                            handlePixPayment(valor, `REG-${doc.substring(0,5)}-${referencia.substring(0,3)}`, `Pagamento: ${referencia}`);
+                        });
+                    });
+
+                } else {
+                    // Se não houver histórico, exibe uma mensagem amigável.
+                    container.innerHTML = `
+                        <div class="payment-card ok">
+                            <h3>🎉 Tudo em dia por aqui!</h3>
+                            <div class="no-payments-message">
+                                <p>Nenhum histórico de pagamento encontrado.</p>
+                            </div>
+                        </div>
+                    `;
+                }
             }
 
             function populateConsultasView() {
@@ -580,7 +767,7 @@
                 return statuses[statusName] || { step: 0, message: "Status não encontrado." };
             }
             function updateTimelineProgressBar(currentStep, totalSteps) {
-                 const progressBar = document.getElementById('progress-bar'); if (!progressBar) return; const progress = currentStep > 1 ? ((currentStep - 1) / (totalSteps - 1)) * 80 + 10 : 0; if (window.innerWidth <= 768) { progressBar.style.height = `${(currentStep-1)*33.3}%`; } else { progressBar.style.width = `${progress}%`; }
+                const progressBar = document.getElementById('progress-bar'); if (!progressBar) return; const progress = currentStep > 1 ? ((currentStep - 1) / (totalSteps - 1)) * 80 + 10 : 0; if (window.innerWidth <= 768) { progressBar.style.height = `${(currentStep-1)*33.3}%`; } else { progressBar.style.width = `${progress}%`; }
             }
             function showNextAnnouncement() {
                 const card = document.querySelector('.announcement-card'); if (card) { card.classList.add('fading'); setTimeout(() => { const ann = announcements[currentAnnouncementIndex]; if (ann) { card.querySelector('h2').textContent = ann.title; card.querySelector('p').textContent = ann.text; } currentAnnouncementIndex = (currentAnnouncementIndex + 1) % announcements.length; card.classList.remove('fading'); }, 400); }
