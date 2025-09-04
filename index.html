@@ -501,7 +501,7 @@
                 const docNumber = userInput.replace(/\D/g, '');
                 const expectedClientPassword = docNumber.substring(0, 4);
 
-                if (userInput === 'admin' && password === 'admin123') {
+                if (userInput === 'admin' && password === '0000') {
                     loginScreen.style.display = 'none';
                     adminDashboardView.style.display = 'block';
                     clientAppLayout.style.display = 'none';
