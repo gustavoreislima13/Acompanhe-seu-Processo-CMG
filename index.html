@@ -261,16 +261,17 @@
                 <input type="text" id="pix-code" readonly>
                 <button id="copy-pix-btn">Copiar</button>
             </div>
-            <a href="#" id="whatsapp-link" target="_blank" class="whatsapp-button">Enviar Comprovante</a>
+            <a href="https://wa.me/5511995688690?text=Estou%20enviando%20o%20comprovante%20da%20consulta!" id="whatsapp-link" target="_blank" class="whatsapp-button">Enviar Comprovante</a>
         </div>
     </div>
 
     <script>
         const clientDatabase = {
-    "11122233344": { name: "CLIENTE TESTE PENDENTE", status: "EM TRANSIÇÃO DE ENVIO", pagamentoEmAberto: null, pagamentosEfetuados: [], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "22233344455": { name: "CLIENTE TESTE EM DIA", status: "LIMINAR CONCEDIDA", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "44455566677": { name: "CLIENTE FINALIZADO", status: "PROCESSO FINALIZADO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "55566677788": { name: "CLIENTE REPROTOCOLADO", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
+    "11122233344": { name: "CLIENTE TESTE PENDENTE", status: "EM TRANSIÇÃO DE ENVIO", pagamentoEmAberto: { valor: "150,00", referencia: "Parcela 02/06" }, pagamentosEfetuados: [{ valor: "250,00", data: "2025-07-05", referencia: "Entrada" }], materiais: [{ nome: "Guia", url: "#" }, { nome: "Contrato", url: "#" }] },
+    "22233344455": { name: "CLIENTE TESTE EM DIA", status: "LIMINAR CONCEDIDA", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", data: "2025-07-01", referencia: "Entrada" }, { valor: "150,00", data: "2025-08-01", referencia: "Parcela 01/06" }], materiais: [{ nome: "Guia", url: "#" }] },
+    "44455566677": { name: "CLIENTE FINALIZADO", status: "PROCESSO FINALIZADO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", data: "2025-06-10", referencia: "Entrada" }, { valor: "150,00", data: "2025-07-10", referencia: "Parcela 01/06" }, { valor: "150,00", data: "2025-08-10", referencia: "Parcela 02/06" }], materiais: [{ nome: "Guia", url: "#" }] },
+    "55566677788": { name: "CLIENTE REPROTOCOLADO", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: { valor: "100,00", referencia: "Taxa" }, pagamentosEfetuados: [{ valor: "250,00", data: "2025-05-15", referencia: "Entrada" }], materiais: [{ nome: "Guia", url: "#" }] },
+
     "69805440982": { name: "Jorge Luiz Ramos", status: "EM TRANSIÇÃO DE ENVIO", pagamentoEmAberto: null, pagamentosEfetuados: [], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
     "08668035000105": { name: "JSA-JUNIOR SOLUCOES ARTE & COMERCIO ACRILICOS LTDA", status: "EM TRANSIÇÃO DE ENVIO", pagamentoEmAberto: null, pagamentosEfetuados: [], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
     "40166398000155": { name: "MARQUES ALIMENTOS LTDA", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
@@ -562,7 +563,7 @@
                 copyBtn.textContent = 'Copiar';
                 copyBtn.onclick = () => { navigator.clipboard.writeText(pixCodeInput.value).then(() => { copyBtn.textContent = 'Copiado!'; }); };
                 const whatsappMessage = `Olá! Envio o comprovante de: ${modalTitle}, no valor de R$ ${amount}.`;
-                document.getElementById('whatsapp-link').href = `https://api.whatsapp.com/send?phone=5511999998888&text=${encodeURIComponent(whatsappMessage)}`;
+                document.getElementById('whatsapp-link').href = `https://api.whatsapp.com/send?phone=5511995688690&text=${encodeURIComponent(whatsappMessage)}`;
                 modal.style.display = 'flex';
                 const closeModal = () => modal.style.display = 'none';
                 modal.querySelector('.close-modal').onclick = closeModal;
