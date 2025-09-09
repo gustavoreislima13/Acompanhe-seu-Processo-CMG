@@ -167,28 +167,150 @@
         @media (max-width: 992px) {
             .admin-grid { grid-template-columns: 1fr; }
         }
+        
         @media (max-width: 768px) {
-            #app-layout { grid-template-columns: 1fr; }
-            .sidebar { position: fixed; left: 0; top: 0; height: 100%; transform: translateX(-100%); transition: transform 0.3s ease-in-out; z-index: 1002; width: 260px; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
-            .main-header { flex-wrap: wrap; justify-content: space-between; align-items: center;}
-            .main-header h1 { order: 2; width: 100%; text-align: center; margin-top: 10px; font-size: 22px; }
-            .user-profile { order: 3; }
-            #mobile-menu-button { display: block; order: 1; }
-            #close-menu-button { display: block; }
-            #login-container, .main-content, #admin-dashboard-view, .dashboard-card { padding: 16px; }
-            #mobile-menu-button {color: gray;}
-            .timeline { flex-direction: column; align-items: flex-start; margin: 0; padding: 0; }
-            .timeline::before, #progress-bar { left: 32px; right: auto; top: 0; width: 4px; height: 100%; }
-            #progress-bar { transition: height 0.5s ease-in-out; height: 0; }
-            .step { flex-direction: row; text-align: left; width: 100%; margin-bottom: 30px; }
-            .step-icon { margin-right: 15px; }
+            /* --- AJUSTES GERAIS DE LAYOUT --- */
+            #app-layout { 
+                grid-template-columns: 1fr; 
+            }
+            .main-content, 
+            #admin-dashboard-view, 
+            .dashboard-card { 
+                padding: 16px;
+            }
+            #login-container {
+                padding: 24px 20px;
+            }
+            
+            /* --- CABEÇALHO E MENU MOBILE --- */
+            .sidebar { 
+                position: fixed; 
+                left: 0; 
+                top: 0; 
+                height: 100%; 
+                transform: translateX(-100%); 
+                transition: transform 0.3s ease-in-out; 
+                z-index: 1002; 
+                width: 260px; 
+                box-shadow: 0 0 20px rgba(0,0,0,0.1); 
+            }
+            .main-header { 
+                flex-wrap: wrap; 
+                justify-content: space-between; 
+                align-items: center;
+            }
+            .main-header h1 { 
+                order: 2; 
+                width: 100%; 
+                text-align: center; 
+                margin-top: 10px; 
+                font-size: 22px;
+            }
+            .user-profile { 
+                order: 3; 
+            }
+            #mobile-menu-button { 
+                display: block; 
+                order: 1;
+            }
+            #close-menu-button { 
+                display: block; 
+            }
 
-            #client-table { border: 0; }
-            #client-table thead { display: none; }
-            #client-table tr { display: block; margin-bottom: 16px; background-color: var(--card-bg); border-radius: 8px; box-shadow: 0 2px 8px var(--shadow-color); border: 1px solid var(--border-color); }
-            #client-table td { display: block; text-align: right; position: relative; padding-left: 50%; border-bottom: 1px solid var(--border-color); }
-            #client-table td:last-child { border-bottom: 0; }
-            #client-table td::before { content: attr(data-label); position: absolute; left: 15px; font-weight: 600; color: var(--text-dark); text-align: left; }
+            /* --- ESTILOS PARA TORNAR O BOTÃO DE MENU VISÍVEL E CLICÁVEL --- */
+            #mobile-menu-button {
+                width: 44px;
+                height: 44px;
+                padding: 8px;
+                color: var(--text-dark);
+            }
+            #mobile-menu-button svg {
+                width: 100%;
+                height: 100%;
+            }
+
+            /* --- AJUSTES NOS CARDS E GRIDS --- */
+            .summary-cards, .plans-container {
+                gap: 16px;
+            }
+            .summary-card .text p {
+                font-size: 18px;
+            }
+
+            /* --- TIMELINE VERTICAL --- */
+            .timeline { 
+                flex-direction: column; 
+                align-items: flex-start; 
+                margin: 0; 
+                padding: 0; 
+            }
+            .timeline::before, #progress-bar { 
+                left: 32px; 
+                right: auto; 
+                top: 0; 
+                width: 4px; 
+                height: 100%; 
+            }
+            #progress-bar { 
+                transition: height 0.5s ease-in-out; 
+                height: 0; 
+            }
+            .step { 
+                flex-direction: row; 
+                text-align: left; 
+                width: 100%; 
+                margin-bottom: 30px; 
+            }
+            .step-icon { 
+                margin-right: 15px; 
+            }
+
+            /* --- TABELA RESPONSIVA (FORMATO DE CARD) --- */
+            #client-table { 
+                border: 0; 
+            }
+            #client-table thead { 
+                display: none; 
+            }
+            #client-table tr { 
+                display: block; 
+                margin-bottom: 16px; 
+                background-color: var(--card-bg); 
+                border-radius: 8px; 
+                box-shadow: 0 2px 8px var(--shadow-color); 
+                border: 1px solid var(--border-color); 
+            }
+            #client-table td { 
+                display: block; 
+                text-align: right; 
+                position: relative; 
+                padding-left: 50%; 
+                border-bottom: 1px solid var(--border-color);
+                word-break: break-word;
+            }
+            #client-table td:last-child { 
+                border-bottom: 0; 
+            }
+            #client-table td::before { 
+                content: attr(data-label); 
+                position: absolute; 
+                left: 15px; 
+                font-weight: 600; 
+                color: var(--text-dark); 
+                text-align: left; 
+            }
+
+            /* --- AJUSTE MODAL DE PAGAMENTO --- */
+            .modal-content {
+                padding: 24px;
+            }
+            .modal-content #qrcode-container {
+                width: 180px;
+                height: 180px;
+            }
+            .pix-copy-area #pix-code {
+                font-size: 11px;
+            }
         }
     </style>
 </head>
@@ -281,258 +403,15 @@
 
     <script>
         const clientDatabase = {
-            // Clientes de exemplo com o novo formato de histórico
-            "11122233344": { 
-                name: "CLIENTE TESTE PENDENTE", 
-                status: "EM TRANSIÇÃO DE ENVIO", 
-                historicoPagamentos: [
-                    { valor: "250,00", data: "2025-07-05", referencia: "Entrada", status: 'pago' },
-                    { valor: "150,00", data: "2025-08-05", referencia: "Parcela 02/06", status: 'pendente' }
-                ],
-                materiais: [{ nome: "Guia", url: "#" }, { nome: "Contrato", url: "#" }] 
-            },
-            "22233344455": { 
-                name: "CLIENTE TESTE EM DIA", 
-                status: "LIMINAR CONCEDIDA", 
-                historicoPagamentos: [
-                    { valor: "250,00", data: "2025-07-01", referencia: "Entrada", status: 'pago' }, 
-                    { valor: "150,00", data: "2025-08-01", referencia: "Parcela 01/06", status: 'pago' }
-                ],
-                materiais: [{ nome: "Guia", url: "#" }] 
-            },
-            "44455566677": { 
-                name: "CLIENTE FINALIZADO", 
-                status: "PROCESSO FINALIZADO", 
-                historicoPagamentos: [
-                    { valor: "250,00", data: "2025-06-10", referencia: "Entrada", status: 'pago' }, 
-                    { valor: "150,00", data: "2025-07-10", referencia: "Parcela 01/06", status: 'pago' }, 
-                    { valor: "150,00", data: "2025-08-10", referencia: "Parcela 02/06", status: 'pago' }
-                ],
-                materiais: [{ nome: "Guia", url: "#" }] 
-            },
-            "55566677788": { 
-                name: "CLIENTE REPROTOCOLADO", 
-                status: "RE-PROTOCOLO EMITIDO", 
-                historicoPagamentos: [
-                    { valor: "250,00", data: "2025-05-15", referencia: "Entrada", status: 'pago' },
-                    { valor: "100,00", data: "2025-08-20", referencia: "Taxa", status: 'pendente' }
-                ],
-                materiais: [{ nome: "Guia", url: "#" }] 
-            },
-
-            "43550741880": { 
-                name: "CAROLINE DOS SANTOS SOUSA BONFIM", 
-                status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", 
-                historicoPagamentos: [
-                    { valor: "212,50", data: "10/09/2025", referencia: "Entrada", status: 'pendente' }, 
-                    { valor: "212,50", data: "10/10/2025", referencia: "Entrada", status: 'pendente' }, 
-                    { valor: "425,00", data: "10/11/2025", referencia: "Entrada", status: 'pendente' },
-                    { valor: "85,00", data: "10/12/2025", referencia: "Parcela", status: 'pendente' },
-                    { valor: "85,00", data: "10/01/2026", referencia: "Parcela", status: 'pendente' },
-                    { valor: "85,00", data: "10/02/2026", referencia: "Parcela", status: 'pendente' },
-                    { valor: "85,00", data: "10/03/2026", referencia: "Parcela", status: 'pendente' },
-                    { valor: "85,00", data: "10/04/2026", referencia: "Parcela", status: 'pendente' },
-                    { valor: "85,00", data: "10/05/2026", referencia: "Parcela", status: 'pendente' },
-                    { valor: "85,00", data: "10/06/2026", referencia: "Parcela", status: 'pendente' },
-                    { valor: "85,00", data: "10/07/2026", referencia: "Parcela", status: 'pendente' },
-                    { valor: "85,00", data: "10/08/2026", referencia: "Parcela", status: 'pendente' },
-                    { valor: "85,00", data: "10/09/2026", referencia: "Parcela", status: 'pendente' },
-                    { valor: "85,00", data: "10/10/2026", referencia: "Parcela", status: 'pendente' },
-                    { valor: "85,00", data: "10/11/2026", referencia: "Parcela", status: 'pendente' },
-                    
-                ],
-                materiais: [{ nome: "Guia", url: "#" }] 
-            },
-
-             "15155777836": { 
-                name: "JECICA ALESSANDRA DO CARMO", 
-                status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", 
-                historicoPagamentos: [
-                    { valor: "200,00", data: "04/09/2025", referencia: "Entrada", status: 'pago' }, 
-                    { valor: "200,00", data: "04/10/2025", referencia: "Entrada", status: 'pendente' }, 
-                    { valor: "200,00", data: "04/11/2025", referencia: "Entrada", status: 'pendente' }, 
-                    { valor: "200,00", data: "04/12/2025", referencia: "Entrada", status: 'pendente' }, 
-                    { valor: "200,00", data: "04/01/2026", referencia: "Entrada", status: 'pendente' }, 
-                    { valor: "200,00", data: "04/02/2026", referencia: "Parcela", status: 'pendente' }, 
-                    { valor: "200,00", data: "04/03/2026", referencia: "Parcela", status: 'pendente' }, 
-                    { valor: "200,00", data: "04/04/2026", referencia: "Parcela", status: 'pendente' }, 
-                    { valor: "200,00", data: "04/05/2026", referencia: "Parcela", status: 'pendente' }, 
-                    { valor: "200,00", data: "04/06/2026", referencia: "Parcela", status: 'pendente' }, 
-                    { valor: "200,00", data: "04/07/2026", referencia: "Parcela", status: 'pendente' }, 
-                    { valor: "200,00", data: "04/08/2026", referencia: "Parcela", status: 'pendente' }, 
-                    
-                    
-                ],
-                materiais: [{ nome: "Guia", url: "#" }] 
-
-                },
-
-             "12066187879": { 
-                name: "ROSANA DE ALMEIDA", 
-                status: "EM TRANSIÇÃO DE ENVIO", 
-                historicoPagamentos: [
-                    { valor: "200,00", data: "04/09/2025", referencia: "Entrada", status: 'pago' }, 
-                    { valor: "200,00", data: "16/09/2025", referencia: "Entrada", status: 'pendente' }, 
-                    { valor: "200,00", data: "04/10/2025", referencia: "Entrada", status: 'pendente' }, 
-                    { valor: "200,00", data: "16/10/2025", referencia: "Entrada", status: 'pendente' }, 
-                    { valor: "200,00", data: "04/11/2025", referencia: "Entrada", status: 'pendente' }, 
-                    { valor: "250,00", data: "04/12/2025", referencia: "Parcela", status: 'pendente' }, 
-                    { valor: "250,00", data: "04/01/2026", referencia: "Parcela", status: 'pendente' }, 
-                    { valor: "250,00", data: "04/02/2026", referencia: "Parcela", status: 'pendente' }, 
-                    { valor: "250,00", data: "04/03/2026", referencia: "Parcela", status: 'pendente' }, 
-                    { valor: "250,00", data: "04/04/2026", referencia: "Parcela", status: 'pendente' }, 
-                    { valor: "250,00", data: "04/05/2026", referencia: "Parcela", status: 'pendente' }, 
-                    { valor: "250,00", data: "04/06/2026", referencia: "Parcela", status: 'pendente' },
-                    { valor: "250,00", data: "04/07/2026", referencia: "Parcela", status: 'pendente' },
-                    { valor: "250,00", data: "04/08/2026", referencia: "Parcela", status: 'pendente' },
-                    { valor: "250,00", data: "04/09/2026", referencia: "Parcela", status: 'pendente' },
-                    { valor: "250,00", data: "04/10/2026", referencia: "Parcela", status: 'pendente' },
-                    { valor: "250,00", data: "04/11/2026", referencia: "Parcela", status: 'pendente' }, 
-                    
-                    
-                ],
-                materiais: [{ nome: "Guia", url: "#" }]
-
-                 },
-
-             "33643827865": { 
-                name: "CARINA CARDOSO DA SILVA", 
-                status: "EM TRANSIÇÃO DE ENVIO", 
-                historicoPagamentos: [
-                    { valor: "500,00", data: "04/09/2025", referencia: "Entrada", status: 'pendente' }, 
-                    { valor: "500,00", data: "15/10/2025", referencia: "Entrada", status: 'pendente' }, 
-                    { valor: "250,00", data: "15/11/2025", referencia: "Parcela", status: 'pendente' }, 
-                    { valor: "250,00", data: "15/12/2025", referencia: "Parcela", status: 'pendente' }, 
-                    { valor: "250,00", data: "15/01/2026", referencia: "Parcela", status: 'pendente' }, 
-                    { valor: "250,00", data: "15/02/2025", referencia: "Parcela", status: 'pendente' }, 
-                    { valor: "250,00", data: "15/03/2026", referencia: "Parcela", status: 'pendente' }, 
-                    { valor: "250,00", data: "15/04/2026", referencia: "Parcela", status: 'pendente' }, 
-                    { valor: "250,00", data: "15/05/2026", referencia: "Parcela", status: 'pendente' }, 
-                    { valor: "250,00", data: "15/06/2026", referencia: "Parcela", status: 'pendente' }, 
-                    { valor: "250,00", data: "15/07/2026", referencia: "Parcela", status: 'pendente' }, 
-                    { valor: "250,00", data: "15/08/2026", referencia: "Parcela", status: 'pendente' },
-                    { valor: "250,00", data: "15/09/2026", referencia: "Parcela", status: 'pendente' },
-                    { valor: "250,00", data: "15/10/2026", referencia: "Parcela", status: 'pendente' },
-                     
-                    
-                    
-                ],
-                materiais: [{ nome: "Guia", url: "#" }]
-                
-            },
-
-
-            // Demais clientes (convertidos para o novo formato, a maioria sem histórico ainda)
-
-    "69805440982": { name: "Jorge Luiz Ramos", status: "EM TRANSIÇÃO DE ENVIO", pagamentoEmAberto: null, pagamentosEfetuados: [], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "08668035000105": { name: "JSA-JUNIOR SOLUCOES ARTE & COMERCIO ACRILICOS LTDA", status: "EM TRANSIÇÃO DE ENVIO", pagamentoEmAberto: null, pagamentosEfetuados: [], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "40166398000155": { name: "MARQUES ALIMENTOS LTDA", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "29242033847": { name: "Rogério Alvez dos santos", status: "EM TRANSIÇÃO DE ENVIO", pagamentoEmAberto: null, pagamentosEfetuados: [], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "58526108000100": { name: "MERCADAO DO ALHO LTDA", status: "EM TRANSIÇÃO DE ENVIO", pagamentoEmAberto: null, pagamentosEfetuados: [], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "38021330805": { name: "ANTONIO CARLOS DA SILVA SOUZA", status: "EM TRANSIÇÃO DE ENVIO", pagamentoEmAberto: null, pagamentosEfetuados: [], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "44822497000107": { name: "ANTONIO CARLOS DA SILVA SOUZA", status: "EM TRANSIÇÃO DE ENVIO", pagamentoEmAberto: null, pagamentosEfetuados: [], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "41463604807": { name: "EDINELISON SANTOS DE ALMEIDA", status: "LIMINAR CONCEDIDA", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "46469974287": { name: "MÁRCIA DA SILVA MARINHO", status: "LIMINAR CONCEDIDA", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "30170139000144": { name: "MIKIRELA NUTRICAO ANIMAL E CEREAIS LTDA", status: "LIMINAR CONCEDIDA", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "51768377000126": { name: "PLANEJADOS.MAGALHAES LTDA", status: "LIMINAR CONCEDIDA", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "18047284894": { name: "EMERSON SATURNINO DE PAULA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "09594281782": { name: "GUSTAVO FARIA CORREA", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "06876710947": { name: "CINTHYA CUBA COLTRO", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "34455885897": { name: "KARINA VIEIRA DE ASSIS SANCHES", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "76205827115": { name: "CARLOS CESAR BASTOS DE SOUSA", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "03375433301": { name: "FAGNER CARVALHO DA SILVA", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "24409660000199": { name: "FELICIANO FAUSTINO VILELA ME", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "04855354163": { name: "ISAMARA CAROLYNE LOPES ESTEVES", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "06947763193": { name: "MAISA SILVA RESENDE", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "48434914620": { name: "LAIZ ANTONIA DE SOUZA PIMENTA", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "36925959800": { name: "MAYRA MARTINATI MIANO", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "21731023898": { name: "EMILEINY SIQUEIRA", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "33430097843": { name: "FRANCINEIDE CAMARGO RODRIGUES", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "38345688802": { name: "JUSSARA ALINE RODRIGUES", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "95959980282": { name: "NILTON MOREira CUNHA JUNIOR", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "39166169860": { name: "TIAGO RODRIGO DOS SANTOS", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "49478560000145": { name: "M. J. S. AUTO CENTER LTDA", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "09880705882": { name: "MARCELO ASSALVE", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "40956701850": { name: "BRUNO DE SÁ SILVA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "32239171871": { name: "AMANDA MARIA DO PARTO CAETANO LOPES", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "83131442468": { name: "MARIA JOSE PEREira DE SOUZA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "19850704802": { name: "ANDERSON FERREira DE SOUZA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "31248623843": { name: "KETURA FREITAS DE SOUZA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "30737367865": { name: "ANDERSON SILVA MAGALHÃES", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "31723159832": { name: "PRISCILA LIMA PEREira", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "38393320879": { name: "FABIO GORDIANO SILVA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "36009817811": { name: "ELIZIETE PINTO SOARES DE SOUZA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "44242627823": { name: "DOUGLAS APARECIDO DE AZEVEDO GOES", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "44326724803": { name: "GUILHERME MENDES BRAGA DE JESUS", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "35976721000116": { name: "AUTO POSTO SAO JOSE LTDA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "21925812898": { name: "WILLIAM DA SILVA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "11183234759": { name: "VICTOR DE SOUSA PAIVA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "27409267828": { name: "CRISTINA PAVANI COUTO", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "09491444000141": { name: "CONFECÇÕES VARRIALLE EIRELI", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "24706929890": { name: "CARLOS ROBERTO TERROSSI", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "03072158304": { name: "TIAGO DE SOUSA ALVES", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "37853828802": { name: "BRUNO OLIVEira DOS SANTOS", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "11694022838": { name: "AGNELO DA COSTA MENDES", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "37848962865": { name: "SAMUEL DOS SANTOS", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "31565027000155": { name: "PDS EXPRESS LTDA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "35219482858": { name: "ROSELI COBELLAS DE CAMPOS", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "33722458811": { name: "LUANA DOS SANTOS SOUZA DE MATOS", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "60163291420": { name: "FRANCISCO ALVES DE LIMA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "25052118000275": { name: "VAREJAO DA CARNE PRIME LTDA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "25052118000194": { name: "VAREJAO DA CARNE PRIME LTDA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "14800225000137": { name: "LIMA - VAREJAO DA CARNE LTDA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "51359127000132": { name: "VAREJAO DA CARNE ACOUGUE E ROTISSERIA LTDA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "42563733000184": { name: "BOITECO - RESTAURANTE E CHOPPERIA LTDA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "34905915856": { name: "ALINE NUNES GONÇALVES", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "32878627822": { name: "TALITA PEREira DA COSTA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "15742925000185": { name: "BORRACHARIA E AUTO ELETRICA TREVO LTDA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "39417483862": { name: "KAROLLINE NOGUEira DE SOUSA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "39022303802": { name: "DENIS RICARDO PEREira DA SILVA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "62025876360": { name: "STEFANE PEREira DE SOUSA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "34207977880": { name: "MAYARA CAROLINA TEODORO", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "10440204828": { name: "ANTONIO DA SILVA PASSOS", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "01138415588": { name: "RENILDO BISPO SOUZA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "22060886813": { name: "SERGIO DOS SANTOS BISPO JUNIOR", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "22871781000122": { name: "SSBJ SERVIÇOS DE INFORMATICA SLU LTDA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "49564842832": { name: "ENZO MACIEL ROCHA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "27064177811": { name: "JAQUELINE DOS SANTOS", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "01768995451": { name: "AGENOR PEREira PRADO NETO", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "00486927946": { name: "ANDRESSA BAGATIM", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "00887735908": { name: "EDILEU DA SILVA COSTA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "28171458874": { name: "ELEN KELLER MARQUES PEREira SOARES", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "52361898000127": { name: "SC DISTRIBUIDORA DE ALIMENTOS LTDA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "16693444873": { name: "EDILAINE LANDIN DE PAULA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "16700745000101": { name: "B.L. DE PAULA MOVEIS DECORACOES LTDA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "38844107848": { name: "HEBERTON LUIS DE ALMEIDA BOER RIBEIRO", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "39704118821": { name: "ANGELICA MOREira PASSOS", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "26407995841": { name: "DANIELE SCHERCH", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "30157805816": { name: "FABIO LOPES ANDUJA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "59650559515": { name: "GENIVALDO DA SILVA PEIXINHO", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "17737782850": { name: "PATRICIA DE PAIVA COELHO SANTOS", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "38664397848": { name: "LINDENBERGY FERREira DA COSTA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "01417183667": { name: "BRUNO GONÇALVES MOISES", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "33885815842": { name: "DIEGO ALENCAR SOUSA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "43282420838": { name: "INGRYD ROSA MESSIAS DOS SANTOS", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "96670134053": { name: "SANDRA HELENA MENDES NEUENFELD", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "59713372034": { name: "MARCIO GEOVANI REINHARDT NEUENFELD", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "01886554331": { name: "ANTONIA MARIA DA SILVA SANTOS CARVALHO", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "37818677810": { name: "RODRIGO DOS SANTOS SOUSA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "46793810000143": { name: "M.S TEIXEira MATERIAIS ELETRICOS ME", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "66792827568": { name: "LEDA CONCEIÇÃO DA SILVA XAVIER DE SOUSA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "70612462196": { name: "GENAINY FERNANDES BARBOSA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "40801966876": { name: "JESSICA RENATA PEREira DOS SANTOS", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "35749425835": { name: "ELIEZER GONCALVES PEREIRA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "30635299828": { name: "Ernani Soares Ramos Junior", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "35477325810": { name: "Talita Climaco Bezerra", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "32170610000120": { name: "DP RAMOS MAQUINAS E EQUIPAMENTOS LTDA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "11236127000120": { name: "Viston Transporte e Logistica LTDA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "14524999850": { name: "ANDRÉIA CRISTINA DE MORAES", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "16826215888": { name: "JOEL ALVES PEREIRA", status: "RE-PROTOCOLO EMITIDO", pagamentoEmAberto: null, pagamentosEfetuados: [{ valor: "250,00", referencia: "Entrada" }], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "42319720000164": { name: "THAYS FERREIRA", status: "EM TRANSIÇÃO DE ENVIO", pagamentoEmAberto: null, pagamentosEfetuados: [], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "04377115600": { name: "Eliene Cristina Machado Garcia", status: "LIMINAR CONCEDIDA", pagamentoEmAberto: null, pagamentosEfetuados: [], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "78660017900": { name: "Joel Souza Olinger", status: "EM TRANSIÇÃO DE ENVIO", pagamentoEmAberto: null, pagamentosEfetuados: [], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-    "08743082408": { name: ": Claudijane dos Santos Silva Costa", status: "EM TRANSIÇÃO DE ENVIO", pagamentoEmAberto: null, pagamentosEfetuados: [], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
-
+            "11122233344": { name: "CLIENTE TESTE PENDENTE", status: "EM TRANSIÇÃO DE ENVIO", historicoPagamentos: [ { valor: "250,00", data: "2025-07-05", referencia: "Entrada", status: 'pago' }, { valor: "150,00", data: "2025-08-05", referencia: "Parcela 02/06", status: 'pendente' } ], materiais: [{ nome: "Guia", url: "#" }, { nome: "Contrato", url: "#" }] },
+            "22233344455": { name: "CLIENTE TESTE EM DIA", status: "LIMINAR CONCEDIDA", historicoPagamentos: [ { valor: "250,00", data: "2025-07-01", referencia: "Entrada", status: 'pago' }, { valor: "150,00", data: "2025-08-01", referencia: "Parcela 01/06", status: 'pago' } ], materiais: [{ nome: "Guia", url: "#" }] },
+            "44455566677": { name: "CLIENTE FINALIZADO", status: "PROCESSO FINALIZADO", historicoPagamentos: [ { valor: "250,00", data: "2025-06-10", referencia: "Entrada", status: 'pago' }, { valor: "150,00", data: "2025-07-10", referencia: "Parcela 01/06", status: 'pago' }, { valor: "150,00", data: "2025-08-10", referencia: "Parcela 02/06", status: 'pago' } ], materiais: [{ nome: "Guia", url: "#" }] },
+            "55566677788": { name: "CLIENTE REPROTOCOLADO", status: "RE-PROTOCOLO EMITIDO", historicoPagamentos: [ { valor: "250,00", data: "2025-05-15", referencia: "Entrada", status: 'pago' }, { valor: "100,00", data: "2025-08-20", referencia: "Taxa", status: 'pendente' } ], materiais: [{ nome: "Guia", url: "#" }] },
+            "43550741880": { name: "CAROLINE DOS SANTOS SOUSA BONFIM", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", historicoPagamentos: [ { valor: "212,50", data: "10/09/2025", referencia: "Entrada", status: 'pendente' }, { valor: "212,50", data: "10/10/2025", referencia: "Entrada", status: 'pendente' }, { valor: "425,00", data: "10/11/2025", referencia: "Entrada", status: 'pendente' }, { valor: "85,00", data: "10/12/2025", referencia: "Parcela", status: 'pendente' }, { valor: "85,00", data: "10/01/2026", referencia: "Parcela", status: 'pendente' }, { valor: "85,00", data: "10/02/2026", referencia: "Parcela", status: 'pendente' }, { valor: "85,00", data: "10/03/2026", referencia: "Parcela", status: 'pendente' }, { valor: "85,00", data: "10/04/2026", referencia: "Parcela", status: 'pendente' }, { valor: "85,00", data: "10/05/2026", referencia: "Parcela", status: 'pendente' }, { valor: "85,00", data: "10/06/2026", referencia: "Parcela", status: 'pendente' }, { valor: "85,00", data: "10/07/2026", referencia: "Parcela", status: 'pendente' }, { valor: "85,00", data: "10/08/2026", referencia: "Parcela", status: 'pendente' }, { valor: "85,00", data: "10/09/2026", referencia: "Parcela", status: 'pendente' }, { valor: "85,00", data: "10/10/2026", referencia: "Parcela", status: 'pendente' }, { valor: "85,00", data: "10/11/2026", referencia: "Parcela", status: 'pendente' }, ], materiais: [{ nome: "Guia", url: "#" }] },
+            "15155777836": { name: "JECICA ALESSANDRA DO CARMO", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", historicoPagamentos: [ { valor: "200,00", data: "04/09/2025", referencia: "Entrada", status: 'pago' }, { valor: "200,00", data: "04/10/2025", referencia: "Entrada", status: 'pendente' }, { valor: "200,00", data: "04/11/2025", referencia: "Entrada", status: 'pendente' }, { valor: "200,00", data: "04/12/2025", referencia: "Entrada", status: 'pendente' }, { valor: "200,00", data: "04/01/2026", referencia: "Entrada", status: 'pendente' }, { valor: "200,00", data: "04/02/2026", referencia: "Parcela", status: 'pendente' }, { valor: "200,00", data: "04/03/2026", referencia: "Parcela", status: 'pendente' }, { valor: "200,00", data: "04/04/2026", referencia: "Parcela", status: 'pendente' }, { valor: "200,00", data: "04/05/2026", referencia: "Parcela", status: 'pendente' }, { valor: "200,00", data: "04/06/2026", referencia: "Parcela", status: 'pendente' }, { valor: "200,00", data: "04/07/2026", referencia: "Parcela", status: 'pendente' }, { valor: "200,00", data: "04/08/2026", referencia: "Parcela", status: 'pendente' }, ], materiais: [{ nome: "Guia", url: "#" }] },
+            "69805440982": { name: "Jorge Luiz Ramos", status: "EM TRANSIÇÃO DE ENVIO", pagamentoEmAberto: null, pagamentosEfetuados: [], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
+            "08668035000105": { name: "JSA-JUNIOR SOLUCOES ARTE & COMERCIO ACRILICOS LTDA", status: "EM TRANSIÇÃO DE ENVIO", pagamentoEmAberto: null, pagamentosEfetuados: [], materiais: [{ nome: "Guia de Boas-Vindas", url: "#" }, { nome: "Contrato", url: "#" }] },
+            // ... (restante do seu banco de dados)
         };
 
         const announcements = [ { title: "📢 Novidades a Caminho!", text: "Em breve, lançaremos novos planos de monitoramento financeiro. Aguarde!" }, { title: "💡 Cartão de crédito", text: "Destrave o melhor cartão para negativados do BRASIL !" }, { title: "🔒 Sua Segurança", text: "Nunca compartilhe sua senha. Nossa equipe jamais solicitará suas credenciais." } ];
