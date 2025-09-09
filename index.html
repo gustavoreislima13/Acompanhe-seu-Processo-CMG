@@ -692,43 +692,6 @@
                 } catch (error) { statusDiv.textContent = 'Houve um erro. Tente novamente.'; statusDiv.style.color = 'var(--danger-color)'; }
             }
             
-            function handlePixPayment(amount, reference, modalTitle) {
-                const modal = document.getElementById('payment-modal'); 
-                const pixCodeInput = document.getElementById('pix-code'); 
-                const copyBtn = document.getElementById('copy-pix-btn');
-                
-                document.getElementById('modal-title').textContent = modalTitle; 
-                document.getElementById('qrcode-container').innerHTML = '';
-                
-                const pixKey = "Contato.cobecode@gmail.com";
-                const pixPayload = generatePixPayload(
-                    pixKey,
-                    amount,
-                    "***", // txid mais compatível para PIX estático
-                    "CMG CONSULTORIA",
-                    "SAO PAULO"
-                );
-                
-                pixCodeInput.value = pixPayload;
-                
-                new QRCode(document.getElementById('qrcode-container'), { text: pixPayload, width: 200, height: 200 });
-                
-                copyBtn.textContent = 'Copiar';
-                copyBtn.onclick = () => { 
-                    navigator.clipboard.writeText(pixCodeInput.value).then(() => { 
-                        copyBtn.textContent = 'Copiado!'; 
-                    }); 
-                };
-                
-                const whatsappMessage = `Olá! Envio o comprovante de: ${modalTitle}, no valor de R$ ${amount}.`;
-                document.getElementById('whatsapp-link').href = `https://wa.me/5511995688690?text=${encodeURIComponent(whatsappMessage)}`;
-                
-                modal.style.display = 'flex';
-                const closeModal = () => modal.style.display = 'none';
-                modal.querySelector('.close-modal').onclick = closeModal;
-                modal.onclick = (e) => { if(e.target === modal) closeModal(); };
-            }
-
             function populatePlansView() {
                 const plansContainer = document.getElementById('plans-view'); const checkIcon = `<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>`;
                 plansContainer.innerHTML = `<p style="text-align: center; margin-bottom: 40px; font-size: 1.1em; color: var(--text-dark);">Compare os benefícios e veja como podemos proteger e impulsionar sua vida financeira com monitoramento contínuo.</p><div class="plans-container"><div class="plan-card"><h3>Essencial</h3><p class="description">Proteção para o seu CPF</p><div class="plan-price"><span class="currency">R$</span><span class="amount">14,90</span><span class="period">/mês</span></div><ul class="plan-features"><li>${checkIcon}Monitoramento de CPF 24h com alertas</li><li>${checkIcon}Relatório de Score detalhado</li><li>${checkIcon}Acesso a ofertas exclusivas de negociação</li><li>${checkIcon}1 Consultas CPF ou CNPJ</li></ul><a href="#" class="plan-button secondary">Começar com Essencial</a></div><div class="plan-card popular"><div class="plan-badge">Mais Popular</div><h3>Plus</h3><p class="description">Sua saúde financeira completa</p><div class="plan-price"><span class="currency">R$</span><span class="amount">29,90</span><span class="period">/mês</span></div><ul class="plan-features"><li>${checkIcon}Tudo do Essencial, e mais:</li><li>${checkIcon}Plano de Ação para <strong style="color:var(--primary-color);">Aumentar Score</strong></li><li>${checkIcon}Ferramenta de <strong style="color:var(--primary-color);">Orçamento Pessoal</strong></li><li>${checkIcon}Canal de <strong style="color:var(--primary-color);">Atendimento Prioritário</strong></li><li>${checkIcon}2 Consultas CPF ou CNPJ</li></ul><a href="#" class="plan-button primary">Escolher Plano Plus</a></div><div class="plan-card"><h3>Premium</h3><p class="description">Consultoria e suporte VIP</p><div class="plan-price"><span class="currency">R$</span><span class="amount">79,90</span><span class="period">/mês</span></div><ul class="plan-features"><li>${checkIcon}Tudo do Plano Plus, e mais:</li><li>${checkIcon}Consultoria Financeira Pessoal <br>(2x/mês)</li><li>${checkIcon}Assistente Pessoal para Negociação de Dívidas</li><li>${checkIcon}Relatório Financeiro Completo e Personalizado</li><li>${checkIcon}4 Consultas CPF ou CNPJ</li></ul><a href="#" class="plan-button secondary">Assinar Premium</a></div></div>`;
@@ -826,7 +789,67 @@
                     }
                 });
             }
+
+            // ===================================================================
+            // INÍCIO DO BLOCO DE CÓDIGO DO PIX CORRIGIDO
+            // ===================================================================
             
+            function handlePixPayment(amount, reference, modalTitle) {
+                // CORREÇÃO: Converte a vírgula para ponto para garantir que o valor seja um número válido.
+                const amountAsNumber = parseFloat(amount.replace(',', '.')).toFixed(2);
+
+                const modal = document.getElementById('payment-modal');
+                const pixCodeInput = document.getElementById('pix-code');
+                const copyBtn = document.getElementById('copy-pix-btn');
+
+                document.getElementById('modal-title').textContent = modalTitle;
+                document.getElementById('qrcode-container').innerHTML = ''; // Limpa o QR Code anterior
+
+                // --- Dados para o PIX ---
+                const pixKey = "Contato.cobecode@gmail.com"; // Sua chave PIX
+                const merchantName = "CMG CONSULTORIA"; // Nome que aparecerá para o cliente (até 25 caracteres)
+                const merchantCity = "SAO PAULO"; // Cidade (até 15 caracteres)
+                // O txid (ID da transação) para PIX estático pode ser "***" para máxima compatibilidade.
+                const txid = reference.replace(/[^a-zA-Z0-9]/g, '').substring(0, 25) || '***';
+
+                // Gera o payload (código "Copia e Cola") com a função corrigida
+                const pixPayload = generatePixPayload(
+                    pixKey,
+                    amountAsNumber,
+                    txid,
+                    merchantName,
+                    merchantCity
+                );
+
+                pixCodeInput.value = pixPayload;
+
+                // Gera o novo QR Code
+                new QRCode(document.getElementById('qrcode-container'), {
+                    text: pixPayload,
+                    width: 200,
+                    height: 200
+                });
+
+                copyBtn.textContent = 'Copiar';
+                copyBtn.onclick = () => {
+                    navigator.clipboard.writeText(pixCodeInput.value).then(() => {
+                        copyBtn.textContent = 'Copiado!';
+                    });
+                };
+
+                const whatsappMessage = `Olá! Envio o comprovante de: ${modalTitle}, no valor de R$ ${amount}.`;
+                document.getElementById('whatsapp-link').href = `https://wa.me/5511995688690?text=${encodeURIComponent(whatsappMessage)}`;
+
+                modal.style.display = 'flex';
+                const closeModal = () => modal.style.display = 'none';
+                modal.querySelector('.close-modal').onclick = closeModal;
+                modal.onclick = (e) => { if (e.target === modal) closeModal(); };
+            }
+
+            /**
+             * Função para calcular o CRC16, necessária para a validação do código PIX.
+             * Não precisa alterar esta função.
+             */
             function crc16(data) {
                 let crc = 0xFFFF;
                 for (let i = 0; i < data.length; i++) {
@@ -837,31 +860,63 @@
                 }
                 return ('0000' + (crc & 0xFFFF).toString(16).toUpperCase()).slice(-4);
             }
-            
+
+            /**
+             * VERSÃO CORRIGIDA da função que gera o payload (BR Code) para o PIX.
+             * Esta função agora segue o padrão EMV QRCPS corretamente.
+             */
             function generatePixPayload(pixKey, amount, txid, merchantName, merchantCity) {
+                // Função auxiliar para formatar cada campo do PIX (ID + Tamanho + Valor)
                 const formatField = (id, value) => {
                     const len = value.length.toString().padStart(2, '0');
                     return `${id}${len}${value}`;
                 };
-
-                // Normaliza o nome para remover caracteres especiais não aceitos
+                
+                // Remove caracteres especiais e limita o tamanho dos campos de texto
                 const normalizeText = (text) => text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9\s]/g, '').trim();
 
+                // --- Montagem dos campos do PIX ---
+                
+                // ID 00: Payload Format Indicator (Sempre "01")
                 const payloadFormat = '000201';
-                const merchantAccountInfo = formatField('01', pixKey);
+
+                // ID 26: Merchant Account Information (Informações da Conta)
+                // Este campo contém sub-campos:
+                //   - ID 00: GUI (br.gov.bcb.pix) - Obrigatório
+                //   - ID 01: Chave PIX
+                const gui = formatField('00', 'br.gov.bcb.pix');
+                const key = formatField('01', pixKey);
+                const merchantAccountInfo = formatField('26', gui + key);
+
+                // ID 52: Merchant Category Code (Sempre "0000")
                 const merchantCategoryCode = '52040000';
+                
+                // ID 53: Transaction Currency (Sempre "986" para BRL)
                 const transactionCurrency = '5303986';
-                const transactionAmount = formatField('54', parseFloat(amount).toFixed(2));
+                
+                // ID 54: Transaction Amount (Valor da transação)
+                const transactionAmount = formatField('54', amount);
+                
+                // ID 58: Country Code (Sempre "BR")
                 const countryCode = '5802BR';
+                
+                // ID 59: Merchant Name (Nome do recebedor)
                 const merchantNameFormatted = formatField('59', normalizeText(merchantName).substring(0, 25));
+                
+                // ID 60: Merchant City (Cidade do recebedor)
                 const merchantCityFormatted = formatField('60', normalizeText(merchantCity).substring(0, 15));
                 
-                const additionalData = formatField('05', txid);
-                const additionalDataFormatted = formatField('62', additionalData);
+                // ID 62: Additional Data Field Template (Campo de dados adicionais)
+                // Contém o ID da transação (txid)
+                //   - ID 05: Reference Label (txid)
+                const transactionId = formatField('05', txid);
+                const additionalDataFormatted = formatField('62', transactionId);
 
-                let payload = [
+                // --- Concatenação e cálculo do CRC16 ---
+                
+                const payload = [
                     payloadFormat,
-                    `26${(14 + merchantAccountInfo.length).toString().padStart(2, '0')}0014br.gov.bcb.pix${merchantAccountInfo}`,
+                    merchantAccountInfo,
                     merchantCategoryCode,
                     transactionCurrency,
                     transactionAmount,
@@ -869,14 +924,16 @@
                     merchantNameFormatted,
                     merchantCityFormatted,
                     additionalDataFormatted
-                ].join('');
-            
-                payload += '6304';
+                ].join('') + '6304'; // ID 63: CRC16 (início)
+
                 const checksum = crc16(payload);
                 
                 return payload + checksum;
             }
 
+            // ===================================================================
+            // FIM DO BLOCO DE CÓDIGO DO PIX CORRIGIDO
+            // ===================================================================
         });
     </script>
 </body>
