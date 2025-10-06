@@ -102,19 +102,140 @@
             </header>
             
             <div id="partner-consultas-view" class="partner-view-content">
+                <div class="dashboard-card consulta-card">
+                    <h2>Nova Consulta de Crédito</h2>
+                    <p style="color: var(--text-light); margin-top: -15px; margin-bottom: 25px;">Selecione o tipo de consulta, informe o documento e prossiga para o pagamento.</p>
+                    <form id="partner-consulta-form">
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label for="consulta-type-select">Tipo de Consulta (Custo Fixo: R$ 12,00)</label>
+                            <select id="consulta-type-select" class="input-field"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="consulta-doc-input">CPF ou CNPJ para Consultar</label>
+                            <input type="text" id="consulta-doc-input" class="input-field" placeholder="Digite o documento aqui" required>
+                        </div>
+                        <button type="submit" class="form-button">Pagar e Consultar</button>
+                    </form>
                 </div>
+            </div>
             
             <div id="partner-planos-view" class="partner-view-content" style="display: none;">
+                <div class="plans-container">
+                    <div class="plan-card">
+                        <h3>Essencial</h3>
+                        <p class="description">Proteção para o seu CPF</p>
+                        <div class="plan-price">
+                            <span class="currency">R$</span><span class="amount">14,90</span><span class="period">/mês</span>
+                        </div>
+                        <ul class="plan-features">
+                            <li><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>Monitoramento de CPF 24h com alertas</li>
+                            <li><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>Relatório de Score detalhado</li>
+                            <li><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>Acesso a ofertas exclusivas de negociação</li>
+                            <li><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>1 Consulta CPF ou CNPJ</li>
+                        </ul>
+                        <a href="#" class="plan-button secondary">Começar com Essencial</a>
+                    </div>
+                    <div class="plan-card popular">
+                        <div class="plan-badge">Mais Popular</div>
+                        <h3>Plus</h3>
+                        <p class="description">Sua saúde financeira completa</p>
+                        <div class="plan-price">
+                            <span class="currency">R$</span><span class="amount">29,90</span><span class="period">/mês</span>
+                        </div>
+                        <ul class="plan-features">
+                            <li><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>Tudo do Plano Essencial, e mais:</li>
+                            <li><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>Plano de Ação para <strong>Aumentar Score</strong></li>
+                            <li><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>Ferramenta de <strong>Orçamento Pessoal</strong></li>
+                            <li><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>Canal de <strong>Atendimento Prioritário</strong></li>
+                            <li><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>2 Consultas CPF ou CNPJ</li>
+                        </ul>
+                        <a href="#" class="plan-button primary">Escolher Plano Plus</a>
+                    </div>
+                    <div class="plan-card">
+                        <h3>Premium</h3>
+                        <p class="description">Consultoria e suporte VIP</p>
+                        <div class="plan-price">
+                            <span class="currency">R$</span><span class="amount">79,90</span><span class="period">/mês</span>
+                        </div>
+                        <ul class="plan-features">
+                            <li><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>Tudo do Plano Plus, e mais:</li>
+                            <li><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>Consultoria Financeira Pessoal (2x/mês)</li>
+                            <li><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>Assistente Pessoal para Negociação de Dívidas</li>
+                            <li><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>Relatório Financeiro Completo e Personalizado</li>
+                            <li><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>4 Consultas CPF ou CNPJ</li>
+                        </ul>
+                        <a href="#" class="plan-button secondary">Assinar Premium</a>
+                    </div>
                 </div>
+            </div>
 
             <div id="partner-pacotes-view" class="partner-view-content" style="display: none;">
+                <div class="plans-container" style="align-items: stretch;">
+                    <div class="plan-card">
+                        <h3 style="font-size: 1.2em; margin-bottom: 20px;">Limpeza de nome</h3>
+                        <div class="form-group" style="flex-grow: 1;">
+                            <label for="consultas-qty-select" style="margin-bottom: 10px;">Escolha a quantidade:</label>
+                            <select id="consultas-qty-select" class="input-field">
+                                <option value="" disabled selected>Selecione uma opção</option>
+                                <option value="300.00">1 unidade - R$ 300,00</option>
+                                <option value="840.00">3 unidades - R$ 280,00 cada</option>
+                                <option value="1300.00">5 unidades - R$ 260,00 cada</option>
+                                <option value="2000.00">10 unidades - R$ 200,00 cada</option>
+                            </select>
+                        </div>
+                        <a href="#" id="buy-consultas-btn" class="plan-button primary" style="margin-top: 24px;">Comprar</a>
+                    </div>
+                    <div class="plan-card">
+                        <h3 style="font-size: 1.2em;">Limpeza Bacen 💳</h3>
+                        <p class="description" style="min-height: auto; margin-bottom: 15px; flex-grow: 1;"><strong>Prazo:</strong> 60 a 90 dias úteis</p>
+                        <div class="plan-price">
+                            <span class="currency" style="font-size: 1.2em;">R$</span><span class="amount" style="font-size: 2.5em;">2.300,00</span>
+                        </div>
+                        <a href="#" class="plan-button primary buy-package-btn" data-valor="2300.00" data-servico="Limpeza Bacen">Comprar</a>
+                    </div>
+                    <div class="plan-card">
+                        <h3 style="font-size: 1.2em;">Rating de crédito 📊</h3>
+                        <p class="description" style="min-height: auto; margin-bottom: 15px; flex-grow: 1;"><strong>Prazo:</strong> 45 dias úteis</p>
+                        <div class="plan-price">
+                            <span class="currency" style="font-size: 1.2em;">R$</span><span class="amount" style="font-size: 2.5em;">1.400,00</span>
+                        </div>
+                        <a href="#" class="plan-button primary buy-package-btn" data-valor="1400.00" data-servico="Rating de Credito">Comprar</a>
+                    </div>
+                    <div class="plan-card">
+                        <h3 style="font-size: 1.2em;">Aumento de score 🏆</h3>
+                        <p class="description" style="min-height: auto; margin-bottom: 15px; flex-grow: 1;"><strong>Prazo:</strong> 20 dias úteis</p>
+                        <div class="plan-price">
+                            <span class="currency" style="font-size: 1.2em;">R$</span><span class="amount" style="font-size: 2.5em;">900,00</span>
+                        </div>
+                        <a href="#" class="plan-button primary buy-package-btn" data-valor="900.00" data-servico="Aumento de Score">Comprar</a>
+                    </div>
+                    <div class="plan-card">
+                        <h3 style="font-size: 1.2em;">Limpeza Jus Brasil (Google) 📱</h3>
+                        <p class="description" style="min-height: auto; margin-bottom: 15px; flex-grow: 1;"><strong>Prazo:</strong> 7 dias úteis</p>
+                        <div class="plan-price">
+                            <span class="amount" style="font-size: 2.5em;">Orçar 🤝</span>
+                        </div>
+                        <a href="https://wa.me/5511995688690?text=Ol%C3%A1%2C%20gostaria%20de%20um%20or%C3%A7amento%20para%20a%20Limpeza%20Jus%20Brasil." target="_blank" class="plan-button secondary">Solicitar Orçamento</a>
+                    </div>
                 </div>
+            </div>
 
             <div id="partner-materiais-view" class="partner-view-content" style="display: none;">
+                 <div class="dashboard-card" style="text-align: center;">
+                    <h2>Acesso Rápido</h2>
+                    <p style="color: var(--text-light); margin-bottom: 30px;">Acesse aqui os contratos e materiais de divulgação para parceiros.</p>
+                     <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+                        <a href="https://drive.google.com/drive/folders/1p6I896omKwRoYH9zkTP--zgyQu9H_eSo?usp=drive_link" target="_blank" class="plan-button primary" style="max-width: 250px;">
+                            Ver Contratos
+                        </a>
+                        <a href="https://drive.google.com/drive/folders/1dxPdOP-bF1VkKHtD1JIzc0Z9WkmTV0nO?usp=drive_link" target="_blank" class="plan-button secondary" style="max-width: 250px;">
+                            Material de Divulgação
+                        </a>
+                     </div>
                 </div>
+            </div>
         </main>
     </div>
-
     <div id="menu-overlay"></div>
 
     <div id="payment-modal" class="modal-overlay">
