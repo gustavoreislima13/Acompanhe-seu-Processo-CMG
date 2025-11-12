@@ -2,6 +2,50 @@ const announcements = [ { title: "📢 Novidades a Caminho!", text: "Em breve, l
 let currentAnnouncementIndex = 0, announcementInterval = null, activeClientData = null;
 
 document.addEventListener('DOMContentLoaded', () => {
+    
+    // NOVA ESTRUTURA DE DADOS DOS CURSOS
+    const courseData = [
+        {
+            moduleTitle: "Módulo 1: Boas-vindas & Introdução",
+            lessons: [
+                { title: "Aula 1.1: Quem é a CMG Consultoria", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" },
+                { title: "Aula 1.2: Nosso Propósito e Missão", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" },
+                { title: "Aula 1.3: O Mercado de Crédito no Brasil", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" },
+                { title: "Aula 1.4: O que faz um Parceiro CMG", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" },
+                { title: "Aula 1.5: Ferramentas de Trabalho", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" },
+                { title: "Aula 1.6: Metas e Remuneração", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" },
+                { title: "Aula 1.7: Compliance e Ética", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" },
+                { title: "Aula 1.8: Conclusão do Módulo 1", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" }
+            ]
+        },
+        {
+            moduleTitle: "Módulo 2: Nossos Produtos",
+            lessons: [
+                { title: "Aula 2.1: Produto - Limpeza de Nome", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" },
+                { title: "Aula 2.2: Produto - Limpeza Bacen", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" },
+                { title: "Aula 2.3: Produto - Rating de Crédito", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" },
+                { title: "Aula 2.4: Produto - Aumento de Score", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" },
+                { title: "Aula 2.5: Produto - Limpeza Jus Brasil", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" },
+                { title: "Aula 2.6: Consultas de Crédito (Parceiro)", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" },
+                { title: "Aula 2.7: Planos de Monitoramento (Cliente)", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" },
+                { title: "Aula 2.8: Conclusão do Módulo 2", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" }
+            ]
+        },
+        {
+            moduleTitle: "Módulo 3: Vendas e Próximos Passos",
+            lessons: [
+                { title: "Aula 3.1: Como Captar Clientes", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" },
+                { title: "Aula 3.2: Abordagem e Script de Venda", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" },
+                { title: "Aula 3.3: Quebrando Objeções Comuns", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" },
+                { title: "Aula 3.4: Pós-Venda e Fidelização", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" },
+                { title: "Aula 3.5: Usando o Material de Divulgação", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" },
+                { title: "Aula 3.6: Como Lançar no Sistema", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" },
+                { title: "Aula 3.7: Prova Social e Depoimentos", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" },
+                { title: "Aula 3.8: Prova Final e Certificado", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" }
+            ]
+        }
+    ];
+
     const loginScreen = document.getElementById('login-screen');
     const errorMessage = document.getElementById('error-message');
     const docInput = document.getElementById('docInput');
@@ -192,7 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function populatePlansView() {
         const plansContainer = document.getElementById('plans-view'); const checkIcon = `<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>`;
-        plansContainer.innerHTML = `<p style="text-align: center; margin-bottom: 40px; font-size: 1.1em; color: var(--text-dark);">Compare os benefícios e veja como podemos proteger e impulsionar sua vida financeira com monitoramento contínuo.</p><div class="plans-container"><div class="plan-card"><h3>Essencial</h3><p class="description">Proteção para o seu CPF</p><div class="plan-price"><span class="currency">R$</span><span class="amount">14,90</span><span class="period">/mês</span></div><ul class="plan-features"><li>${checkIcon}Monitoramento de CPF 24h com alertas</li><li>${checkIcon}Relatório de Score detalhado</li><li>${checkIcon}Acesso a ofertas exclusivas de negociação</li><li>${checkIcon}1 Consultas CPF ou CNPJ</li></ul><a href="#" class="plan-button secondary">Começar com Essencial</a></div><div class="plan-card popular"><div class="plan-badge">Mais Popular</div><h3>Plus</h3><p class="description">Sua saúde financeira completa</p><div class="plan-price"><span class="currency">R$</span><span class="amount">29,90</span><span class="period">/mês</span></div><ul class="plan-features"><li>${checkIcon}Tudo do Essencial, e mais:</li><li>${checkIcon}Plano de Ação para <strong style="color:var(--primary-color);">Aumentar Score</strong></li><li>${checkIcon}Ferramenta de <strong style="color:var(--primary-color);">Orçamento Pessoal</strong></li><li>${checkIcon}Canal de <strong style="color:var(--primary-color);">Atendimento Prioritário</strong></li><li>${checkIcon}2 Consultas CPF ou CNPJ</li></ul><a href="#" class="plan-button primary">Escolher Plano Plus</a></div><div class="plan-card"><h3>Premium</h3><p class="description">Consultoria e suporte VIP</p><div class="plan-price"><span class="currency">R$</span><span class="amount">79,90</span><span class="period">/mês</span></div><ul class="plan-features"><li>${checkIcon}Tudo do Plano Plus, e mais:</li><li>${checkIcon}Consultoria Financeira Pessoal <br>(2x/mês)</li><li>${checkIcon}Assistente Pessoal para Negociação de Dívidas</li><li>${checkIcon}Relatório Financeiro Completo e Personalizado</li><li>${checkIcon}4 Consultas CPF ou CNPJ</li></ul><a href="#" class="plan-button secondary">Assinar Premium</a></div></div>`;
+        plansContainer.innerHTML = `<p style="text-align: center; margin-bottom: 40px; font-size: 1.1em; color: var(--text-dark);">Compare os benefícios e veja como podemos proteger e impulsionar sua vida financeira com monitoramento contínuo.</p><div class="plans-container"><div class="plan-card"><h3>Essencial</h3><p class="description">Proteção para o seu CPF</p><div class="plan-price"><span class="currency">R$</span><span class="amount">14,90</span><span class="period">/mês</span></div><ul class="plan-features"><li>${checkIcon}Monitoramento de CPF 24h com alertas</li><li>${checkIcon}Relatório de Score detalhado</li><li>${checkIcon}Acesso a ofertas exclusivas de negociação</li><li>${checkIcon}1 Consultas CPF ou CNPJ</li></ul><a href="#" class="plan-button secondary">Começar com Essencial</a></div><div class="plan-card popular"><div class="plan-badge">Mais Popular</div><h3>Plus</h3><p class="description">Sua saúde financeira completa</p><div class="plan-price"><span class="currency">R$</span><span class="amount">29,90</span><span class="period">/mês</span></div><ul class="plan-features"><li>${checkIcon}Tudo do Essencial, e mais:</li><li>${checkIcon}Plano de Ação para <strong style="color:var(--primary-color);">Aumentar Score</strong></li><li>${checkIcon}Ferramenta de <strong style="color:var(--primary-color);">Orçamento Pessoal</strong></li><li>${checkIcon}Canal de <strong style="color:var(--primary-color);">Atendimento Prioritário</strong></li><li>${checkIcon}2 Consultas CPF ou CNPJ</li></ul><a href="#" class="plan-button primary">Escolher Plano Plus</a></div><div class="plan-card"><h3>Premium</h3><p class="description">Consultoria e suporte VIP</p><div class="plan-price"><span classia="currency">R$</span><span class="amount">79,90</span><span class="period">/mês</span></div><ul class="plan-features"><li>${checkIcon}Tudo do Plano Plus, e mais:</li><li>${checkIcon}Consultoria Financeira Pessoal <br>(2x/mês)</li><li>${checkIcon}Assistente Pessoal para Negociação de Dívidas</li><li>${checkIcon}Relatório Financeiro Completo e Personalizado</li><li>${checkIcon}4 Consultas CPF ou CNPJ</li></ul><a href="#" class="plan-button secondary">Assinar Premium</a></div></div>`;
     }
     function getStatusInfo(statusName) {
         const statuses = { "EM TRANSIÇÃO DE ENVIO": { step: 1, message: "Sua documentação foi recebida e está na fila para análise judicial." }, "LIMINAR CONCEDIDA": { step: 3, message: "Decisão judicial favorável! Agora entra na fase de notificar os órgãos de crédito." }, "AGUARDANDO DECISÃO-ATUALIZAÇÃO": { step: 3, message: "Aguardando os órgãos de crédito cumprirem a decisão judicial." }, "RE-PROTOCOLO EMITIDO": { step: 2, message: "Documentação re-emitida e protocolada." }, "PROCESSO FINALIZADO": { step: 4, message: "Parabéns! Seu processo foi concluído com sucesso." } };
@@ -214,6 +258,9 @@ document.addEventListener('DOMContentLoaded', () => {
             <li><a href="#" class="partner-nav-link" data-view="partner-consultas-view"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>Consultas</a></li>
             <li><a href="#" class="partner-nav-link" data-view="partner-planos-view"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0v-4m0 4h5m0 0v-4m0 4h5m0 0v-4"></path></svg>Planos</a></li>
             <li><a href="#" class="partner-nav-link" data-view="partner-pacotes-view"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>Pacotes</a></li>
+            
+            <li><a href="#" class="partner-nav-link" data-view="partner-cursos-view"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.26a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"></path></svg>Cursos</a></li>
+            
             <li><a href="#" class="partner-nav-link" data-view="partner-materiais-view"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-1.586-1.586a2 2 0 00-2.828 0L6 14m6-6l.01.01"></path><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>Materiais</a></li>
         `;
         
@@ -256,6 +303,9 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
+        // NOVA LINHA ADICIONADA
+        populatePartnerCursosView();
+
         addNavListeners(partnerDashboardView, '.partner-nav-link', '.partner-view-content', '#partner-page-title');
         document.querySelector('#partner-nav-ul .partner-nav-link').click();
 
@@ -263,6 +313,71 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('partner-mobile-menu-button').onclick = togglePartnerMobileMenu;
         document.getElementById('partner-close-menu-button').onclick = togglePartnerMobileMenu;
         document.getElementById('partner-logout-btn').addEventListener('click', performLogout);
+    }
+
+    // NOVA FUNÇÃO ADICIONADA
+    function populatePartnerCursosView() {
+        const container = document.getElementById('partner-cursos-view');
+        
+        let html = `
+            <div class="courses-layout">
+                <div class="course-video-player dashboard-card">
+                    <h2 id="course-video-title">Selecione uma aula para começar</h2>
+                    <div class="video-wrapper">
+                        <iframe id="course-video-iframe" 
+                                src="about:blank" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+                <div class="course-module-list dashboard-card">
+                    <h2>Módulos do Curso</h2>
+        `;
+    
+        courseData.forEach((module, moduleIndex) => {
+            html += `
+                <details class="course-module" ${moduleIndex === 0 ? 'open' : ''}>
+                    <summary class="module-title">${module.moduleTitle}</summary>
+                    <ul class="lesson-list">
+                        ${module.lessons.map(lesson => `
+                            <li>
+                                <a href="#" class="lesson-link" data-video-url="${lesson.videoUrl}" data-video-title="${lesson.title}">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.26a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path></svg>
+                                    <span>${lesson.title}</span>
+                                </a>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </details>
+            `;
+        });
+    
+        html += `
+                </div>
+            </div>
+        `;
+        
+        container.innerHTML = html;
+    
+        // Adicionar event listeners para os links das aulas
+        container.querySelectorAll('.lesson-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Marcar como ativo
+                container.querySelectorAll('.lesson-link.active').forEach(activeLink => activeLink.classList.remove('active'));
+                link.classList.add('active');
+    
+                // Atualizar o player
+                const videoTitle = document.getElementById('course-video-title');
+                const videoIframe = document.getElementById('course-video-iframe');
+    
+                videoTitle.textContent = link.dataset.videoTitle;
+                videoIframe.src = link.dataset.videoUrl;
+            });
+        });
     }
 
     menuOverlay.addEventListener('click', () => {
