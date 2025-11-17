@@ -8,14 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             moduleTitle: "Módulo 1: Boas-vindas & Introdução",
             lessons: [
-                { title: "Aula 1.1: Quem é a CMG Consultoria", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" },
-                { title: "Aula 1.2: Nosso Propósito e Missão", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" },
-                { title: "Aula 1.3: O Mercado de Crédito no Brasil", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" },
-                { title: "Aula 1.4: O que faz um Parceiro CMG", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" },
-                { title: "Aula 1.5: Ferramentas de Trabalho", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" },
-                { title: "Aula 1.6: Metas e Remuneração", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" },
-                { title: "Aula 1.7: Compliance e Ética", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" },
-                { title: "Aula 1.8: Conclusão do Módulo 1", videoUrl: "https://www.youtube.com/embed/SEU-VIDEO-ID-AQUI" }
+                { title: "Aula 1.1: Quem é a CMG Consultoria", videoUrl: "https://www.youtube.com/embed/EPkoiK_f6vo?si=V6N2xT24QlHja6pe" },
+                { title: "Aula 1.2: Nosso Propósito e Missão", videoUrl: "https://www.youtube.com/embed/EjPEMIALvcM?si=fW5CoVYCXSFC0aIn" },
+                { title: "Aula 1.3: O Mercado de Crédito no Brasil", videoUrl: "https://www.youtube.com/embed/_dLjYFkFdgc?si=uhRo8lri1Y2Pk-bR" },
+                { title: "Aula 1.4: O que faz um Parceiro CMG", videoUrl: "https://www.youtube.com/embed/Zgh8WtXbQWU?si=vURFtZgmit3dOty1" },
+                { title: "Aula 1.5: Ferramentas de Trabalho", videoUrl: "https://www.youtube.com/embed/V_d4MdCz324?si=4pxWcczk21bHHQ6w" },
+                { title: "Aula 1.6: Metas e Remuneração", videoUrl: "https://www.youtube.com/embed/vnK8I5BWDtU?si=bwbNBEWsbv5m8fnZ" },
+                { title: "Aula 1.7: Compliance e Ética", videoUrl: "https://www.youtube.com/embed/j3AzNHJYx8I?si=rkmJavMoKGmMz-9t" },
             ]
         },
         {
