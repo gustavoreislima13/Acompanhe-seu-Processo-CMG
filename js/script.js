@@ -8,13 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             moduleTitle: "Módulo 1: Boas-vindas & Introdução",
             lessons: [
-                { title: "Aula 1.1: Quem é a CMG Consultoria", videoUrl: "https://www.youtube.com/embed/EPkoiK_f6vo?si=V6N2xT24QlHja6pe" },
-                { title: "Aula 1.2: Nosso Propósito e Missão", videoUrl: "https://www.youtube.com/embed/EjPEMIALvcM?si=fW5CoVYCXSFC0aIn" },
-                { title: "Aula 1.3: O Mercado de Crédito no Brasil", videoUrl: "https://www.youtube.com/embed/_dLjYFkFdgc?si=uhRo8lri1Y2Pk-bR" },
-                { title: "Aula 1.4: O que faz um Parceiro CMG", videoUrl: "https://www.youtube.com/embed/Zgh8WtXbQWU?si=vURFtZgmit3dOty1" },
-                { title: "Aula 1.5: Ferramentas de Trabalho", videoUrl: "https://www.youtube.com/embed/V_d4MdCz324?si=4pxWcczk21bHHQ6w" },
-                { title: "Aula 1.6: Metas e Remuneração", videoUrl: "https://www.youtube.com/embed/vnK8I5BWDtU?si=bwbNBEWsbv5m8fnZ" },
-                { title: "Aula 1.7: Compliance e Ética", videoUrl: "https://www.youtube.com/embed/j3AzNHJYx8I?si=rkmJavMoKGmMz-9t" },
+                { title: "Aula 1.1:  O que é o Limpa Nome", videoUrl: "https://www.youtube.com/embed/EPkoiK_f6vo?si=V6N2xT24QlHja6pe" },
+                { title: "Aula 1.2: Por que as pessoas precisam desse serviço?", videoUrl: "https://www.youtube.com/embed/EjPEMIALvcM?si=fW5CoVYCXSFC0aIn" },
+                { title: "Aula 1.3: Como funciona o Limpa Nome", videoUrl: "https://www.youtube.com/embed/_dLjYFkFdgc?si=uhRo8lri1Y2Pk-bR" },
+                { title: "Aula 1.4: Órgãos de Proteção ao Crédito", videoUrl: "https://www.youtube.com/embed/Zgh8WtXbQWU?si=vURFtZgmit3dOty1" },
+                { title: "Aula 1.5: Prazos", videoUrl: "https://www.youtube.com/embed/V_d4MdCz324?si=4pxWcczk21bHHQ6w" },
+                { title: "Aula 1.6: Garantias", videoUrl: "https://www.youtube.com/embed/vnK8I5BWDtU?si=bwbNBEWsbv5m8fnZ" },
+                { title: "Aula 1.7: Documentações", videoUrl: "https://www.youtube.com/embed/j3AzNHJYx8I?si=rkmJavMoKGmMz-9t" },
             ]
         },
         {
