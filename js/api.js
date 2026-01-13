@@ -140,7 +140,8 @@ const clientDatabase = {
                 
             },
   // Demais clientes (convertidos para o novo formato, a maioria sem histórico ainda
-    
+    "33768974847": { name: "CAMILA DA SILVA NUNES TORRES", status: "LIMINAR CONCEDIDA", pagamentoEmAberto: null, pagamentosEfetuados: [], materiais: [{ nome: "Guia de Boas-Vindas", url: "https://drive.google.com/file/d/1htO_aC0lZq8Hm_LBTIqmXCdTGq4u0gHY/view?usp=drive_link" }, { nome: "Como funciona", url: "https://drive.google.com/file/d/19L0CiDVownobfknYDABMCLkLiqG4F2H4/view?usp=drive_link" }] },
+
     "42123397814": { name: "MICHELE CRISTINA DE ANDRADE ", status: "LIMINAR CONCEDIDA", pagamentoEmAberto: null, pagamentosEfetuados: [], materiais: [{ nome: "Guia de Boas-Vindas", url: "https://drive.google.com/file/d/1htO_aC0lZq8Hm_LBTIqmXCdTGq4u0gHY/view?usp=drive_link" }, { nome: "Como funciona", url: "https://drive.google.com/file/d/19L0CiDVownobfknYDABMCLkLiqG4F2H4/view?usp=drive_link" }] },
     "55092816856": { name: "Helena Cristina Ramos Rocha ", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", pagamentoEmAberto: null, pagamentosEfetuados: [], materiais: [{ nome: "Guia de Boas-Vindas", url: "https://drive.google.com/file/d/1htO_aC0lZq8Hm_LBTIqmXCdTGq4u0gHY/view?usp=drive_link" }, { nome: "Como funciona", url: "https://drive.google.com/file/d/19L0CiDVownobfknYDABMCLkLiqG4F2H4/view?usp=drive_link" }] },
     "30888356889": { name: "Angélica aparecida da Silva ", status: "AGUARDANDO DECISÃO-ATUALIZAÇÃO", pagamentoEmAberto: null, pagamentosEfetuados: [], materiais: [{ nome: "Guia de Boas-Vindas", url: "https://drive.google.com/file/d/1htO_aC0lZq8Hm_LBTIqmXCdTGq4u0gHY/view?usp=drive_link" }, { nome: "Como funciona", url: "https://drive.google.com/file/d/19L0CiDVownobfknYDABMCLkLiqG4F2H4/view?usp=drive_link" }] },
